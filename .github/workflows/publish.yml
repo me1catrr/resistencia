@@ -1,0 +1,67 @@
+# Publicación en GitHub Pages. Requiere activar Pages en el repositorio:
+#   Settings → Pages → Build and deployment → Source: «GitHub Actions».
+# Mientras Pages no esté activado, el trabajo `desplegar` falla sin efecto;
+# `pruebas` y `construir` sí sirven para comprobar el sitio en cada push.
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Estructura coherente con temario.toml
+        run: python3 scripts/generar_estructura.py --comprobar
+      - name: Pruebas de herramientas (Python, biblioteca estándar)
+        run: python3 -m unittest discover -s pruebas/herramientas
+      - name: Pruebas JS
+        run: node --test "recursos/js/**/*.test.js"
+      # Pendiente (E7 y E9): pruebas de Julia, pytest y pruebas de navegador.
+
+  construir:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # las fechas de «última modificación» salen de git log
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.10.19
+      - name: Renderizar (la guarda no_publicar.py se ejecuta como post-render)
+        run: quarto render
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  desplegar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4
