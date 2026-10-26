@@ -1,18 +1,29 @@
 project:
   type: website
-  # Solo se renderizan los .qmd. Lo privado y lo de apoyo nunca entra en el sitio.
+  # Lista blanca de lo que se renderiza: una carpeta nueva con .qmd NO entra en el
+  # sitio hasta que se añada aquí. Lo privado y de apoyo (referencias/, privado/,
+  # moodle/, pruebas/) nunca se renderiza. Los archivos que empiezan por «_» los
+  # ignora Quarto (plantillas).
   render:
-    - "**/*.qmd"
-    - "!referencias/**"
-    - "!privado/**"
-    - "!moodle/**"
-    - "!node_modules/**"
-    - "!.venv/**"
+    - index.qmd
+    - guia/**/*.qmd
+    - proyecto/**/*.qmd
+    - temas/**/*.qmd
+    - problemas/**/*.qmd
+    - laboratorio/**/*.qmd
+    - simulaciones/**/*.qmd
+    - programacion/**/*.qmd
+    - matematicas/**/*.qmd
+    - autoevaluacion/**/*.qmd
+    - historia/**/*.qmd
+    - recursos/**/*.qmd
   # Se copian tal cual (módulos JS cargados como archivo, no incrustados).
   resources:
     - recursos/js/**/*.js
     - "!recursos/js/**/*.test.js"
     - "!recursos/js/test/**"
+    - "!_site/**"
+    - "!_site-pruebas/**"
   post-render:
     - scripts/no_publicar.py
 

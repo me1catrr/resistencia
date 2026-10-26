@@ -1,0 +1,62 @@
+---
+title: "Simulación: NOMBRE"
+tema-id: eNN
+---
+
+<!--
+Plantilla de página de simulación (no se renderiza: empieza por «_»).
+Copia este archivo a simulaciones/<nombre>.qmd, escribe las diez secciones y crea
+recursos/js/sim/<id>.js con `export function montar(contenedor) { … }`.
+La entrada de la simulación aparece en el menú lateral al ejecutar
+python3 scripts/generar_estructura.py.
+-->
+
+## 1. Objetivo docente
+
+Qué debe entender el estudiante después de usarla.
+
+## 2. Fundamento físico
+
+Las ecuaciones que implementa, con su derivación o su referencia.
+
+## 3. Hipótesis del modelo {.unnumbered}
+
+::: {.hipotesis titulo="Qué se supone"}
+Lista de hipótesis y dominio de validez.
+:::
+
+## 4. Variables de entrada
+
+Qué se puede cambiar, con unidades y rangos.
+
+## 5. Visualización
+
+::: {#sim-ID}
+
+{{< simulacion ID >}}
+
+Título de la simulación.
+:::
+
+## 6. Resultados numéricos
+
+Qué magnitudes calcula y en qué unidades.
+
+## 7. Interpretación
+
+Cómo leer lo que se ve y qué preguntas permite discutir.
+
+## 8. Limitaciones
+
+::: {.advertencia}
+Qué NO representa esta simulación.
+:::
+
+## 9. Ejercicios relacionados
+
+Enlaces a los ejercicios del tema.
+
+## 10. Pruebas de validación
+
+Con qué casos de solución conocida se ha contrastado y con qué comando se repite
+(`node --test …`, comparación con `pruebas/referencia/*.json`).

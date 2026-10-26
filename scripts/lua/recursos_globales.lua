@@ -20,7 +20,7 @@ end
 local function Pandoc(doc)
   if not es_html() then return nil end
   quarto.doc.include_text("after-body",
-    '<script src="' .. offset() .. '/recursos/js/modo-clase.js" defer></script>')
+    '<script type="module" src="' .. offset() .. '/recursos/js/modo-clase.js"></script>')
   return nil
 end
 

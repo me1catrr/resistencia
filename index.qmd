@@ -1,7 +1,77 @@
 ---
 title: "RESISTENCIA"
+subtitle: "Elasticidad y Resistencia de Materiales II · Universidad de Córdoba"
+toc: false
+page-layout: full
 ---
 
-Portada provisional. Se diseña en la etapa E4.
+::: {.portada}
 
-[Temas de Elasticidad](temas/elasticidad.qmd) · [Temas de Resistencia](temas/resistencia.qmd)
+::: {.portada-intro}
+Un libro universitario **interactivo** para seguir las clases desde tu ordenador y para estudiar
+después: explicaciones rigurosas, simulaciones que se pueden mover, cuestiones con retroalimentación
+y código en Julia y Python que puedes ejecutar tú.
+
+No son diapositivas: el profesor explica, se detiene, propone una cuestión, tú respondes y se usa una
+simulación para discutir. Y si quieres ir más allá, hay un itinerario de profundización opcional.
+
+[Empieza por E01: estado de tensiones](temas/e01-tensiones-espacio/index.qmd){.btn .btn-primary}
+[Ver todos los temas](temas/elasticidad.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.portada-tarjetas}
+
+::: {.portada-tarjeta}
+### Parte I · Elasticidad
+Seis temas: tensiones en el espacio y en el plano, deformación, ley de comportamiento, teoremas
+energéticos y criterios de agotamiento.
+
+[Ir a Elasticidad →](temas/elasticidad.qmd)
+:::
+
+::: {.portada-tarjeta}
+### Parte II · Resistencia de Materiales
+Siete temas: flexión, tensiones tangenciales, deformaciones, hiperestaticidad, torsión, pandeo y
+acciones combinadas.
+
+[Ir a Resistencia →](temas/resistencia.qmd)
+:::
+
+::: {.portada-tarjeta}
+### Laboratorio
+Las cuatro prácticas del programa: viga continua, torsión de barras no circulares, depósito de pared
+delgada y pandeo.
+
+[Ir al laboratorio →](laboratorio/index.qmd)
+:::
+
+::: {.portada-tarjeta}
+### Simulaciones y programación
+Modelos interactivos que funcionan en el navegador y los mismos cálculos en Julia y Python.
+
+[Simulaciones →](simulaciones/index.qmd) · [Programación →](programacion/index.qmd)
+:::
+
+:::
+
+## Cómo usarla
+
+- **Dos itinerarios.** El **A** cubre la guía docente a nivel de segundo curso. El **B** (recuadros
+  violeta plegables, «Profundización — opcional») amplía para quien quiera, y nunca es necesario
+  para seguir el A.
+- **Modo clase.** El botón «Modo clase» de la barra superior (o la tecla `c`) agranda letra y
+  ecuaciones, oculta lo accesorio y plega las soluciones. Con `j` y `k` saltas al apartado siguiente
+  y anterior.
+- **Cuestiones.** Se corrigen en tu navegador. No se envía nada a ningún servidor y no cuentan para
+  la nota.
+- **Modo oscuro.** Usa el interruptor de la barra superior.
+
+::: {.aviso-esqueleto}
+**Estado del proyecto: primera versión en construcción.** Solo el tema E01 se desarrolla en esta
+iteración, y como **borrador pendiente de revisión por el profesor**. Los demás temas muestran su
+título oficial y están marcados «pendiente de desarrollo».
+Este libro es un recurso docente abierto y **no sustituye a la
+[guía docente oficial](guia/index.qmd)**.
+:::
+
+:::

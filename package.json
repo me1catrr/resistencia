@@ -1,0 +1,9 @@
+{
+  "name": "resistencia",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas JS de RESISTENCIA (sin dependencias; solo node:test).",
+  "scripts": {
+    "test": "node --test \"recursos/js/**/*.test.js\""
+  }
+}

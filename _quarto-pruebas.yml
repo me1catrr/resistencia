@@ -1,0 +1,7 @@
+# Perfil de pruebas: quarto render --profile pruebas
+# Añade al render las páginas de prueba de componentes y escribe en _site-pruebas
+# (nunca se publica). Las listas de `render` se concatenan con las de _quarto.yml.
+project:
+  output-dir: _site-pruebas
+  render:
+    - pruebas/web/componentes.qmd

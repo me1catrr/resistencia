@@ -183,7 +183,8 @@ def listar(directorio: Path, raiz: Path) -> list[dict]:
         return items
     hijos = sorted(directorio.iterdir(), key=_clave)
     for p in hijos:
-        if p.is_file() and p.suffix == ".qmd":
+        if p.is_file() and p.suffix == ".qmd" and not p.name.startswith("_") \
+                and cabecera(p).get("draft") != "true":
             items.append({"href": str(p.relative_to(raiz)), "text": titulo_de(p)})
     for p in hijos:
         if p.is_dir() and (p / "index.qmd").exists() and not p.name.startswith(("_", ".")):

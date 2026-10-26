@@ -22,7 +22,7 @@ class PruebaNoPublicar(unittest.TestCase):
         self.assertEqual(no_publicar.revisar(sitio_con("index.html", "temas/a/index.html")), [])
 
     def test_detecta_carpetas_privadas(self):
-        for carpeta in ("referencias", "privado", "moodle"):
+        for carpeta in ("referencias", "privado", "moodle", "pruebas"):
             with self.subTest(carpeta=carpeta):
                 problemas = no_publicar.revisar(sitio_con("index.html", f"{carpeta}/x.txt"))
                 self.assertTrue(problemas, f"debería detectar {carpeta}/")

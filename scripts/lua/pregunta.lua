@@ -22,7 +22,9 @@ local cache = {}
 
 local function str(x)
   if x == nil then return nil end
-  return pandoc.utils.stringify(x)
+  local s = pandoc.utils.stringify(x)
+  if s == "" then return nil end  -- Quarto pasa los argumentos ausentes como cadena vacía
+  return s
 end
 
 local function dir_documento()

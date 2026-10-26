@@ -128,17 +128,31 @@ Ver el árbol de directorios en `README.md`. Resumen de lo generado vs. fuente: 
 
 ## Comandos habituales
 
-Se irán fijando al crearse las etapas; los previstos son:
-
 ```sh
-quarto render                                  # sitio completo
+quarto render                                   # sitio completo → _site/ (ejecuta la guarda no_publicar.py)
+quarto render --profile pruebas                 # añade pruebas/web/componentes.qmd → _site-pruebas/ (nunca se publica)
+python3 scripts/generar_estructura.py           # regenera _navegacion.yml, temas/elasticidad.qmd, temas/resistencia.qmd y esqueletos
 python3 scripts/generar_estructura.py --comprobar
-python3 scripts/compilar_tikz.py --comprobar
-python3 scripts/no_publicar.py                 # tras render
-node --test recursos/js/
-julia --project=Resistencia.jl -e 'using Pkg; Pkg.test()'
-pytest python/ pruebas/web/
+python3 -m unittest discover -s pruebas/herramientas     # herramientas del sitio (también las recoge pytest)
+node --test "recursos/js/**/*.test.js"                    # JS: contraste, modo clase, ejercicios, simulaciones
 ```
+
+Previstos en etapas posteriores: `python3 scripts/compilar_tikz.py --comprobar`, la suite Julia
+(`julia --project=Resistencia.jl -e 'using Pkg; Pkg.test()'`) y `pytest python/ pruebas/web/`.
+
+**Entorno restringido (sandbox de Claude Code):** Quarto necesita escribir su caché; si falla con
+«unable to open database file», ejecuta `HOME=$TMPDIR/home quarto render`. Un servidor local y
+Chromium no arrancan dentro del sandbox: la verificación en navegador real se hace en la máquina del usuario.
+
+## Cómo añadir cosas
+
+- **Carpeta nueva con `.qmd`:** añádela a la lista blanca `project.render` de `_quarto.yml`.
+- **Tema o práctica nueva:** `temario.toml` → `generar_estructura.py`. Las páginas con `_` inicial y las `draft: true` no entran en los menús.
+- **Bloques:** `::: {.definicion titulo="…"}` (también `teorema`, `ejemplo`, `advertencia`, `idea-clave`, `hipotesis`, `historia`, `para-clase`, `pausa`) y `::: {.profundiza titulo="…"}` para el itinerario B. `.solo-libro` oculta algo en modo clase.
+- **Números del texto:** `{{< num e01 ej3.sigma1 dec=1 unidad=MPa >}}` desde `pruebas/referencia/e01.json`. Nunca teclear a mano un resultado.
+- **Código mostrado:** `{{< codigo archivo="…" region="…" lang="python" >}}` con marcas `# region nombre` / `# endregion` en el fuente real.
+- **Preguntas:** banco `preguntas.yml` por tema, `preguntas: preguntas.yml` en la cabecera de la página y `{{< pregunta e01-q07 >}}` o `{{< pregunta todas clase=true >}}`. A mano: `::: {#id .ejercicio tipo="opcion" nivel="2" respuesta="2"}` (ver cabecera de `scripts/lua/ejercicios.lua`).
+- **Simulaciones:** copiar `simulaciones/_plantilla.qmd`; módulo en `recursos/js/sim/<id>.js` con `export function montar(contenedor)`; `{{< simulacion id >}}`.
 
 ## Idioma y estilo
 

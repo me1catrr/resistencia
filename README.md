@@ -61,9 +61,12 @@ Las carpetas `referencias/` y `privado/` no se versionan: cópialas a mano entre
 ## Cómo se construye (previsto)
 
 ```sh
-quarto render          # genera _site/
+quarto render          # genera _site/ y ejecuta la guarda de publicación
 quarto preview         # servidor local con recarga
 ```
+
+Pruebas disponibles: `python3 -m unittest discover -s pruebas/herramientas` y
+`node --test "recursos/js/**/*.test.js"` (ver `CLAUDE.md` para el resto).
 
 Las páginas **no ejecutan código al renderizar**: las cifras salen de `pruebas/referencia/*.json` (generado por Julia y verificado con Python y JS).
 

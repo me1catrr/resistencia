@@ -1,0 +1,37 @@
+# Banco SINTÉTICO para probar el shortcode `pregunta` (no es contenido del libro).
+preguntas:
+  - id: prueba-q01
+    tipo: opcion
+    nivel: 2
+    clase: true
+    intentos: 2
+    enunciado: |
+      ¿Cuánto vale $2+2$? (Pregunta de prueba del sistema.)
+    opciones:
+      - texto: "3"
+        feedback: "Es uno menos."
+      - texto: "4"
+        correcta: true
+        feedback: "Correcto: es la suma."
+      - texto: "5"
+        feedback: "Es uno más."
+    pistas:
+      - "Cuenta con los dedos."
+      - "Suma dos y dos."
+    solucion: |
+      $2+2=4$.
+  - id: prueba-q02
+    tipo: numerico
+    nivel: 1
+    enunciado: "Escribe el valor de $\\pi$ con dos decimales."
+    respuesta: 3.14
+    tol: 0.005
+    solucion: "$\\pi \\approx 3{,}14$."
+  - id: prueba-q03
+    tipo: vf
+    nivel: 3
+    razonado: si
+    respuesta: f
+    enunciado: "Todo número primo es impar."
+    razonamiento: "El 2 es primo y par."
+    solucion: "Falso: el 2."

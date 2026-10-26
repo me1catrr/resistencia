@@ -177,3 +177,20 @@ body.modo-clase h2 { scroll-margin-top: 4rem; }
   .ejercicio, .bloque { margin-left: 0; margin-right: 0; }
 }
 @media print { .boton-modo-clase, .temporizador-clase { display: none; } }
+
+/* ---------- Portada ---------- */
+.portada-intro { font-size: 1.15rem; max-width: 60rem; margin-bottom: 1.5rem; }
+.portada-intro .btn { margin: 0.3rem 0.5rem 0.3rem 0; }
+.portada-tarjetas {
+  display: grid; gap: 1rem; margin: 1.5rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+.portada-tarjeta {
+  border: 1px solid var(--r-borde); border-top: 5px solid var(--r-acero);
+  border-radius: 8px; padding: 0.2rem 1.1rem 0.6rem; background: var(--r-superficie);
+}
+.portada-tarjeta:nth-child(2) { border-top-color: var(--r-cobre); }
+.portada-tarjeta:nth-child(3) { border-top-color: var(--r-verde); }
+.portada-tarjeta:nth-child(4) { border-top-color: var(--r-violeta); }
+.portada-tarjeta h3 { margin-top: 0.8rem; font-size: 1.15rem; }
+.portada { max-width: 70rem; margin: 0 auto; }

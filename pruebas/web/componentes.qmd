@@ -1,0 +1,64 @@
+---
+title: "Prueba de componentes"
+preguntas: banco-prueba.yml
+tema-id: e01
+tipo-pagina: tema
+---
+
+Página de prueba de los componentes (no forma parte del libro: solo se compila con `quarto render --profile pruebas`, nunca con el sitio).
+Se compila con `quarto render pruebas/web/componentes.qmd`.
+
+::: {.definicion titulo="Tensión"}
+Definición de ejemplo con $\sigma = F/A$.
+:::
+
+::: {.teorema titulo="Cauchy"}
+Teorema de ejemplo.
+:::
+
+::: {.profundiza titulo="Lagrange"}
+Contenido opcional del itinerario B.
+:::
+
+::: {.para-clase}
+¿Qué crees que ocurrirá?
+:::
+
+Número formateado: {{< num componentes ej.negativo dec=2 >}} y {{< num componentes ej.cero_negativo dec=1 >}}
+y {{< num componentes ej.lista.2 dec=1 unidad=MPa >}}, y en fórmula {{< num componentes ej.negativo dec=1 math=true unidad=MPa >}}.
+
+{{< codigo archivo="pruebas/web/fixtures/ejemplo.py" region="producto" lang="python" >}}
+
+## Preguntas del banco
+
+{{< pregunta todas >}}
+
+## Ejercicio escrito a mano
+
+::: {#prueba-mano .ejercicio tipo="opcion" nivel="1" respuesta="2"}
+¿Cuál es correcta?
+
+::: opciones
+1. Primera
+   - No, porque…
+2. Segunda
+   - Sí, porque…
+:::
+
+::: pista
+Una pista.
+:::
+
+::: solucion
+La segunda.
+:::
+:::
+
+::: {#sim-ejemplo}
+
+{{< simulacion ejemplo >}}
+
+Simulación de ejemplo (no existe el módulo: debe verse el error).
+:::
+
+Véase @sim-ejemplo.

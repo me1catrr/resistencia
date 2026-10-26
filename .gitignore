@@ -5,6 +5,7 @@ _salida/
 
 # Quarto
 _site/
+_site-pruebas/
 .quarto/
 **/*_files/
 /.luarc.json

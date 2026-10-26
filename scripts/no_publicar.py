@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROHIBIDAS = ("referencias", "privado", "moodle", "_salida")
+PROHIBIDAS = ("referencias", "privado", "moodle", "_salida", "pruebas", "_site", "_site-pruebas")
 # PDF permitidos (ruta relativa a _site, con «/»). Por defecto, ninguno.
 PDF_AUTORIZADOS: set[str] = set()
 
@@ -41,6 +41,11 @@ def main(argv: list[str]) -> int:
         sitio = Path(os.environ["QUARTO_PROJECT_OUTPUT_DIR"])
     else:
         sitio = RAIZ / "_site"
+    # La guarda protege lo que se publica (_site). El perfil de pruebas escribe en
+    # _site-pruebas y sí contiene páginas de prueba.
+    if sitio.name != "_site":
+        print(f"no_publicar: {sitio.name} no es el directorio publicable; sin comprobar.")
+        return 0
     problemas = revisar(sitio)
     for p in problemas:
         print("ERROR no_publicar:", p, file=sys.stderr)

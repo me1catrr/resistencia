@@ -1,0 +1,4 @@
+{
+  "_aviso": "FIXTURE DE PRUEBA del formateo de scripts/lua/num.lua. Son numeros sinteticos, no resultados de mecanica.",
+  "ej": { "negativo": -12.3456, "cero_negativo": -0.0004, "positivo": 7.0, "lista": [1.5, 2.5] }
+}

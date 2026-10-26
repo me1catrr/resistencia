@@ -98,6 +98,15 @@ class PruebaGenerador(unittest.TestCase):
         with self.assertRaises(SystemExit):
             g.leer_versiones(base)
 
+    def test_listar_ignora_plantillas_y_borradores(self):
+        base = proyecto_falso()
+        d = base / "extra"
+        (d / "_plantilla.qmd").write_text('---\ntitle: "Plantilla"\n---\n', encoding="utf-8")
+        (d / "prueba.qmd").write_text('---\ntitle: "Prueba"\ndraft: true\n---\n', encoding="utf-8")
+        (d / "real.qmd").write_text('---\ntitle: "Real"\n---\n', encoding="utf-8")
+        textos = [i["text"] for i in g.listar(d, base)]
+        self.assertEqual(textos, ["Extra", "Real"])
+
     def test_repositorio_real_es_coherente(self):
         """El repositorio real no debe tener la navegación desfasada."""
         t = g.cargar_temario(RAIZ)
