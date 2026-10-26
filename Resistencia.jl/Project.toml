@@ -1,0 +1,17 @@
+name = "Resistencia"
+uuid = "a2aa8078-6f8e-44b9-9fa8-a595378b0410"
+authors = ["Rafael Castro Triguero"]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Test = "8dfed614-e22c-5e08-85e1-65bab5ba2e0c"
+
+[targets]
+test = ["Random", "Test"]
