@@ -1,0 +1,71 @@
+---
+title: "E01.11 · Estados particulares"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+Muchos problemas reales caen en estados con estructura sencilla. Reconocerlos permite escribir los
+resultados sin rehacer el cálculo general. Todos están en la base principal (los valores son tensiones
+principales).
+
+## Catálogo {#sec-catalogo}
+
+| Estado | $\boldsymbol\sigma$ (base principal) | $\tau_{\max}$ y círculos de Mohr | Cuándo aparece |
+|---|---|---|---|
+| **Uniaxial** | $\mathrm{diag}(\sigma,0,0)$ | $\tau_{\max}=\sigma/2$ | Barra a tracción o compresión |
+| **Biaxial** | $\mathrm{diag}(\sigma_1,\sigma_2,0)$ | $\tau_{\max}=\tfrac12\bigl[\max(\sigma_1,\sigma_2,0)-\min(\sigma_1,\sigma_2,0)\bigr]$ | Chapas, paredes delgadas |
+| **Cortante puro** | $\mathrm{diag}(\tau,0,-\tau)$ | $\tau_{\max}=\tau$, círculo centrado en el origen | Torsión de un eje |
+| **Cilíndrico** | $\sigma_2=\sigma_3$ | uno de los círculos se reduce a un punto | Tensión con simetría de revolución |
+| **Esférico (hidrostático)** | $\mathrm{diag}(p,p,p)$ | los tres círculos son **un punto** | Sólido sumergido bajo presión |
+
+## Uniaxial, biaxial y cortante puro {#sec-basicos}
+
+- **Uniaxial**: solo una tensión principal no nula. Es el de una barra a tracción y el de los ensayos.
+  Los planos a $45^\circ$ soportan $\tau_{\max}=\sigma/2$ (apartado 1).
+- **Biaxial** (o *estado plano* en su caso más general, E02): una tensión principal es nula. El depósito
+  cilíndrico de pared delgada es el ejemplo clásico: tensión circunferencial doble de la axial.
+- **Cortante puro**: $\sigma_1=-\sigma_3=\tau$ y $\sigma_2=0$. La **tensión media es nula**
+  ($\sigma_m=0$), así que el estado es **puramente desviador**. En ejes a $45^\circ$ de los principales se ve
+  como solo tangenciales: es lo que ocurre en la torsión.
+
+## Estado cilíndrico {#sec-cilindrico}
+
+Cuando dos tensiones principales son iguales (por ejemplo, $\sigma_2=\sigma_3$), el estado es **cilíndrico**
+(o *de revolución*):
+
+- El elipsoide de Lamé es de **revolución** alrededor de la dirección de la tensión distinta.
+- **Cualquier dirección perpendicular** a ella es principal: hay infinitas bases principales.
+- Uno de los círculos de Mohr (el de las dos tensiones iguales) se reduce a un **punto**.
+- Todo plano que contiene la dirección «especial» tiene un $\sigma_n$ y un $\tau$ que dependen solo del
+  ángulo con ella.
+
+## Estado esférico {#sec-esferico}
+
+Cuando las tres son iguales, $\boldsymbol\sigma=p\,I$: en **cualquier** plano $\vec t=p\,\vec n$ ($\tau=0$,
+$\sigma_n=p$). No hay direcciones privilegiadas, el elipsoide de Lamé es una esfera y los tres círculos de
+Mohr son un solo punto de abscisa $p$. Es el estado de un sólido sumergido a presión uniforme: con la
+convención del libro, $p<0$ (compresión). Además es **puramente esférico**: $\mathbf S=\mathbf 0$ y, por
+tanto, $J_2=0$.
+
+## Valores de los casos del simulador {#sec-valores}
+
+Se calculan con la implementación de referencia y son los casos predefinidos del [simulador](14-simulador.qmd):
+
+| Caso | $\sigma_1$ | $\sigma_2$ | $\sigma_3$ | $\tau_{\max}$ | $J_2$ (MPa²) |
+|---|---|---|---|---|---|
+| Uniaxial | {{< num e01 casos.1.resumen.principales.1 dec=1 >}} | {{< num e01 casos.1.resumen.principales.2 dec=1 >}} | {{< num e01 casos.1.resumen.principales.3 dec=1 >}} | {{< num e01 casos.1.resumen.tau_max dec=1 >}} | {{< num e01 casos.1.resumen.J2 dec=1 >}} |
+| Biaxial | {{< num e01 casos.2.resumen.principales.1 dec=1 >}} | {{< num e01 casos.2.resumen.principales.2 dec=1 >}} | {{< num e01 casos.2.resumen.principales.3 dec=1 >}} | {{< num e01 casos.2.resumen.tau_max dec=1 >}} | {{< num e01 casos.2.resumen.J2 dec=1 >}} |
+| Hidrostático | {{< num e01 casos.3.resumen.principales.1 dec=1 >}} | {{< num e01 casos.3.resumen.principales.2 dec=1 >}} | {{< num e01 casos.3.resumen.principales.3 dec=1 >}} | {{< num e01 casos.3.resumen.tau_max dec=1 >}} | {{< num e01 casos.3.resumen.J2 dec=1 >}} |
+| Cortante puro | {{< num e01 casos.4.resumen.principales.1 dec=1 >}} | {{< num e01 casos.4.resumen.principales.2 dec=1 >}} | {{< num e01 casos.4.resumen.principales.3 dec=1 >}} | {{< num e01 casos.4.resumen.tau_max dec=1 >}} | {{< num e01 casos.4.resumen.J2 dec=1 >}} |
+| Cilíndrico | {{< num e01 casos.5.resumen.principales.1 dec=1 >}} | {{< num e01 casos.5.resumen.principales.2 dec=1 >}} | {{< num e01 casos.5.resumen.principales.3 dec=1 >}} | {{< num e01 casos.5.resumen.tau_max dec=1 >}} | {{< num e01 casos.5.resumen.J2 dec=1 >}} |
+
+(En el caso de cortante puro el tensor se da en ejes **no** principales: $\sigma_{xy}=\tau$ y el resto nulo;
+las principales son $\pm\tau$ y $0$.)
+
+{{< pregunta e01-q24 >}}
+
+::: {.idea-clave}
+Reconocer el estado ahorra cálculo: uniaxial y biaxial dan $\tau_{\max}$ de inmediato; el **cortante
+puro** es puramente desviador; el **cilíndrico** tiene infinitas direcciones principales; el **esférico**
+no tiene tangenciales en ningún plano.
+:::

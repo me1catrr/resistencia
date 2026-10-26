@@ -1,0 +1,124 @@
+---
+title: "E01.9 · Círculos de Mohr"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## La pregunta {#sec-pregunta}
+
+Para un punto con tensiones principales $\sigma_1\ge\sigma_2\ge\sigma_3$, cada plano tiene un par
+$(\sigma_n,\tau)$. ¿Qué pares son **posibles**? Dibujando $\sigma_n$ en horizontal y $\tau$ en vertical, ¿qué
+región del plano llenan todos los planos del punto?
+
+## Deducción {#sec-deduccion}
+
+Con los cosenos directores $(l,m,n)$ de la normal en la base principal (y $l^2+m^2+n^2=1$):
+
+$$
+\begin{aligned}
+\sigma_n&=\sigma_1l^2+\sigma_2m^2+\sigma_3n^2,\\
+\sigma_n^2+\tau^2&=\sigma_1^2l^2+\sigma_2^2m^2+\sigma_3^2n^2 .
+\end{aligned}
+$$ {#eq-mohr-sistema}
+
+La segunda es $\lvert\vec t\rvert^2=\sigma_n^2+\tau^2$ (apartado 1). Estas dos ecuaciones y $l^2+m^2+n^2=1$ son lineales en
+$l^2,m^2,n^2$. Para despejar $l^2$, multiplica la tercera ($l^2+m^2+n^2=1$) por $\sigma_2\sigma_3$, la primera
+por $-(\sigma_2+\sigma_3)$ y la segunda por $1$, y suma. A la izquierda, cada coeficiente es
+$\sigma_i^2-(\sigma_2+\sigma_3)\sigma_i+\sigma_2\sigma_3=(\sigma_i-\sigma_2)(\sigma_i-\sigma_3)$, que **se anula**
+para $i=2$ y $i=3$; queda solo el término de $l^2$. Repitiendo con los otros dos índices:
+
+$$
+\begin{aligned}
+l^2&=\frac{\tau^2+(\sigma_n-\sigma_2)(\sigma_n-\sigma_3)}{(\sigma_1-\sigma_2)(\sigma_1-\sigma_3)},\\[4pt]
+m^2&=\frac{\tau^2+(\sigma_n-\sigma_3)(\sigma_n-\sigma_1)}{(\sigma_2-\sigma_3)(\sigma_2-\sigma_1)},\\[4pt]
+n^2&=\frac{\tau^2+(\sigma_n-\sigma_1)(\sigma_n-\sigma_2)}{(\sigma_3-\sigma_1)(\sigma_3-\sigma_2)} .
+\end{aligned}
+$$ {#eq-cosenos}
+
+## La región admisible {#sec-region}
+
+Como $l^2,m^2,n^2\ge0$ y $\sigma_1>\sigma_2>\sigma_3$, el signo de cada denominador es conocido y las tres
+condiciones quedan así. Con $c_{ij}=(\sigma_i+\sigma_j)/2$ y $r_{ij}=(\sigma_i-\sigma_j)/2$:
+
+| De | Numerador $\ge0$ ⇒ | Significa |
+|---|---|---|
+| $l^2\ge0$ (denominador $>0$) | $(\sigma_n-c_{23})^2+\tau^2\ge r_{23}^2$ | **fuera** del círculo $C_{23}$ |
+| $m^2\ge0$ (denominador $<0$) | $(\sigma_n-c_{13})^2+\tau^2\le r_{13}^2$ | **dentro** del círculo $C_{13}$ |
+| $n^2\ge0$ (denominador $>0$) | $(\sigma_n-c_{12})^2+\tau^2\ge r_{12}^2$ | **fuera** del círculo $C_{12}$ |
+
+(En $m^2$ el numerador se compara con la forma cuadrática del círculo grande: $\tau^2+(\sigma_n-\sigma_1)(\sigma_n-\sigma_3)=(\sigma_n-c_{13})^2+\tau^2-r_{13}^2$.)
+
+::: {.teorema titulo="Representación de Mohr en 3D"}
+Los pares $(\sigma_n,\tau)$ de **todos** los planos de un punto llenan la región **comprendida entre tres
+semicírculos** con diámetros en el eje $\sigma$: dentro del grande ($\sigma_1$ a $\sigma_3$) y fuera de los
+dos pequeños ($\sigma_1$ a $\sigma_2$ y $\sigma_2$ a $\sigma_3$). Cualquier par fuera de esa región
+**no corresponde a ningún plano** del punto.
+:::
+
+![Los tres círculos de Mohr de $\boldsymbol\sigma_A$ y la región admisible (en azul claro). El punto violeta es el plano de normal $(1,2,2)/3$.](/recursos/fig/mohr-3d.svg){#fig-mohr .figura-tikz fig-alt="Tres semicírculos con diámetro en el eje horizontal sigma: uno grande de menos 40 a 60 megapascales y dos pequeños, de 20 a 60 y de menos 40 a 20. La región entre ellos está sombreada y contiene un punto marcado."}
+
+## Valores extremos {#sec-extremos}
+
+- La mayor y la menor tensión normal son $\sigma_1$ y $\sigma_3$ (los extremos del círculo grande).
+- La mayor tensión tangencial en el punto es el **radio del círculo grande**:
+
+$$
+\tau_{\max}=\frac{\sigma_1-\sigma_3}{2},\quad\text{con}\quad
+\sigma_n=\frac{\sigma_1+\sigma_3}{2}.
+$$ {#eq-taumax}
+
+Se alcanza en los planos de normal $(\pm1,0,\pm1)/\sqrt2$ en la base principal: planos **paralelos a la
+dirección 2** y a $45^\circ$ de las direcciones 1 y 3. En $\boldsymbol\sigma_A$: $\tau_{\max}=$
+{{< num e01 mohr.tau_max dec=1 unidad=MPa >}}.
+
+::: {.ejemplo titulo="¿Es posible el plano oblicuo del apartado 3?"}
+Para $\vec n=(1,2,2)/3$ obtuvimos $\sigma_n=$ {{< num e01 ej5.sigma_n dec=2 unidad=MPa >}} y
+$\tau=$ {{< num e01 ej5.tau dec=2 unidad=MPa >}}. Comprobamos las tres condiciones con los radios al cuadrado
+($r_{13}^2=$ {{< num e01 ej5.radios2.1 dec=0 >}}, $r_{12}^2=$ {{< num e01 ej5.radios2.2 dec=0 >}} y
+$r_{23}^2=$ {{< num e01 ej5.radios2.3 dec=0 >}}, en MPa²) y las distancias al cuadrado del punto a cada centro:
+
+- Círculo grande: $d_{13}^2=$ {{< num e01 ej5.dist2.1 dec=1 >}} $\le r_{13}^2$ ✔ (dentro).
+- Círculo $C_{12}$: $d_{12}^2=$ {{< num e01 ej5.dist2.2 dec=1 >}} $\ge r_{12}^2$ ✔ (fuera).
+- Círculo $C_{23}$: $d_{23}^2=$ {{< num e01 ej5.dist2.3 dec=1 >}} $\ge r_{23}^2$ ✔ (fuera).
+
+Está en la región admisible: era de esperar, porque procede de un plano real.
+:::
+
+{{< pregunta e01-q18 >}}
+
+{{< pregunta e01-q21 >}}
+
+## Cómo usarlo {#sec-uso}
+
+1. Calcula las tensiones principales ordenadas.
+2. Dibuja los tres círculos: centros $c_{ij}$ y radios $r_{ij}$.
+3. Si te dan un par $(\sigma_n,\tau)$ o un resultado de un cálculo, **comprueba que cae en la región**: es una
+   verificación inmediata de que el resultado es físicamente posible.
+
+::: {.advertencia titulo="Qué no te dice el diagrama"}
+Para cada punto de la región sabes $(\sigma_n,\tau)$, pero **no la orientación del plano** ni la dirección
+de $\vec\tau$ dentro de él, y varios planos distintos pueden dar el mismo punto. Para ir del plano al punto
+usa la fórmula de Cauchy; el diagrama sirve para acotar y comprobar. El caso particular de los planos que
+contienen una dirección principal (círculo de Mohr plano, en E02) sí permite relacionar ángulos.
+:::
+
+::: {.historia titulo="Mohr y sus antecedentes"}
+Esta representación gráfica lleva el nombre de Otto Mohr, que publicó en 1882 una memoria sobre la
+representación del estado de tensiones y su aplicación a la resistencia de materiales [@mohr1882]. Según
+fuentes secundarias, se apoyó en trabajos anteriores de Culmann y extendió la construcción a tres
+dimensiones; no he consultado el original.
+:::
+
+::: {.idea-clave}
+Los $(\sigma_n,\tau)$ de todos los planos de un punto llenan la región de los **tres círculos de Mohr**.
+$\tau_{\max}=(\sigma_1-\sigma_3)/2$. Un par fuera de la región es **imposible**.
+:::
+
+::: {.profundiza titulo="τmax como una varianza"}
+Con los pesos $u_i=n_i^2\ge0$, $\sum u_i=1$, la @eq-mohr-sistema dice que
+$\sigma_n=\sum u_i\sigma_i$ es la **media** de las tensiones principales y
+$\tau^2=\sum u_i\sigma_i^2-\bigl(\sum u_i\sigma_i\bigr)^2$ es su **varianza**. La desigualdad de Popoviciu
+dice que la varianza de cualquier distribución en $[\sigma_3,\sigma_1]$ es como mucho
+$(\sigma_1-\sigma_3)^2/4$, con igualdad solo si la mitad del peso está en cada extremo ($n_2=0$,
+$n_1^2=n_3^2=\tfrac12$). Es exactamente la @eq-taumax y los planos donde se alcanza.
+:::

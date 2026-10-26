@@ -1,0 +1,142 @@
+---
+title: "E01.6 · Tensiones principales"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## ¿Hay planos sin tangenciales? {#sec-planos-principales}
+
+En general sobre un plano actúan $\sigma_n$ y $\tau$. Nos preguntamos si existen planos en los que el
+vector tensión es **perpendicular al plano**, es decir, planos **sin tensión tangencial**.
+
+::: {.definicion titulo="Plano y tensión principales"}
+Un plano es **principal** si $\tau=0$ en él; su normal define una **dirección principal**, y la tensión
+normal correspondiente, una **tensión principal**. Dicho de otro modo: $\vec t$ es paralelo a $\vec n$.
+:::
+
+## Es un problema de autovalores {#sec-autovalores}
+
+Que $\vec t$ sea paralelo a $\vec n$ significa $\vec t=\lambda\vec n$. Por Cauchy, $\vec t=\boldsymbol\sigma\vec n$:
+
+$$
+\boldsymbol\sigma\,\vec n=\lambda\,\vec n
+\quad\Longleftrightarrow\quad
+(\boldsymbol\sigma-\lambda I)\,\vec n=\vec 0 .
+$$ {#eq-autovalores}
+
+Es el problema de **autovalores y autovectores** de $\boldsymbol\sigma$. Las tensiones principales son los
+autovalores $\lambda$ y las direcciones principales, los autovectores unitarios. Como $\lambda=\sigma_n$
+(porque $\tau=0$), el autovalor *es* la tensión normal sobre ese plano.
+
+Un sistema homogéneo tiene solución no nula solo si el determinante es nulo, lo que da la
+**ecuación característica**, una cúbica en $\lambda$:
+
+$$
+\det(\boldsymbol\sigma-\lambda I)=0\quad\Longleftrightarrow\quad
+\lambda^{3}-I_1\lambda^{2}+I_2\lambda-I_3=0 ,
+$$ {#eq-caracteristica}
+
+donde $I_1,I_2,I_3$ son los **invariantes** del [apartado 7](07-invariantes.qmd).
+
+## Qué garantiza el álgebra lineal {#sec-garantias}
+
+Para una matriz **simétrica real** (y $\boldsymbol\sigma$ lo es):
+
+1. Los tres autovalores son **reales**.
+2. Existe una base ortonormal de autovectores: tres direcciones principales **perpendiculares entre sí**.
+
+Para ver la ortogonalidad con dos autovalores distintos, $\boldsymbol\sigma\vec n_1=\lambda_1\vec n_1$ y
+$\boldsymbol\sigma\vec n_2=\lambda_2\vec n_2$:
+$$
+\lambda_1\,\vec n_1\cdot\vec n_2=(\boldsymbol\sigma\vec n_1)\cdot\vec n_2=\vec n_1\cdot(\boldsymbol\sigma\vec n_2)=\lambda_2\,\vec n_1\cdot\vec n_2
+\ \Rightarrow\ (\lambda_1-\lambda_2)\,\vec n_1\cdot\vec n_2=0
+\ \Rightarrow\ \vec n_1\cdot\vec n_2=0 .
+$$
+Hemos usado la simetría en la igualdad central. Por eso la simetría del [apartado 2](02-tensor.qmd) no es un
+detalle: sin ella no habría direcciones principales ortogonales ni autovalores reales garantizados.
+
+## Convenio y base principal {#sec-base-principal}
+
+Se ordenan $\sigma_1\ge\sigma_2\ge\sigma_3$ y se llama $\vec v_1,\vec v_2,\vec v_3$ a sus direcciones
+(el signo de cada vector es arbitrario; el libro toma $\vec v_1$ y $\vec v_2$ con su primera componente no
+nula positiva y $\vec v_3=\vec v_1\times\vec v_2$, de modo que la terna sea dextrógira). En la **base
+principal** el tensor es diagonal:
+
+$$
+\boldsymbol\sigma'=Q_p\,\boldsymbol\sigma\,Q_p^{\mathsf T}=\mathrm{diag}(\sigma_1,\sigma_2,\sigma_3),
+\qquad Q_p=\begin{pmatrix}\vec v_1^{\mathsf T}\\\vec v_2^{\mathsf T}\\\vec v_3^{\mathsf T}\end{pmatrix}.
+$$ {#eq-base-principal}
+
+::: {.ejemplo titulo="Principales de $\boldsymbol\sigma_A$"}
+Con los invariantes $I_1=$ {{< num e01 ej3.I1 dec=0 >}}, $I_2=$ {{< num e01 ej3.I2 dec=0 >}} y
+$I_3=$ {{< num e01 ej3.I3 dec=0 >}} (MPa, MPa², MPa³; se calculan en el apartado 7), la cúbica (@eq-caracteristica) tiene por
+raíces
+$\sigma_1=$ {{< num e01 ej3.sigma1 dec=1 unidad=MPa >}}, $\sigma_2=$ {{< num e01 ej3.sigma2 dec=1 unidad=MPa >}} y
+$\sigma_3=$ {{< num e01 ej3.sigma3 dec=1 unidad=MPa >}}.
+**Dirección de $\sigma_1$:** $(\boldsymbol\sigma_A-60\,I)\vec n=\vec0$ da $-36\,n_x+48\,n_y=0$,
+$48\,n_x-64\,n_y=0$ y $-40\,n_z=0$; es decir, $n_z=0$ y $n_y=\tfrac34 n_x$. Normalizando,
+$\vec v_1$ = ({{< num e01 ej3.vectores.1.1 dec=1 >}}, {{< num e01 ej3.vectores.2.1 dec=1 >}}, {{< num e01 ej3.vectores.3.1 dec=1 >}}),
+que es $(4,3,0)/5$. Análogamente $\vec v_2=\vec e_z$ (pues $\sigma_A\,\vec e_z=20\,\vec e_z$) y
+$\vec v_3=\vec v_1\times\vec v_2=(3,-4,0)/5$.
+:::
+
+Observa algo importante: $\vec v_1$ está a un ángulo de $\arctan(3/4)\approx 36{,}9^\circ$ del eje $x$ y ese es
+justo el giro «racional» del [apartado 5](05-cambio-ejes.qmd) que diagonaliza el tensor.
+
+## Casos degenerados {#sec-degenerados}
+
+- **Dos autovalores iguales** ($\sigma_2=\sigma_3$, por ejemplo): la dirección del autovalor distinto es
+  única; **cualquier dirección perpendicular a ella** también es principal. Es el estado *cilíndrico*
+  ([apartado 11](11-estados-particulares.qmd)).
+- **Tres autovalores iguales**: $\boldsymbol\sigma=\sigma\,I$, **todas** las direcciones son principales y
+  $\tau=0$ en todos los planos (estado hidrostático o *esférico*).
+
+::: {.advertencia titulo="Cuidado con los repetidos"}
+Si hay valores repetidos, un programa (o tu cálculo) devolverá unas direcciones concretas, pero **no son las
+únicas válidas**. Dos soluciones distintas pueden ser ambas correctas.
+:::
+
+{{< pregunta e01-q13 >}}
+
+## Qué significan físicamente {#sec-significado}
+
+Sobre un plano de normal $\vec n$, con sus cosenos directores $(n_1,n_2,n_3)$ en la base principal,
+
+$$
+\sigma_n=\sigma_1n_1^{2}+\sigma_2n_2^{2}+\sigma_3n_3^{2},\qquad n_1^2+n_2^2+n_3^2=1 .
+$$ {#eq-sn-principales}
+
+Es un promedio ponderado de $\sigma_1,\sigma_2,\sigma_3$ con pesos no negativos que suman 1. Por tanto
+
+$$
+\sigma_3\le\sigma_n\le\sigma_1\quad\text{para todo plano:}
+$$
+
+**$\sigma_1$ es la mayor tensión normal que actúa en el punto y $\sigma_3$ la menor**. Por eso las tensiones
+principales son tan útiles para valorar cuánto se solicita el material (se verá en E06). Con la convención
+del libro, $\sigma_3$ es la menor y puede ser la más comprimida.
+
+::: {.para-clase}
+Un punto tiene $\sigma_1=60$ MPa y $\sigma_3=-40$ MPa. ¿Puede haber un plano con $\sigma_n=80$ MPa?
+¿Y con $\sigma_n=-50$ MPa? Justifica con la desigualdad anterior.
+:::
+
+{{< pregunta e01-q12 >}}
+
+{{< pregunta e01-q14 >}}
+
+::: {.idea-clave}
+Las **tensiones principales** son los autovalores del tensor simétrico: reales y con direcciones
+perpendiculares. En la base principal el estado se describe con **tres números** y la orientación de esa
+base; $\sigma_1$ y $\sigma_3$ son los valores extremos de $\sigma_n$ en el punto.
+:::
+
+::: {.profundiza titulo="Los autovalores como extremos (multiplicadores de Lagrange)"}
+Buscar los planos de $\sigma_n$ extrema es maximizar $\sigma_n(\vec n)=\vec n\cdot\boldsymbol\sigma\vec n$ con
+la restricción $\vec n\cdot\vec n=1$. Con el lagrangiano
+$\mathcal L=\vec n\cdot\boldsymbol\sigma\vec n-\lambda(\vec n\cdot\vec n-1)$, la condición
+$\partial\mathcal L/\partial\vec n=\vec0$ da $2\boldsymbol\sigma\vec n-2\lambda\vec n=\vec0$, que es
+exactamente la @eq-autovalores. Así, los extremos de $\sigma_n$ son los autovalores, y el multiplicador
+$\lambda$ coincide con el valor extremo. Es la misma construcción que lleva al **teorema espectral**:
+una matriz simétrica real es diagonalizable en una base ortonormal.
+:::

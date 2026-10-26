@@ -1,0 +1,121 @@
+---
+title: "E01.5 · Cambio de ejes"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## El mismo estado con otros números {#sec-mismo-estado}
+
+El estado de tensiones en un punto es un hecho físico: no depende de los ejes con los que lo describamos.
+Pero las **componentes** $\sigma_{ij}$ sí dependen de ellos. Si giramos los ejes, las seis componentes
+cambian aunque el material, las cargas y el punto sean los mismos. Necesitamos la regla que relaciona
+unas con otras.
+
+![(a) Se giran los ejes un ángulo $\theta$ y el elemento es el mismo. (b) Se gira el elemento y los ejes quedan fijos: las caras son otros planos del mismo punto.](/recursos/fig/ejes-vs-elemento.svg){#fig-ejes .figura-tikz fig-alt="Dos esquemas. En el primero, un cuadrado fijo con dos pares de ejes, unos negros y otros girados un ángulo theta en violeta. En el segundo, un cuadrado girado un ángulo theta con los ejes negros fijos."}
+
+## La matriz de cambio de base {#sec-matriz-q}
+
+Sean $\vec e_x,\vec e_y,\vec e_z$ los ejes antiguos y $\vec e_x',\vec e_y',\vec e_z'$ los nuevos, todos
+unitarios, perpendiculares entre sí y con la misma orientación (terna dextrógira).
+
+::: {.definicion titulo="Matriz $Q$"}
+La matriz $Q$ tiene por **filas** los vectores de la nueva base escritos en la antigua:
+$$
+Q_{ij}=\vec e_i'\cdot\vec e_j=\cos(\text{eje nuevo }i,\ \text{eje antiguo }j).
+$$
+Es **ortogonal**: $Q\,Q^{\mathsf T}=I$, y $\det Q=+1$ si no cambia la orientación.
+:::
+
+Si el vector $\vec v$ tiene componentes $v$ en la base antigua, en la nueva tiene $v'=Q\,v$.
+
+Para girar los ejes un ángulo $\theta$ alrededor de $z$ (regla de la mano derecha):
+
+$$
+Q_z(\theta)=\begin{pmatrix}\cos\theta&\sin\theta&0\\-\sin\theta&\cos\theta&0\\0&0&1\end{pmatrix}.
+$$ {#eq-qz}
+
+## Ley de transformación del tensor {#sec-ley}
+
+Sea un plano de normal $\vec n$ y vector tensión $\vec t$. En los ejes antiguos, $t=\sigma\,n$ (fórmula de
+Cauchy). En los nuevos, las componentes de los dos vectores son $t'=Qt$ y $n'=Qn$, y la misma fórmula debe
+valer: $t'=\sigma'\,n'$. Entonces
+
+$$
+Q\,t=Q\,\sigma\,n=Q\,\sigma\,Q^{\mathsf T}\,(Q\,n)
+\quad\Longrightarrow\quad
+\sigma'\,n'=\bigl(Q\,\sigma\,Q^{\mathsf T}\bigr)\,n' .
+$$
+
+Como $\vec n$ es cualquiera, queda la **ley de transformación**:
+
+::: {.teorema titulo="Cambio de ejes del tensor de tensiones"}
+$$
+\boldsymbol\sigma'=Q\,\boldsymbol\sigma\,Q^{\mathsf T},\qquad
+\sigma'_{ij}=\sum_{k,l}Q_{ik}\,Q_{jl}\,\sigma_{kl}.
+$$ {#eq-transformacion}
+:::
+
+Es simétrico en los nuevos ejes si lo era en los antiguos, porque $(Q\sigma Q^{\mathsf T})^{\mathsf T}=Q\sigma^{\mathsf T}Q^{\mathsf T}$.
+
+::: {.ejemplo titulo="Barra uniaxial con los ejes girados"}
+Para $\boldsymbol\sigma=\mathrm{diag}(\sigma_0,0,0)$ y los ejes girados $\theta$ alrededor de $z$
+(@eq-qz), el producto da, con $c=\cos\theta$ y $s=\sin\theta$,
+$$
+\sigma'_{xx}=\sigma_0c^{2},\qquad \sigma'_{yy}=\sigma_0s^{2},\qquad \sigma'_{xy}=-\sigma_0\,s\,c .
+$$
+Con $\sigma_0=$ {{< num e01 ej_barra.sigma0 dec=0 unidad=MPa >}} y $\theta=$ {{< num e01 ej_barra.theta_grados dec=0 >}}°:
+$\sigma'_{xx}=$ {{< num e01 ej_barra.sigma_prima.1.1 dec=1 unidad=MPa >}},
+$\sigma'_{yy}=$ {{< num e01 ej_barra.sigma_prima.2.2 dec=1 unidad=MPa >}} y
+$\sigma'_{xy}=$ {{< num e01 ej_barra.sigma_prima.1.2 dec=1 unidad=MPa >}}.
+Observa que $\sigma'_{xx}$ coincide con la tensión normal $\sigma_n$ del plano de normal $\vec e_x'$
+calculada en el [apartado 1](01-tension-punto.qmd): las componentes del tensor *son* tensiones sobre los
+planos coordenados de los ejes nuevos.
+:::
+
+## Un caso con números exactos {#sec-ejemplo-q}
+
+Con el tensor $\boldsymbol\sigma_A$ del [apartado 2](02-tensor.qmd#sec-lectura) y los ejes girados alrededor de $z$ con
+$\cos\theta=3/5$ y $\sin\theta=4/5$ (una rotación «racional» para poder comprobar a mano):
+
+$$
+Q=\begin{pmatrix}3/5&4/5&0\\-4/5&3/5&0\\0&0&1\end{pmatrix},\qquad
+\boldsymbol\sigma'=Q\,\boldsymbol\sigma_A\,Q^{\mathsf T}=
+\begin{pmatrix}
+{{< num e01 ej4.sigma_prima.1.1 dec=2 math=true >}}&{{< num e01 ej4.sigma_prima.1.2 dec=2 math=true >}}&0\\
+{{< num e01 ej4.sigma_prima.2.1 dec=2 math=true >}}&{{< num e01 ej4.sigma_prima.2.2 dec=2 math=true >}}&0\\
+0&0&{{< num e01 ej4.sigma_prima.3.3 dec=2 math=true >}}
+\end{pmatrix}\ \text{MPa}.
+$$
+
+Las componentes han cambiado, pero hay cosas que **no cambian**, y se estudian en el
+[apartado 7](07-invariantes.qmd). Por ejemplo, la suma de las tensiones normales:
+$\sigma'_{xx}+\sigma'_{yy}+\sigma'_{zz}=$ {{< num e01 ej4.invariantes_prima.1 dec=1 unidad=MPa >}}, la misma que antes.
+
+::: {.advertencia titulo="Errores frecuentes"}
+- Escribir $\sigma'=Q\sigma$ (falta $Q^{\mathsf T}$) o $\sigma'=Q^{\mathsf T}\sigma Q$ (es el cambio **inverso**).
+- Mezclar **filas** y **columnas** de $Q$. Aquí las filas son los vectores nuevos.
+- Girar el ángulo en sentido contrario: con $Q_z(\theta)$, un $\theta>0$ gira los ejes en sentido antihorario.
+- Confundir girar los **ejes** con girar el **elemento** (@fig-ejes, caso b).
+:::
+
+::: {.para-clase}
+Gira $90^\circ$ los ejes de una barra a tracción en $x$ ($\sigma_{xx}=\sigma_0$). ¿Cuánto vale $\sigma'_{yy}$?
+¿Y $\sigma'_{xx}$? Compruébalo con la @eq-transformacion y con la cuestión siguiente.
+:::
+
+{{< pregunta e01-q10 >}}
+
+::: {.idea-clave}
+$\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$: **las componentes cambian, el estado no**. Las
+magnitudes físicas (tensiones sobre un plano, tensiones principales, invariantes…) son las mismas
+calculadas en cualquier base.
+:::
+
+::: {.profundiza titulo="Ley de transformación y grados de libertad"}
+La @eq-transformacion es la definición de «tensor de segundo orden»: un objeto cuyas componentes cambian
+con $Q_{ik}Q_{jl}$. Como una rotación depende de **3 parámetros** (por ejemplo, un eje y un ángulo, o los
+ángulos de Euler) y el tensor simétrico tiene 6 componentes, un estado puede pensarse como
+**3 tensiones principales + 3 parámetros de orientación**. Es la idea del
+[apartado 6](06-principales.qmd). En el [simulador](14-simulador.qmd) la rotación se da con eje y ángulo
+(fórmula de Rodrigues).
+:::

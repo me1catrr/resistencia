@@ -137,6 +137,25 @@ class PruebaContrasteConJulia(Base):
             self.cerca(Q, a["Q"])
             self.cerca(T.rotar(a["resumen"]["sigma"], Q), a["sigma_prima"])
 
+    def test_campos_de_los_ejemplos(self):
+        b = REF["ej_barra"]
+        th = np.deg2rad(b["theta_grados"])
+        sig = np.diag([b["sigma0"], 0.0, 0.0])
+        r = T.componentes_plano(sig, [np.cos(th), np.sin(th), 0])
+        self.cerca(r["sigma_n"], b["sigma_n"])
+        self.cerca(r["sigma_n"], b["sigma0"] * np.cos(th) ** 2)
+        self.cerca(r["tau"], b["sigma0"] * np.sin(th) * np.cos(th))
+        self.cerca(T.rotar(sig, T.matriz_rotacion_ejes([0, 0, 1], th)), b["sigma_prima"])
+        lam = T.principales(REF["sigmaA"])["valores"]
+        c = T.circulos_mohr(lam)
+        p = REF["ej5"]
+        d = [(p["sigma_n"] - c[k]) ** 2 + p["tau"] ** 2 for k in ("c13", "c12", "c23")]
+        self.cerca(d, p["dist2"])
+        self.cerca([c["r13"] ** 2, c["r12"] ** 2, c["r23"] ** 2], p["radios2"])
+        sm = T.esferico_desviador(REF["sigmaA"])[0]
+        self.cerca(lam - sm, REF["esfdes"]["desviador_principales"])
+        self.cerca(REF["ej1"]["tau_max_con_radial"], T.tau_max([REF["ej1"]["sigma_theta"], REF["ej1"]["sigma_x"], -REF["ej1"]["p"]]))
+
     def test_propiedades_aleatorias(self):
         rng = np.random.default_rng(7)
         for _ in range(300):

@@ -1,0 +1,119 @@
+---
+title: "E01.2 · El tensor de tensiones"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Del plano al elemento {#sec-elemento}
+
+En el apartado anterior vimos que en un punto hay infinitos planos y un vector tensión para cada uno.
+Parece un problema inmanejable, pero no lo es: veremos en el [apartado 3](03-plano.qmd) que basta
+conocer el vector tensión sobre **tres planos perpendiculares entre sí**. Se eligen los coordinados.
+
+Alrededor del punto se imagina un cubo infinitesimal con caras paralelas a los planos $x$, $y$, $z$
+(@fig-cubo). Sobre cada cara actúa un vector tensión, que se descompone en sus tres componentes
+cartesianas: **9 componentes**.
+
+![Componentes de tensión sobre las tres caras visibles del elemento. El primer índice indica la normal de la cara; el segundo, la dirección de la componente. Las caras ocultas llevan las componentes opuestas.](/recursos/fig/cubo-componentes.svg){#fig-cubo .figura-tikz fig-alt="Un cubo en perspectiva con ejes x hacia el observador, y a la derecha y z hacia arriba. En cada una de las tres caras visibles hay tres flechas: una perpendicular a la cara, etiquetada con dos índices iguales, y dos tangentes, con índices distintos."}
+
+## Convención de índices y signos {#sec-convencion}
+
+::: {.definicion titulo="Componente $\sigma_{ij}$"}
+$\sigma_{ij}$ es la componente **en la dirección $j$** del vector tensión que actúa sobre el plano de
+**normal $i$**. Con $i=j$ es una tensión *normal*; con $i\neq j$, una tensión *tangencial*.
+
+**Signo.** Una componente es positiva si apunta en el sentido positivo del eje **en la cara cuya normal
+exterior es positiva**, y en el sentido negativo en la cara de normal exterior negativa. Con esta regla,
+una tensión normal positiva es siempre de tracción.
+:::
+
+Se ordenan en una matriz, que es la **matriz de tensiones** o *tensor de tensiones de Cauchy*:
+
+$$
+\boldsymbol\sigma=\begin{pmatrix}
+\sigma_{xx}&\sigma_{xy}&\sigma_{xz}\\
+\sigma_{yx}&\sigma_{yy}&\sigma_{yz}\\
+\sigma_{zx}&\sigma_{zy}&\sigma_{zz}
+\end{pmatrix}.
+$$ {#eq-matriz}
+
+La fila $i$ contiene el vector tensión sobre el plano de normal $\vec e_i$. Por ejemplo, sobre el plano
+$x$: $\vec t(\vec e_x)=(\sigma_{xx},\sigma_{xy},\sigma_{xz})$.
+
+::: {.advertencia titulo="Ojo con los libros"}
+Algunos textos escriben $\tau_{xy}$ para la tangencial y otros usan el índice al revés. Aquí el primer
+índice es **siempre** la normal del plano. Como el tensor resulta simétrico (a continuación), la
+diferencia no cambia ningún resultado, pero conviene saber cuál se usa al leer otras fuentes.
+:::
+
+## El tensor es simétrico {#sec-simetria}
+
+Parecen 9 datos, pero el equilibrio de momentos los reduce. Tomemos el elemento de lados
+$\mathrm dx$, $\mathrm dy$, $\mathrm dz$ y miremos los momentos respecto al eje que pasa por su centro
+paralelo a $z$ (@fig-momentos).
+
+![Vista en el plano $xy$. Las dos parejas de $\sigma_{xy}$ dan un momento antihorario; las de $\sigma_{yx}$, uno horario.](/recursos/fig/equilibrio-momentos.svg){#fig-momentos .figura-tikz fig-alt="Un cuadrado de lados dx y dy con una flecha en cada cara: en las caras verticales, flechas verticales de sentidos contrarios; en las horizontales, flechas horizontales de sentidos contrarios."}
+
+- Las fuerzas $\sigma_{xy}\,\mathrm dy\,\mathrm dz$ de las caras $x$ forman un par de brazo $\mathrm dx$:
+  momento antihorario $\sigma_{xy}\,\mathrm dx\,\mathrm dy\,\mathrm dz$.
+- Las fuerzas $\sigma_{yx}\,\mathrm dx\,\mathrm dz$ de las caras $y$ forman un par de brazo $\mathrm dy$:
+  momento horario $\sigma_{yx}\,\mathrm dx\,\mathrm dy\,\mathrm dz$.
+
+Los demás términos (las componentes normales y las variaciones de las tensiones de una cara a la opuesta,
+las fuerzas de volumen) dan momentos de orden superior en las dimensiones del elemento y desaparecen al
+hacerlo tender a cero. Imponiendo que la suma de momentos sea nula:
+
+$$
+\sigma_{xy}=\sigma_{yx}\quad\text{y, repitiendo con los otros ejes,}\quad
+\sigma_{yz}=\sigma_{zy},\ \ \sigma_{zx}=\sigma_{xz}.
+$$ {#eq-simetria}
+
+::: {.hipotesis titulo="Cuándo vale la simetría"}
+Hemos supuesto que **no hay pares distribuidos** (ni en el volumen ni en las superficies), que es el
+modelo clásico de la elasticidad que usamos en el curso. Bajo esa hipótesis el tensor de tensiones es
+simétrico: **6 componentes independientes**, no 9.
+:::
+
+## Cómo se lee un estado de tensiones {#sec-lectura}
+
+Conocido $\boldsymbol\sigma$, cada fila es un vector tensión sobre un plano coordenado y cada elemento
+tiene un significado físico.
+
+::: {.ejemplo titulo="Un tensor concreto"}
+Todos los ejemplos del tema reutilizan el mismo estado, para que se pueda seguir de un apartado a otro
+(unidades: MPa):
+
+$$
+\boldsymbol\sigma_A=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}.
+$$ {#eq-sigmaA}
+
+- Sobre el plano $x$ actúa $\vec t$ = ({{< num e01 ej2.t_x.1 dec=0 >}}, {{< num e01 ej2.t_x.2 dec=0 >}}, {{< num e01 ej2.t_x.3 dec=0 >}}) MPa: tracción de {{< num e01 ej2.t_x.1 dec=0 unidad=MPa >}}
+  y un cortante de {{< num e01 ej2.t_x.2 dec=0 unidad=MPa >}} hacia $+y$.
+- Sobre el plano $y$ la normal es de **compresión**: $\sigma_{yy}=$ {{< num e01 ej2.t_y.2 dec=0 unidad=MPa >}}, con el mismo
+  cortante que en el plano $x$ (simetría).
+- El plano $z$ no tiene tangenciales: solo tracción de {{< num e01 ej2.t_z.3 dec=0 unidad=MPa >}}. La dirección $z$ ya es
+  una dirección «especial»: la volveremos a encontrar en el [apartado 6](06-principales.qmd).
+:::
+
+{{< pregunta e01-q05 >}}
+
+::: {.para-clase}
+Piensa en el elemento de la @fig-cubo: si $\sigma_{xy}>0$ sobre la cara $x$, ¿hacia dónde apunta la
+componente $\sigma_{xy}$ en la cara oculta opuesta? ¿Y por qué debe haber una $\sigma_{yx}$ igual?
+:::
+
+{{< pregunta e01-q19 >}}
+
+::: {.idea-clave}
+El estado de tensiones en un punto queda descrito por **6 números** (el tensor simétrico $\boldsymbol\sigma$)
+**siempre que se conozcan los ejes** en los que se expresan. Cambiar de ejes cambiará los 6 números
+pero no el estado físico: eso se estudia en el [apartado 5](05-cambio-ejes.qmd).
+:::
+
+::: {.profundiza titulo="El tensor como aplicación lineal"}
+Un tensor de segundo orden no es una tabla de números, sino un objeto que **asocia a cada vector
+$\vec n$ otro vector $\vec t$ de forma lineal**: $\vec t=\boldsymbol\sigma\,\vec n$. Los números de la
+@eq-matriz son las componentes de esa aplicación en una base concreta. Esto explica que, al cambiar de
+base, los números cambien con una ley fija (apartado 5) mientras el objeto no cambia. En notación
+indicial, con suma sobre índices repetidos, $t_j=n_i\,\sigma_{ij}$.
+:::

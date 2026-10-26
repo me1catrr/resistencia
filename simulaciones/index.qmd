@@ -7,7 +7,7 @@ su fundamento, sus hipótesis, sus variables, sus limitaciones y cómo se ha val
 
 | Simulación | Tema | Estado |
 |---|---|---|
-| Tensor de tensiones 3D | E01 | En desarrollo |
+| [Tensor de tensiones 3D](../temas/e01-tensiones-espacio/14-simulador.qmd) | E01 | Prototipo v0.1 (sin probar en navegador real) |
 
 ::: {.aviso}
 Una simulación es un modelo: solo vale dentro de las hipótesis que declara. Cada página las

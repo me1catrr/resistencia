@@ -1,0 +1,105 @@
+---
+title: "E01.4 · Equilibrio y contorno"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+Hasta aquí hemos mirado **un punto**. Pero las tensiones cambian de un punto a otro: son un *campo*
+$\boldsymbol\sigma(x,y,z)$. Este apartado fija dos condiciones que debe cumplir ese campo: una en el
+interior y otra en la superficie.
+
+## Ecuaciones de equilibrio interno {#sec-equilibrio}
+
+Consideramos de nuevo el elemento de lados $\mathrm dx$, $\mathrm dy$, $\mathrm dz$, pero ahora la
+tensión en una cara no es igual a la de la cara opuesta: varía con la posición. En la cara $x+\mathrm dx$,
+por ejemplo,
+$$
+\sigma_{xx}+\frac{\partial\sigma_{xx}}{\partial x}\,\mathrm dx .
+$$
+Sumando las fuerzas en la dirección $x$ (cada tensión por el área de su cara) y la fuerza de volumen
+$f_x\,\mathrm dx\,\mathrm dy\,\mathrm dz$, los términos $\sigma_{xx}$, $\sigma_{yx}$ y $\sigma_{zx}$ se
+cancelan entre caras opuestas y quedan solo las variaciones:
+
+$$
+\left(\frac{\partial\sigma_{xx}}{\partial x}+\frac{\partial\sigma_{yx}}{\partial y}+\frac{\partial\sigma_{zx}}{\partial z}+f_x\right)\mathrm dx\,\mathrm dy\,\mathrm dz=0 .
+$$
+
+Lo mismo en $y$ y en $z$ da las **ecuaciones de equilibrio interno** (o *indefinidas*):
+
+::: {.teorema titulo="Ecuaciones de equilibrio interno"}
+$$
+\begin{aligned}
+\frac{\partial\sigma_{xx}}{\partial x}+\frac{\partial\sigma_{xy}}{\partial y}+\frac{\partial\sigma_{xz}}{\partial z}+f_x&=0,\\
+\frac{\partial\sigma_{xy}}{\partial x}+\frac{\partial\sigma_{yy}}{\partial y}+\frac{\partial\sigma_{yz}}{\partial z}+f_y&=0,\\
+\frac{\partial\sigma_{xz}}{\partial x}+\frac{\partial\sigma_{yz}}{\partial y}+\frac{\partial\sigma_{zz}}{\partial z}+f_z&=0,
+\end{aligned}
+$$ {#eq-equilibrio}
+o, en forma compacta, $\displaystyle\sum_i\frac{\partial\sigma_{ij}}{\partial x_i}+f_j=0$.
+:::
+
+Se han escrito con la simetría del tensor ($\sigma_{yx}=\sigma_{xy}$, etc.). Las fuerzas de volumen $\vec f$
+son fuerza **por unidad de volumen** (por ejemplo, el peso propio es $\rho g$; con MPa y mm, en N/mm³).
+
+::: {.hipotesis titulo="Qué se supone"}
+Equilibrio estático (sin aceleraciones), medio continuo y campo de tensiones derivable. Si hay
+aceleraciones, $\vec f$ incluye la fuerza de inercia $-\rho\,\ddot{\vec u}$.
+:::
+
+::: {.ejemplo titulo="Barra colgada de su propio peso"}
+Una barra prismática vertical, colgada de su extremo superior, con el eje $z$ hacia arriba, el extremo libre
+en $z=0$ y el peso propio $\vec f=(0,0,-\rho g)$. Buscamos un campo con una sola componente,
+$\sigma_{zz}(z)$. La única ecuación no trivial es la tercera:
+$$
+\frac{\mathrm d\sigma_{zz}}{\mathrm dz}-\rho g=0\ \Rightarrow\ \sigma_{zz}=\rho g\,z+C .
+$$
+En el extremo libre ($z=0$) no hay carga, luego $C=0$ y $\sigma_{zz}=\rho g\,z$: **tracción** que crece
+hacia el punto de sujeción, como es lógico (cada sección sostiene el peso de lo que cuelga por debajo).
+Con acero ($\rho g\approx$ {{< num e01 ej_peso.rho_g dec=6 >}} N/mm³) y $L=$ {{< num e01 ej_peso.L dec=0 >}} mm,
+en la sujeción $\sigma_{zz}=\rho g L=$ {{< num e01 ej_peso.sigma_max dec=2 unidad=MPa >}}.
+:::
+
+::: {.idea-clave}
+Tenemos **3 ecuaciones** y **6 incógnitas** (las componentes de $\boldsymbol\sigma$). Con la estática sola,
+el problema es en general **indeterminado**: hacen falta las deformaciones y la ley de comportamiento del
+material (temas E03 y E04). Por eso el equilibrio interno es una condición necesaria, no suficiente.
+:::
+
+## Condiciones de contorno {#sec-contorno}
+
+En la superficie del cuerpo, el vector tensión sobre el plano tangente a la superficie, de normal exterior
+$\vec n$, debe coincidir con la carga exterior por unidad de área $\bar{\vec t}$ que se le aplica. Por la
+fórmula de Cauchy:
+
+$$
+\boldsymbol\sigma\,\vec n=\bar{\vec t}\qquad\text{en la superficie.}
+$$ {#eq-contorno}
+
+Casos habituales:
+
+- **Superficie libre** (sin carga): $\bar{\vec t}=\vec 0$. Entonces $\sigma_n=0$ y $\tau=0$ sobre ese plano.
+- **Presión $p$** aplicada desde fuera: la carga empuja hacia dentro, $\bar{\vec t}=-p\,\vec n$. Por tanto
+  $\sigma_n=-p$ (compresión) y $\tau=0$ si la presión es uniforme.
+- **Carga tangencial** (rozamiento, viento): $\bar{\vec t}$ con componente en el plano.
+
+::: {.ejemplo titulo="Depósito cilíndrico de pared delgada"}
+En la pared de un depósito de radio interior $r=$ {{< num e01 ej1.r dec=0 unidad=mm >}} y espesor
+$t=$ {{< num e01 ej1.t dec=0 unidad=mm >}} sometido a presión interior $p=$ {{< num e01 ej1.p dec=0 unidad=MPa >}}:
+
+- cara exterior (libre): $\sigma_{rr}=0$;
+- cara interior (cargada por la presión): $\sigma_{rr}=-p=$ {{< num e01 ej1.sigma_r_interior dec=0 unidad=MPa >}}.
+
+La tensión circunferencial es del orden de $p\,r/t=$ {{< num e01 ej1.sigma_theta dec=0 unidad=MPa >}}, es decir,
+$\sigma_{rr}$ es solo el {{< num e01 ej1.cociente_p_sigma_theta dec=3 >}} de esa cifra, de ahí que en la teoría de pared delgada
+**se desprecie la tensión radial**. Esa es la hipótesis de partida del depósito, y es válida solo si $t\ll r$.
+:::
+
+{{< pregunta e01-q20 >}}
+
+::: {.advertencia titulo="Error frecuente"}
+Confundir el signo de una presión: $p>0$ es una presión de compresión y da $\sigma_n=-p$. El convenio de
+signos del libro es de **tracción positiva**.
+:::
+
+Con esto queda planteado el estado tensional: un campo $\boldsymbol\sigma$ que cumple el
+[equilibrio](#sec-equilibrio) en el interior y las [condiciones de contorno](#sec-contorno). En el resto del
+tema volvemos a **un punto** y estudiamos qué se puede extraer de un tensor concreto.

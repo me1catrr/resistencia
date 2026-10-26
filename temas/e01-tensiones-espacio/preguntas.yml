@@ -1,0 +1,564 @@
+# Banco de cuestiones de E01 (fuente única). Se incrusta en las páginas del tema con
+# {{< pregunta e01-qNN >}} y se muestra completo en 15-autoevaluacion.qmd.
+# Las respuestas numéricas llevan `fuente: "e01 ruta"`: se leen de pruebas/referencia/e01.json.
+preguntas:
+
+  - id: e01-q01
+    tipo: opcion
+    nivel: 1
+    clase: true
+    enunciado: |-
+      ¿Cuál de estas frases describe correctamente el **vector tensión** $\vec t$ en un punto?
+    opciones:
+      - texto: |-
+          La fuerza total que soporta la sección de la pieza.
+        feedback: |-
+          No: eso es un *esfuerzo resultante*. La tensión es una magnitud **en un punto**, por unidad de área.
+      - texto: |-
+          La fuerza interna por unidad de área sobre un plano concreto que pasa por el punto.
+        correcta: true
+        feedback: |-
+          Correcto: $\vec t=\lim \Delta\vec F/\Delta A$, y depende del plano elegido.
+      - texto: |-
+          Una propiedad del material, igual en todos los puntos.
+        feedback: |-
+          No: la tensión depende de las cargas y de la geometría, y varía de un punto a otro. Lo que es del material es,
+          por ejemplo, su límite de resistencia.
+      - texto: |-
+          Un número, la tensión normal máxima.
+        feedback: |-
+          No: es un vector (tiene componente normal y tangencial) y no es solo el máximo.
+    solucion: |-
+      La tensión sobre un plano es $\vec t(\vec n)=\lim_{\Delta A\to0}\Delta\vec F/\Delta A$.
+
+  - id: e01-q02
+    tipo: vf
+    nivel: 2
+    razonado: si
+    respuesta: f
+    enunciado: |-
+      Verdadero o falso: «En un punto de un sólido cargado hay **un único** vector tensión, independiente del plano que se considere.»
+    razonamiento: |-
+      Falso: el vector tensión depende de la normal del plano, $\vec t=\vec t(\vec n)$. En un mismo punto, planos distintos
+      dan vectores distintos (por ejemplo, en una barra a tracción $\vec t$ cambia de módulo con la inclinación del plano).
+    solucion: |-
+      Lo que es único es el **tensor** $\boldsymbol\sigma$ del punto, que permite obtener $\vec t$ para cada plano con $\vec t=\boldsymbol\sigma\vec n$.
+
+  - id: e01-q03
+    tipo: numerico
+    nivel: 1
+    intentos: 3
+    fuente: "e01 ej_barra.sigma_n"
+    tol: 0.5
+    unidad: MPa
+    enunciado: |-
+      Una barra soporta una tensión axial $\sigma_0=100$ MPa. Calcula la tensión **normal** $\sigma_n$ sobre un plano cuya normal forma $30^\circ$ con el eje de la barra.
+    pistas:
+      - |-
+        Usa $\sigma_n=\sigma_0\cos^2\theta$.
+      - |-
+        $\cos30^\circ=\sqrt3/2$, luego $\cos^2 30^\circ=3/4$.
+    solucion: |-
+      $\sigma_n=\sigma_0\cos^2\theta=100\cdot\tfrac34=75$ MPa.
+
+  - id: e01-q04
+    tipo: prediccion
+    nivel: 2
+    clase: true
+    respuesta: "3"
+    enunciado: |-
+      Una barra a tracción se corta con planos de distinta inclinación $\theta$ respecto del plano perpendicular al eje
+      ($\theta=0$ es la sección recta). **Antes de calcular**, ¿en qué inclinación esperas la mayor tensión **tangencial**?
+    opciones:
+      - texto: |-
+          En $\theta=0^\circ$ (sección recta).
+        feedback: |-
+          En la sección recta $\tau=0$: la fuerza es perpendicular al plano, no hay componente que lo deslice.
+      - texto: |-
+          En $\theta=30^\circ$.
+        feedback: |-
+          $\tau=\tfrac12\sigma_0\sin2\theta$ vale $0{,}87\cdot\sigma_0/2$ a $30^\circ$: grande, pero no es el máximo.
+      - texto: |-
+          En $\theta=45^\circ$.
+        correcta: true
+        feedback: |-
+          $\tau=\tfrac12\sigma_0\sin2\theta$ es máximo cuando $\sin2\theta=1$, es decir, $\theta=45^\circ$, y vale $\sigma_0/2$.
+      - texto: |-
+          En $\theta=90^\circ$.
+        feedback: |-
+          A $90^\circ$ el plano es paralelo al eje y no soporta fuerza: $\sigma_n=\tau=0$.
+    solucion: |-
+      $\tau=\sigma_0\sin\theta\cos\theta=\tfrac12\sigma_0\sin2\theta$, máximo en $\theta=45^\circ$ con $\tau_{\max}=\sigma_0/2$.
+      Esto explica por qué algunos materiales dúctiles fallan por deslizamiento a $45^\circ$ en un ensayo de tracción.
+
+  - id: e01-q05
+    tipo: opcion
+    nivel: 1
+    enunciado: |-
+      ¿Cuántas componentes **independientes** tiene el tensor de tensiones de Cauchy en un punto (modelo clásico, sin pares distribuidos)?
+    opciones:
+      - texto: |-
+          9
+        feedback: |-
+          Son 9 componentes, pero no son independientes: $\sigma_{ij}=\sigma_{ji}$.
+      - texto: |-
+          6
+        correcta: true
+        feedback: |-
+          Correcto: 3 normales y 3 tangenciales, pues $\sigma_{xy}=\sigma_{yx}$, $\sigma_{yz}=\sigma_{zy}$, $\sigma_{zx}=\sigma_{xz}$.
+      - texto: |-
+          3
+        feedback: |-
+          Tres son las tensiones principales, que describen el estado **una vez conocida la orientación**; hacen falta otros 3 parámetros para esta.
+      - texto: |-
+          4
+        feedback: |-
+          No: el tensor simétrico de orden 3 tiene $3\cdot4/2=6$ componentes independientes.
+    solucion: |-
+      Un tensor simétrico $3\times3$ tiene $3+2+1=6$ componentes independientes.
+
+  - id: e01-q06
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      Con la convención del libro, ¿qué representa la **segunda fila** $(\sigma_{yx},\sigma_{yy},\sigma_{yz})$ de la matriz de tensiones?
+    opciones:
+      - texto: |-
+          Las componentes en $x$ de los vectores tensión sobre los tres planos coordenados.
+        feedback: |-
+          Eso sería una **columna**. Aquí cada fila corresponde a un plano.
+      - texto: |-
+          El vector tensión sobre el plano de normal $\vec e_y$, descompuesto en $x$, $y$ y $z$.
+        correcta: true
+        feedback: |-
+          Correcto: el primer índice es la normal del plano; el segundo, la dirección de la componente.
+      - texto: |-
+          Las tensiones principales.
+        feedback: |-
+          Las tensiones principales son los autovalores, no una fila.
+    solucion: |-
+      La fila $i$ es $\vec t(\vec e_i)$. En un tensor simétrico, filas y columnas coinciden, pero la interpretación es esta.
+
+  - id: e01-q07
+    tipo: numerico
+    nivel: 3
+    intentos: 3
+    fuente: "e01 ej5.sigma_n"
+    tol: 0.05
+    unidad: MPa
+    enunciado: |-
+      Con $\boldsymbol\sigma_A=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}$ MPa, calcula la tensión normal $\sigma_n$ sobre el plano de normal $\vec n=(1,2,2)/3$.
+    pistas:
+      - |-
+        Primero $\vec t=\boldsymbol\sigma\vec n$ (producto de la matriz por el vector).
+      - |-
+        $\vec t=(40,\ 40/3,\ 40/3)$ MPa. Después $\sigma_n=\vec t\cdot\vec n$.
+    solucion: |-
+      $\vec t=\boldsymbol\sigma\vec n=(40,\,40/3,\,40/3)$ y $\sigma_n=\vec t\cdot\vec n=\tfrac{40+2\cdot40/3+2\cdot40/3}{3}=\tfrac{280}{9}\approx31{,}1$ MPa.
+
+  - id: e01-q08
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      Al aplicar la fórmula de Cauchy $\vec t=\boldsymbol\sigma\vec n$, ¿qué ocurre si olvidas normalizar el vector $\vec n=(1,2,2)$?
+    opciones:
+      - texto: |-
+          Nada: el resultado es el mismo.
+        feedback: |-
+          No: $\vec t$ es lineal en $\vec n$, así que se multiplica por el mismo factor.
+      - texto: |-
+          $\vec t$ sale multiplicado por $\lvert\vec n\rvert=3$ y $\sigma_n$ por $3$ también.
+        feedback: |-
+          Lo primero sí, pero $\sigma_n=\vec t\cdot\vec n$ aparece multiplicado por $3^2$, porque tanto $\vec t$ como $\vec n$ están escalados.
+      - texto: |-
+          $\vec t$ se multiplica por $3$ y $\sigma_n=\vec t\cdot\vec n$ por $9$: los resultados dejan de tener sentido físico.
+        correcta: true
+        feedback: |-
+          Correcto: el plano sigue siendo el mismo, pero los valores obtenidos no son las tensiones reales.
+    solucion: |-
+      La normal debe ser **unitaria**; si no, divide por su módulo antes de calcular.
+
+  - id: e01-q09
+    tipo: opcion
+    nivel: 1
+    enunciado: |-
+      En una **superficie libre** (sin cargas aplicadas) de un cuerpo, ¿qué cumple el vector tensión sobre el plano tangente a la superficie?
+    opciones:
+      - texto: |-
+          $\vec t=\vec 0$, por tanto $\sigma_n=0$ y $\tau=0$ sobre ese plano.
+        correcta: true
+        feedback: |-
+          Correcto: es la condición de contorno $\boldsymbol\sigma\vec n=\bar{\vec t}=\vec0$.
+      - texto: |-
+          Solo $\tau=0$, pero $\sigma_n$ puede ser distinta de cero.
+        feedback: |-
+          Si $\sigma_n\neq0$ habría una fuerza normal sobre una superficie descargada.
+      - texto: |-
+          Solo $\sigma_n=0$, pero puede haber tangenciales.
+        feedback: |-
+          Las tangenciales también son carga sobre la superficie y deben ser nulas si está descargada.
+    solucion: |-
+      La condición de contorno es $\boldsymbol\sigma\vec n=\bar{\vec t}$; con $\bar{\vec t}=\vec0$ se anulan $\sigma_n$ y $\tau$.
+
+  - id: e01-q10
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      Una barra tiene $\sigma_{xx}=\sigma_0$ y el resto nulo. Se **giran los ejes $90^\circ$** alrededor de $z$. ¿Cuánto vale $\sigma'_{yy}$ en los nuevos ejes?
+    opciones:
+      - texto: |-
+          $0$
+        feedback: |-
+          Esa es $\sigma_{yy}$ en los ejes antiguos. Tras girar $90^\circ$, el nuevo eje $y'$ coincide con el antiguo $-x$.
+      - texto: |-
+          $\sigma_0$
+        correcta: true
+        feedback: |-
+          Correcto: con $\theta=90^\circ$, $\sigma'_{yy}=\sigma_0\sin^2\theta=\sigma_0$ (el eje $y'$ queda a lo largo de la barra).
+      - texto: |-
+          $-\sigma_0$
+        feedback: |-
+          Una tensión normal de tracción no cambia de signo por girar los ejes: lo que cambia es qué eje la «ve».
+      - texto: |-
+          $\sigma_0/2$
+        feedback: |-
+          Eso sería a $45^\circ$ para la tensión tangencial; aquí el eje $y'$ queda alineado con la carga.
+    solucion: |-
+      $\sigma'_{yy}=\sigma_0\sin^2\theta$, que para $\theta=90^\circ$ vale $\sigma_0$. Además $\sigma'_{xx}=\sigma_0\cos^2\theta=0$.
+
+  - id: e01-q11
+    tipo: error
+    nivel: 3
+    respuesta: "2"
+    enunciado: |-
+      Un alumno escribe esta resolución para pasar un tensor $\boldsymbol\sigma$ a unos ejes nuevos. **¿En qué paso está el error?**
+    opciones:
+      - texto: |-
+          Paso 1: las filas de $Q$ son los vectores de la base nueva escritos en la antigua, y $Q$ es ortogonal.
+        feedback: |-
+          Correcto: es la definición de $Q$.
+      - texto: |-
+          Paso 2: como $\vec t'=Q\vec t$ y $\vec t=\boldsymbol\sigma\vec n$, entonces $\boldsymbol\sigma'=Q\,\boldsymbol\sigma$.
+        correcta: true
+        feedback: |-
+          **Aquí está el error.** $\vec t'=Q\boldsymbol\sigma\vec n=Q\boldsymbol\sigma Q^{\mathsf T}(Q\vec n)=(Q\boldsymbol\sigma Q^{\mathsf T})\vec n'$: falta multiplicar por $Q^{\mathsf T}$ por la derecha.
+      - texto: |-
+          Paso 3: se comprueba que $\boldsymbol\sigma'$ conserva la traza.
+        feedback: |-
+          Es una buena verificación (la traza es invariante) y, de hecho, con el paso 2 incorrecto fallaría.
+    solucion: |-
+      La ley correcta es $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$.
+
+  - id: e01-q12
+    tipo: opcion
+    nivel: 2
+    clase: true
+    intentos: 2
+    enunciado: |-
+      Del tensor de tensiones **simétrico y real** de un punto, ¿cuáles de estas afirmaciones son **verdaderas**? (Marca todas las correctas.)
+    opciones:
+      - texto: |-
+          Sus tres tensiones principales son reales.
+        correcta: true
+        feedback: |-
+          Verdadera: los autovalores de una matriz simétrica real son reales.
+      - texto: |-
+          Las direcciones principales correspondientes a autovalores distintos son perpendiculares entre sí.
+        correcta: true
+        feedback: |-
+          Verdadera: se demuestra con $\lambda_1\vec n_1\cdot\vec n_2=\lambda_2\vec n_1\cdot\vec n_2$.
+      - texto: |-
+          Las tres tensiones principales son siempre distintas.
+        feedback: |-
+          Falsa: hay estados con valores repetidos (cilíndrico, hidrostático).
+      - texto: |-
+          $\sigma_1$ es el mayor valor de la tensión normal sobre cualquier plano del punto.
+        correcta: true
+        feedback: |-
+          Verdadera: $\sigma_n=\sum\sigma_in_i^2$ es un promedio de las principales, así que $\sigma_3\le\sigma_n\le\sigma_1$.
+    solucion: |-
+      Son verdaderas la primera, la segunda y la cuarta.
+
+  - id: e01-q13
+    tipo: vf
+    nivel: 3
+    clase: true
+    razonado: si
+    respuesta: f
+    enunciado: |-
+      Verdadero o falso: «Si $\sigma_2=\sigma_3$, la dirección principal asociada a $\sigma_2$ es **única**».
+    razonamiento: |-
+      Falso. Con un autovalor doble, el subespacio propio tiene dimensión 2: **cualquier dirección contenida en el plano
+      perpendicular a la de $\sigma_1$ es principal**. Se obtienen infinitas bases principales (estado cilíndrico).
+    solucion: |-
+      Un programa devuelve una base concreta de ese plano, pero no es la única posible.
+
+  - id: e01-q14
+    tipo: error
+    nivel: 3
+    respuesta: "3"
+    enunciado: |-
+      Para $\boldsymbol\sigma=\begin{pmatrix}3&1\\1&3\end{pmatrix}$ MPa un alumno halla las direcciones principales. **¿Qué paso es erróneo?**
+    opciones:
+      - texto: |-
+          Paso 1: $\det(\boldsymbol\sigma-\lambda I)=(3-\lambda)^2-1=0\Rightarrow\lambda=4$ y $\lambda=2$.
+        feedback: |-
+          Correcto.
+      - texto: |-
+          Paso 2: para $\lambda=4$, $(\boldsymbol\sigma-4I)\vec n=0$ da $-n_x+n_y=0$: $\vec n=(1,1)/\sqrt2$.
+        feedback: |-
+          Correcto.
+      - texto: |-
+          Paso 3: para $\lambda=2$ se obtiene también $\vec n=(1,1)/\sqrt2$.
+        correcta: true
+        feedback: |-
+          **Error.** Para $\lambda=2$: $(\boldsymbol\sigma-2I)\vec n=0$ da $n_x+n_y=0$, es decir $\vec n=(1,-1)/\sqrt2$. Además
+          dos direcciones principales distintas no pueden coincidir: deben ser perpendiculares.
+    solucion: |-
+      Direcciones principales: $(1,1)/\sqrt2$ para $4$ MPa y $(1,-1)/\sqrt2$ para $2$ MPa.
+
+  - id: e01-q15
+    tipo: numerico
+    nivel: 1
+    intentos: 3
+    fuente: "e01 ej3.I1"
+    tol: 0.01
+    unidad: MPa
+    enunciado: |-
+      Calcula el primer invariante $I_1$ de $\boldsymbol\sigma_A=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}$ MPa.
+    pistas:
+      - |-
+        $I_1$ es la traza: suma de la diagonal.
+    solucion: |-
+      $I_1=24+(-4)+20=40$ MPa.
+
+  - id: e01-q16
+    tipo: opcion
+    nivel: 2
+    clase: true
+    enunciado: |-
+      Calculas $\boldsymbol\sigma$ en unos ejes y $\boldsymbol\sigma'$ tras girarlos, y obtienes **trazas distintas**. ¿Qué indica?
+    opciones:
+      - texto: |-
+          Es normal: al girar los ejes cambia la suma de las tensiones normales.
+        feedback: |-
+          No: la traza es un **invariante**; es la misma en cualquier base.
+      - texto: |-
+          Hay un error de cálculo en el cambio de ejes (o $Q$ no es ortogonal).
+        correcta: true
+        feedback: |-
+          Correcto. Es la comprobación más rápida: $I_1$, $I_2$ e $I_3$ deben conservarse.
+      - texto: |-
+          El material ha cambiado de comportamiento.
+        feedback: |-
+          Cambiar de ejes no cambia el material ni las cargas; solo la descripción matemática.
+    solucion: |-
+      $\operatorname{tr}(Q\boldsymbol\sigma Q^{\mathsf T})=\operatorname{tr}\boldsymbol\sigma$ si $Q$ es ortogonal. Si no coinciden, revisa $Q$ y las operaciones.
+
+  - id: e01-q17
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      El **elipsoide de Lamé** de un estado con tensiones principales $\sigma_1,\sigma_2,\sigma_3$ (todas no nulas) tiene por semiejes…
+    opciones:
+      - texto: |-
+          $\lvert\sigma_1\rvert,\lvert\sigma_2\rvert,\lvert\sigma_3\rvert$
+        correcta: true
+        feedback: |-
+          Correcto: de $t_i=\sigma_in_i$ y $\sum n_i^2=1$ sale $\sum(t_i/\sigma_i)^2=1$.
+      - texto: |-
+          $1/\sigma_1,\ 1/\sigma_2,\ 1/\sigma_3$
+        feedback: |-
+          Esos serían semiejes de otra construcción (la inversa), no la de Lamé.
+      - texto: |-
+          $\sigma_1^2,\ \sigma_2^2,\ \sigma_3^2$
+        feedback: |-
+          No: los semiejes tienen dimensión de tensión, no de tensión al cuadrado.
+    solucion: |-
+      Las puntas de $\vec t$ para todos los planos recorren el elipsoide $\sum(t_i/\sigma_i)^2=1$.
+
+  - id: e01-q18
+    tipo: numerico
+    nivel: 1
+    intentos: 3
+    fuente: "e01 mohr.tau_max"
+    tol: 0.01
+    unidad: MPa
+    enunciado: |-
+      Un punto tiene tensiones principales $60$, $20$ y $-40$ MPa. ¿Cuánto vale la tensión tangencial **máxima** en el punto?
+    pistas:
+      - |-
+        Es el radio del círculo de Mohr mayor, el que va de $\sigma_3$ a $\sigma_1$.
+    solucion: |-
+      $\tau_{\max}=(\sigma_1-\sigma_3)/2=(60-(-40))/2=50$ MPa.
+
+  - id: e01-q19
+    tipo: reflexion
+    nivel: 2
+    enunciado: |-
+      Con tus palabras: ¿por qué en el modelo clásico $\sigma_{xy}=\sigma_{yx}$? Describe qué elemento y qué equilibrio usas y qué hipótesis hace falta.
+    solucion: |-
+      **Orientación para comparar.** Se toma un elemento infinitesimal y se plantea el equilibrio de **momentos** respecto
+      de un eje que pase por su centro. Las fuerzas $\sigma_{xy}\,\mathrm dy\,\mathrm dz$ en las caras $x$ forman un
+      par de brazo $\mathrm dx$, y las $\sigma_{yx}\,\mathrm dx\,\mathrm dz$ en las caras $y$, un par de brazo
+      $\mathrm dy$, de sentido opuesto. Igualando, $\sigma_{xy}=\sigma_{yx}$. Se necesita que **no haya pares
+      distribuidos** (en volumen ni en superficie) y que los demás términos sean de orden superior.
+
+  - id: e01-q20
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      En la **cara interior** de la pared de un depósito sometido a una presión interior $p=2$ MPa, ¿cuánto vale la tensión radial $\sigma_{rr}$ (tracción positiva)?
+    opciones:
+      - texto: |-
+          $+2$ MPa
+        feedback: |-
+          Con tracción positiva, una presión que **empuja** contra la pared es compresión: signo negativo.
+      - texto: |-
+          $-2$ MPa
+        correcta: true
+        feedback: |-
+          Correcto: la presión actúa como $\bar{\vec t}=-p\,\vec n$, de modo que $\sigma_{rr}=-p$.
+      - texto: |-
+          $0$
+        feedback: |-
+          Eso vale en la cara **exterior** (libre).
+      - texto: |-
+          $+80$ MPa
+        feedback: |-
+          Esa es del orden de la tensión circunferencial $pr/t$, no la radial.
+    solucion: |-
+      La condición de contorno $\boldsymbol\sigma\vec n=-p\,\vec n$ da $\sigma_{rr}=-p=-2$ MPa en la cara interior.
+
+  - id: e01-q21
+    tipo: opcion
+    nivel: 3
+    clase: true
+    intentos: 2
+    enunciado: |-
+      Para un punto con tensiones principales $60$, $20$ y $-40$ MPa, ¿cuál de estos pares $(\sigma_n,\tau)$ es **imposible** (en MPa)?
+    opciones:
+      - texto: |-
+          $(10,\ 50)$
+        feedback: |-
+          Posible: es la cima del círculo grande.
+      - texto: |-
+          $(20,\ 0)$
+        feedback: |-
+          Posible: es la tensión principal $\sigma_2$.
+      - texto: |-
+          $(40,\ 5)$
+        correcta: true
+        feedback: |-
+          Imposible: cae **dentro** del círculo $C_{12}$ (centro $40$, radio $20$): $(40-40)^2+5^2=25<20^2$.
+      - texto: |-
+          $(-40,\ 0)$
+        feedback: |-
+          Posible: es $\sigma_3$.
+    solucion: |-
+      La región admisible está dentro del círculo grande y **fuera** de los dos pequeños; $(40,5)$ está dentro de $C_{12}$.
+
+  - id: e01-q22
+    tipo: numerico
+    nivel: 2
+    intentos: 3
+    fuente: "e01 esfdes.sigma_m"
+    tol: 0.01
+    unidad: MPa
+    enunciado: |-
+      Calcula la **tensión media** $\sigma_m$ de $\boldsymbol\sigma_A=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}$ MPa.
+    pistas:
+      - |-
+        $\sigma_m=I_1/3$.
+    solucion: |-
+      $\sigma_m=(24-4+20)/3=40/3\approx13{,}33$ MPa.
+
+  - id: e01-q23
+    tipo: opcion
+    nivel: 2
+    enunciado: |-
+      ¿Cuál de estas afirmaciones sobre el **desviador** $\mathbf S=\boldsymbol\sigma-\sigma_mI$ es correcta?
+    opciones:
+      - texto: |-
+          Tiene traza nula y las mismas direcciones principales que $\boldsymbol\sigma$.
+        correcta: true
+        feedback: |-
+          Correcto: $\operatorname{tr}\mathbf S=I_1-3\sigma_m=0$ y restar un múltiplo de $I$ no cambia los autovectores.
+      - texto: |-
+          Tiene las mismas tensiones normales que $\boldsymbol\sigma$ pero sin tangenciales.
+        feedback: |-
+          No: conserva las tangenciales; solo se resta $\sigma_m$ de la diagonal.
+      - texto: |-
+          Es nulo en un estado de cortante puro.
+        feedback: |-
+          Al revés: en cortante puro $\sigma_m=0$, luego $\mathbf S=\boldsymbol\sigma$ (estado puramente desviador).
+    solucion: |-
+      $\mathbf S=\boldsymbol\sigma-\sigma_mI$: traza nula, mismas direcciones principales, mismas tangenciales.
+
+  - id: e01-q24
+    tipo: prediccion
+    nivel: 2
+    clase: true
+    respuesta: "2"
+    enunciado: |-
+      Un punto de un sólido sumergido a gran profundidad soporta una presión uniforme $p$ en todas las direcciones (estado hidrostático).
+      **Antes de calcular**: ¿cómo serán sus círculos de Mohr?
+    opciones:
+      - texto: |-
+          Tres círculos de radios $p$, $p/2$ y $p/2$.
+        feedback: |-
+          Los radios son semidiferencias de tensiones principales, y estas son iguales.
+      - texto: |-
+          Los tres se reducen a **un punto** del eje $\sigma$, de abscisa $-p$.
+        correcta: true
+        feedback: |-
+          Correcto: $\sigma_1=\sigma_2=\sigma_3=-p$, todos los radios son nulos y $\tau=0$ en todo plano.
+      - texto: |-
+          Un único círculo centrado en el origen.
+        feedback: |-
+          Eso es cortante puro, no hidrostático.
+    solucion: |-
+      Estado esférico: $\boldsymbol\sigma=-p\,I$, $\tau_{\max}=0$ y todos los planos son principales.
+
+  - id: e01-q25
+    tipo: numerico
+    nivel: 3
+    intentos: 3
+    fuente: "e01 esfdes.tau_oct"
+    tol: 0.05
+    unidad: MPa
+    enunciado: |-
+      Calcula la tensión tangencial octaédrica $\tau_{\text{oct}}$ de un punto con tensiones principales $60$, $20$ y $-40$ MPa.
+    pistas:
+      - |-
+        $\tau_{\text{oct}}=\tfrac13\sqrt{(\sigma_1-\sigma_2)^2+(\sigma_2-\sigma_3)^2+(\sigma_3-\sigma_1)^2}$.
+      - |-
+        Las diferencias valen $40$, $60$ y $-100$.
+    solucion: |-
+      $\tau_{\text{oct}}=\tfrac13\sqrt{40^2+60^2+100^2}=\tfrac13\sqrt{15200}\approx41{,}1$ MPa.
+
+  - id: e01-q26
+    tipo: oral
+    nivel: 3
+    enunciado: |-
+      Explica en voz alta (1–2 min) la diferencia entre **girar los ejes** y **girar el elemento**, y qué le ocurre a
+      $\sigma_{xx}$, a $I_1$ y a las tensiones principales en cada caso.
+    solucion: |-
+      **Guion.** Girar los ejes: el estado físico y el elemento son los mismos; cambian las componentes según
+      $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$, y no cambian $I_1$ ni las tensiones principales ni sus direcciones físicas.
+      Girar el elemento (con ejes fijos) equivale a mirar otros planos del mismo punto: los vectores tensión sobre ellos son distintos.
+      Si se describen en ejes ligados al elemento, las componentes son las del cambio de ejes con la misma $Q$.
+
+  - id: e01-q27
+    tipo: problema
+    nivel: 4
+    enunciado: |-
+      **Desafío (opcional).** Demuestra que, en un estado uniaxial $\sigma_0$, la tensión tangencial máxima es $\sigma_0/2$
+      y se alcanza en planos a $45^\circ$ del eje, usando las **dos** vías: (a) la expresión $\tau(\theta)$ de la barra
+      y (b) la fórmula $\tau_{\max}=(\sigma_1-\sigma_3)/2$ de Mohr.
+    pistas:
+      - |-
+        (a) $\tau=\tfrac12\sigma_0\sin2\theta$; (b) las tensiones principales son $\sigma_0,0,0$ (con $\sigma_0>0$).
+    solucion: |-
+      (a) $\tau(\theta)=\tfrac12\sigma_0\sin2\theta$ alcanza su máximo $\sigma_0/2$ para $2\theta=90^\circ$, es decir, $\theta=45^\circ$.
+      (b) Con $\sigma_1=\sigma_0$ y $\sigma_3=0$, $\tau_{\max}=(\sigma_1-\sigma_3)/2=\sigma_0/2$. Ambas coinciden.

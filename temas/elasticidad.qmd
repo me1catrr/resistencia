@@ -9,7 +9,7 @@ oficiales; los apartados internos de cada tema son propuesta docente.
 
 | Tema | Título | Estado |
 |---|---|---|
-| E01 | [Estado de tensiones en el espacio](e01-tensiones-espacio/index.qmd) | esqueleto |
+| E01 | [Estado de tensiones en el espacio](e01-tensiones-espacio/index.qmd) | borrador |
 | E02 | [Estado plano de tensiones](e02-tension-plana/index.qmd) | esqueleto |
 | E03 | [Análisis de la deformación](e03-deformacion/index.qmd) | esqueleto |
 | E04 | [Relación entre tensiones y deformaciones](e04-tension-deformacion/index.qmd) | esqueleto |

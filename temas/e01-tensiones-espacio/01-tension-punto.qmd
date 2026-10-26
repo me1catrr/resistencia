@@ -1,0 +1,144 @@
+---
+title: "E01.1 · La tensión en un punto"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Por qué hace falta {#sec-motivacion}
+
+Tres situaciones de ingeniería sirven para ver el problema.
+
+- **Un eje de transmisión** transmite un par. Que aguante no depende solo del par, sino de cómo se
+  reparte dentro de la sección: con el mismo par, un eje más delgado soporta más tensión.
+- **Un depósito a presión** tiene una pared fina. La presión actúa sobre la cara interior; el material
+  de la pared «tira» de sí mismo en dirección tangente, y esa tracción es lo que acaba rompiéndola.
+- **Una unión soldada** transmite la carga por un cordón de pequeña sección. La misma fuerza produce
+  mucha más tensión en un cordón estrecho que en uno ancho.
+
+En los tres casos la fuerza total no decide nada: decide cuánta fuerza hay **por unidad de área** y
+**sobre qué superficie** actúa. Ese es el concepto de tensión.
+
+## Fuerzas internas y método de las secciones {#sec-secciones}
+
+Imagina un cuerpo en equilibrio bajo cargas exteriores. Para saber qué ocurre dentro, lo «cortamos» con
+un plano imaginario $\Pi$ y separamos las dos partes (@fig-secciones).
+
+![Un cuerpo en equilibrio (a) y sus dos partes tras el corte (b). Cada parte solo está en equilibrio si la otra le transmite fuerzas a través de la sección.](/recursos/fig/solido-cortado.svg){#fig-secciones .figura-tikz fig-alt="Un cuerpo con tres fuerzas exteriores y un plano de corte vertical. A la derecha, las dos mitades separadas, con flechas en las caras de corte que representan las fuerzas internas."}
+
+Cada mitad, por sí sola, **en general no estaría en equilibrio** con las cargas exteriores que le quedan. Lo está
+porque la otra mitad ejerce sobre ella un sistema de fuerzas repartido por toda la sección de corte:
+son las **fuerzas internas**. Por el principio de acción y reacción, las que una parte ejerce sobre la
+otra son iguales y de sentido contrario.
+
+## El vector tensión {#sec-vector-tension}
+
+Las fuerzas internas están repartidas, no son una sola fuerza. Para describir cómo, se mira un punto $P$
+de la sección y un trocito de área $\Delta A$ a su alrededor, sobre el que actúa una fuerza interna
+$\Delta\vec F$ (@fig-traccion).
+
+::: {.definicion titulo="Vector tensión"}
+Sea $\vec n$ el vector unitario normal al plano en $P$, que apunta hacia fuera de la parte sobre la que
+se calcula la acción. El **vector tensión** (o *tracción*) en $P$ sobre ese plano es
+$$
+\vec t(\vec n)=\lim_{\Delta A\to 0}\frac{\Delta\vec F}{\Delta A}.
+$$
+Se mide en N/mm² $=$ MPa.
+:::
+
+![El vector tensión $\vec t$ en un punto $P$ de un plano de normal $\vec n$, y sus dos componentes: normal $\sigma_n$ y tangencial $\tau$.](/recursos/fig/traccion-plano.svg){#fig-traccion .figura-tikz fig-alt="Un plano en perspectiva con un punto P. Desde P salen la normal al plano, el vector tensión inclinado, su componente normal a lo largo de la normal y su componente tangencial contenida en el plano."}
+
+::: {.hipotesis titulo="Qué se supone"}
+Que el material es un **medio continuo**: existe el límite anterior y no depende de cómo se achique
+$\Delta A$. Es una idealización muy buena a la escala de una pieza y deja de serlo a escala de los
+cristales o las fibras del material.
+:::
+
+## Componentes normal y tangencial {#sec-componentes}
+
+El vector $\vec t$ no suele ser perpendicular al plano. Se descompone en dos partes, llamadas
+**componentes intrínsecas** porque dependen solo del plano y de $\vec t$, no de los ejes elegidos:
+
+$$
+\sigma_n=\vec t\cdot\vec n,\qquad
+\vec\tau=\vec t-\sigma_n\,\vec n,\qquad
+\tau=\lvert\vec\tau\rvert .
+$$ {#eq-componentes}
+
+- $\sigma_n$ es la **tensión normal**. Con nuestra convención, $\sigma_n>0$ si el material se **estira**
+  (tracción) y $\sigma_n<0$ si se **comprime**.
+- $\tau$ es la **tensión tangencial** (o *cortante*): la parte de $\vec t$ contenida en el plano. Intenta
+  deslizar una cara sobre la otra. Como módulo, $\tau\ge 0$.
+
+Como $\sigma_n\vec n$ y $\vec\tau$ son perpendiculares, se cumple
+
+$$
+\lvert\vec t\rvert^{2}=\sigma_n^{2}+\tau^{2}.
+$$ {#eq-pitagoras}
+
+## La tensión depende del plano {#sec-depende-plano}
+
+En un mismo punto hay infinitos planos posibles y **cada uno tiene su propio $\vec t$** (@fig-dos-planos).
+Por eso hablar de «la tensión en un punto» sin decir el plano no tiene sentido completo.
+
+![Dos planos por el mismo punto $P$ dan vectores tensión distintos.](/recursos/fig/dos-planos.svg){#fig-dos-planos .figura-tikz fig-alt="Dos rectas que se cortan en un punto P, vistas de canto como trazas de dos planos distintos. Cada una tiene su normal y su vector tensión, de dirección y módulo diferentes."}
+
+::: {.ejemplo titulo="Barra a tracción cortada por un plano inclinado"}
+Una barra de sección $A$ soporta una fuerza axial $F$. Lejos de los extremos, sobre un plano
+perpendicular al eje la tensión es $\sigma_0=F/A$.
+
+Cortamos ahora por un plano cuya normal forma un ángulo $\theta$ con el eje. Su área es $A/\cos\theta$ y
+la fuerza interna sigue siendo $F$ y **paralela al eje**. Por tanto
+
+$$
+\lvert\vec t\rvert=\frac{F}{A/\cos\theta}=\sigma_0\cos\theta,
+$$
+
+y, proyectando sobre la normal y sobre el plano,
+
+$$
+\sigma_n=\sigma_0\cos^{2}\theta,\qquad \tau=\sigma_0\sin\theta\cos\theta=\tfrac12\,\sigma_0\sin 2\theta .
+$$ {#eq-barra}
+
+Con $\sigma_0=$ {{< num e01 ej_barra.sigma0 dec=0 unidad=MPa >}} y $\theta=$ {{< num e01 ej_barra.theta_grados dec=0 >}}°:
+$\sigma_n=$ {{< num e01 ej_barra.sigma_n dec=1 unidad=MPa >}} y $\tau=$ {{< num e01 ej_barra.tau dec=1 unidad=MPa >}}.
+A $45°$ las dos valen {{< num e01 ej_barra.sigma_n_45 dec=1 unidad=MPa >}}: es el plano de **máxima tensión tangencial**,
+$\sigma_0/2$.
+:::
+
+::: {.pausa titulo="Un minuto para pensar"}
+Antes de seguir: en la barra anterior, ¿qué plano esperas que tenga la mayor tensión tangencial?
+¿Y la mayor tensión normal? Anota tu predicción y contrástala en la cuestión siguiente.
+:::
+
+{{< pregunta e01-q04 >}}
+
+## Para tener presente {#sec-esencial}
+
+::: {.idea-clave}
+1. La tensión es **fuerza por unidad de área sobre un plano concreto**: $\vec t(\vec n)$.
+2. Se descompone en $\sigma_n$ (tracción o compresión) y $\tau$ (deslizamiento), que dependen del plano.
+3. En un punto hay infinitos planos y el vector tensión cambia con cada uno. ¿Cuánta información hace falta
+   para conocerlos todos? Eso lo responde el [tensor de tensiones](02-tensor.qmd).
+:::
+
+::: {.advertencia titulo="Error frecuente"}
+Confundir **tensión** (fuerza/área, depende del plano) con **esfuerzo resultante** (la fuerza o momento
+total de toda una sección, p. ej. el axil o el momento flector). Las tensiones son magnitudes en un
+punto; los esfuerzos se obtienen integrándolas en la sección, y se verán en la Parte II.
+:::
+
+::: {.historia titulo="De dónde viene la idea"}
+La formulación moderna de la tensión en un punto suele asociarse a Cauchy: en 1822 presentó a la
+Academia de Ciencias de París una memoria en la que aparece el vector tensión sobre un plano y el
+argumento del tetraedro que veremos en el [apartado 3](03-plano.qmd); se publicó en 1823
+[@cauchy1823; @azadi2017], y volvió sobre el tema en 1827 [@cauchy1827]. Para una visión general de la
+historia de la materia, véase @timoshenko1983 (no he comprobado qué dice exactamente de este punto).
+:::
+
+::: {.profundiza titulo="Principio de tensión de Cauchy"}
+Lo que hemos usado sin decirlo es el **principio de tensión de Cauchy**: la acción del resto del cuerpo
+sobre un elemento de superficie $\mathrm dA$ equivale a una fuerza $\vec t\,\mathrm dA$ y **no hay pares
+distribuidos** sobre la superficie. Es una hipótesis del modelo clásico de medio continuo. Existen
+modelos (medios micropolares, o de Cosserat) en los que sí aparecen esos pares y el tensor de tensiones
+deja de ser simétrico; no se tratan en este curso.
+:::

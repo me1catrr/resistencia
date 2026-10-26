@@ -1,0 +1,67 @@
+---
+title: "E01.12 · Tensiones octaédricas"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Los planos octaédricos {#sec-planos}
+
+En la base principal, los **planos octaédricos** son los de normal $(\pm1,\pm1,\pm1)/\sqrt3$: son
+**equiinclinados** respecto de las tres direcciones principales (forman el mismo ángulo con las tres) y los
+ocho planos que resultan son las caras de un octaedro regular.
+
+## Tensión normal y tangencial {#sec-octaedricas}
+
+Con $n_1^2=n_2^2=n_3^2=\tfrac13$ en las expresiones del apartado 6 y del apartado 9:
+
+$$
+\sigma_{\text{oct}}=\tfrac13(\sigma_1+\sigma_2+\sigma_3)=\frac{I_1}{3}=\sigma_m,
+\qquad
+\tau_{\text{oct}}^2=\tfrac13\sum\sigma_i^2-\sigma_m^2 .
+$$
+
+Como $\sum\sigma_i^2-3\sigma_m^2=\sum s_i^2=2J_2$ (apartado 10), resulta
+
+$$
+\tau_{\text{oct}}=\sqrt{\frac{2J_2}{3}}=\frac13\sqrt{(\sigma_1-\sigma_2)^2+(\sigma_2-\sigma_3)^2+(\sigma_3-\sigma_1)^2}.
+$$ {#eq-oct}
+
+Los **ocho** planos octaédricos tienen **los mismos** $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$ (solo
+cambia la orientación de $\vec\tau$).
+
+::: {.ejemplo titulo="Octaédricas de $\boldsymbol\sigma_A$"}
+$\sigma_{\text{oct}}=$ {{< num e01 esfdes.sigma_oct dec=2 unidad=MPa >}} y
+$\tau_{\text{oct}}=$ {{< num e01 esfdes.tau_oct dec=2 unidad=MPa >}}. Como era de esperar, $\tau_{\text{oct}}$ es menor que
+$\tau_{\max}=$ {{< num e01 esfdes.tau_max dec=0 unidad=MPa >}}, y el punto $(\sigma_{\text{oct}},\tau_{\text{oct}})$ cae dentro de la
+región admisible de Mohr (la prueba numérica de la implementación de referencia lo confirma).
+:::
+
+## Para qué sirven {#sec-para-que}
+
+Son el puente natural con los **criterios de agotamiento** (E06): la tensión tangencial octaédrica, o
+equivalentemente $J_2$, mide la «intensidad» de la parte desviadora y es la magnitud en la que se basan
+varios criterios para materiales dúctiles. Por ahora basta quedarse con que son combinaciones invariantes
+del estado.
+
+{{< pregunta e01-q25 >}}
+
+::: {.advertencia titulo="Errores frecuentes"}
+- Confundir $\tau_{\text{oct}}$ con $\tau_{\max}$: son planos distintos. Para unas mismas $\sigma_1$ y $\sigma_3$,
+  $\tau_{\text{oct}}$ queda siempre entre $\tfrac{\sqrt6}{3}\,\tau_{\max}\approx0{,}82\,\tau_{\max}$
+  (cuando $\sigma_2$ es la media de las otras dos) y $\tfrac{2\sqrt2}{3}\,\tau_{\max}\approx0{,}94\,\tau_{\max}$
+  (cuando $\sigma_2$ coincide con $\sigma_1$ o con $\sigma_3$).
+- Olvidar que son **iguales en los ocho** planos.
+:::
+
+::: {.idea-clave}
+$\sigma_{\text{oct}}=\sigma_m$ y $\tau_{\text{oct}}=\sqrt{2J_2/3}$: la tensión «media» y la «intensidad
+desviadora» en los planos equiinclinados.
+:::
+
+::: {.profundiza titulo="El plano octaédrico en el espacio de tensiones principales"}
+En el espacio con ejes $\sigma_1,\sigma_2,\sigma_3$, la recta $\sigma_1=\sigma_2=\sigma_3$ (**eje
+hidrostático**) representa los estados esféricos, y los **planos perpendiculares** a ella (planos
+$\pi$ o desviadores) tienen $\sigma_m$ constante. Un estado se descompone en su proyección sobre el eje
+(parte esférica) y su componente en el plano $\pi$ (parte desviadora), cuya longitud es $\sqrt{2J_2}$.
+Es la interpretación geométrica de los apartados 10 y 12.
+:::

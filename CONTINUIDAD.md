@@ -20,10 +20,10 @@ Registro de estado para retomar el trabajo en otra sesión. **Actualízalo al ce
 | E3 · Navegación completa y esqueletos | Hecha (26/10/2026) | `generar_estructura.py --comprobar`; 35 páginas renderizadas |
 | E4 · Diseño visual y modo clase | Hecha salvo revisión visual (26/10/2026) | contraste y lógica del modo clase en `node --test`; **sin revisar en navegador real** |
 | E5 · Cuestionarios y simulaciones (sistemas) | Hecha salvo revisión en navegador (26/10/2026) | `node --test` 43/43 (DOM simulado); estructura HTML comprobada en `_site-pruebas` |
-| E6 · Tema E01 (piloto) | Pendiente | — |
-| E7 · Simulador E01 y código Julia/Python | Pendiente | — |
-| E8 · Sesión, laboratorio, evaluación, Moodle | Pendiente | — |
-| E9 · Pruebas, CI y cierre | Pendiente | — |
+| E6 · Tema E01 (piloto) | **Borrador completo** (26/10/2026): 12 apartados + ejemplos, simulador, 27 cuestiones, código, defensa oral y sesión | render sin avisos; sin revisar en navegador; **pendiente de revisión del profesor** |
+| E7 · Simulador E01 y código Julia/Python | Hecha salvo prueba en navegador | Julia 1884, Python 11, JS 66 comprobaciones; `--comprobar` de TikZ y estructura |
+| E8 · Sesión, laboratorio, evaluación, Moodle | Parcial: sesión de 90 min y banco de defensa oral de E01 hechos; **faltan** fichas de laboratorio, propuesta de evaluación oral, Moodle XML y `proyecto/moodle.qmd` | — |
+| E9 · Pruebas, CI y cierre | Parcial: `publish.yml` (pruebas JS/Python de herramientas + render + Pages) creado; **faltan** Julia/pytest/Playwright en CI y comprobación de enlaces | — |
 
 ## Hechos comprobados (26/10/2026)
 
@@ -31,6 +31,13 @@ Registro de estado para retomar el trabajo en otra sesión. **Actualízalo al ce
 - `git ls-remote https://github.com/me1catrr/resistencia` → código 0 y sin referencias: el remoto parece existir pero vacío. No confirmado por HTTP.
 - `~/Desktop/resistencia` ya no existe (lo borró el usuario).
 - Herramientas: Quarto 1.10.19, Julia 1.12.3, Python 3.15.0, Node 26. `gh` con token de `me1catrr` caducado (el usuario tendría que ejecutar `gh auth login`).
+
+## Decisiones de contenido de E01 (propuesta mía, pendiente de tu validación)
+
+- Estructura de 12 apartados que reordena tu desglose: cambio de ejes **antes** de tensiones principales e invariantes; equilibrio interno **después** del tensor y de la fórmula de Cauchy y junto a las condiciones de contorno; octaédricas **después** de esférico/desviador; estados cilíndrico y esférico agrupados en «Estados particulares». Cuádricas de Lamé/Cauchy en recuadro de profundización.
+- Se usa «desviador» (no «esviador»).
+- Tensor común de los ejemplos 2–5: σ_A = [[24,48,0],[48,−4,0],[0,0,20]] MPa (principales exactas 60, 20, −40). Plano oblicuo n = (1,2,2)/3: σn = 280/9, τ = 200√2/9.
+- Convención de signo de autovectores: v1 y v2 con primera componente no nula positiva y v3 = v1×v2 (base dextrógira), en las tres implementaciones.
 
 ## Desviaciones respecto al plan (y por qué)
 
@@ -48,4 +55,7 @@ Registro de estado para retomar el trabajo en otra sesión. **Actualízalo al ce
 - **Revisión visual y en navegador real pendiente** (portada, modo claro/oscuro, modo clase, ejercicios, móvil): Chromium headless se queda colgado en esta máquina y el sandbox no permite abrir un puerto local (`sandbox.network.allowLocalBinding: true` lo permitiría). Abrir `_site/` con `quarto preview` o `_site-pruebas/pruebas/web/componentes.html`.
 - `pytest` y Playwright no están instalados; hará falta un `.venv` (con `uv`, requiere red) para E9.
 - Verificar que no queda nada nuevo del proyecto en iCloud.
-- Verificar con búsqueda web las referencias de la guía antes de citarlas con datos finos (E6).
+- Bibliografía: 6 fichas verificadas («sí»), 6 «parcial» y 1 «no» (Granados Romera/Garceta, no localizada). París Carballo y Vázquez Fernández (de la guía) siguen «parcial»: falta contrastarlas con catálogo. Las fuentes históricas (Cauchy 1823/1827, Mohr 1882, Lamé 1852, Timoshenko) no se han leído; se citan con cautela.
+- Nomenclatura de las cuádricas «indicatriz/directriz» por contrastar con Ortiz Berrocal y Rodríguez-Avial (marcador en `08-lame.qmd`).
+- `Pkg.test()` no se puede ejecutar en el sandbox (pide el registro por red): las pruebas de Julia se ejecutan directamente con `julia --project=Resistencia.jl Resistencia.jl/test/runtests.jl`.
+- No se ha usado FigureLabs (cupo de 10 intactas): las 10 figuras de E01 son TikZ originales.

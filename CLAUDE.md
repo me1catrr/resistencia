@@ -133,12 +133,17 @@ quarto render                                   # sitio completo → _site/ (eje
 quarto render --profile pruebas                 # añade pruebas/web/componentes.qmd → _site-pruebas/ (nunca se publica)
 python3 scripts/generar_estructura.py           # regenera _navegacion.yml, temas/elasticidad.qmd, temas/resistencia.qmd y esqueletos
 python3 scripts/generar_estructura.py --comprobar
+python3 scripts/compilar_tikz.py                # compila las figuras que hayan cambiado (necesita pdflatex y pdftocairo)
+python3 scripts/compilar_tikz.py --comprobar    # los SVG corresponden a sus fuentes (no necesita LaTeX)
 python3 -m unittest discover -s pruebas/herramientas     # herramientas del sitio (también las recoge pytest)
-node --test "recursos/js/**/*.test.js"                    # JS: contraste, modo clase, ejercicios, simulaciones
+python3 -m unittest discover -s python/tests -t python   # Python: tensiones.py frente al JSON de Julia
+node --test "recursos/js/**/*.test.js"                    # JS: tensiones, ejercicios, simulador, modo clase, contraste
+julia --project=Resistencia.jl Resistencia.jl/test/runtests.jl   # Julia (Pkg.test() necesita red)
+julia --project=Resistencia.jl scripts/generar_referencia_e01.jl # regenera pruebas/referencia/e01.json
 ```
 
-Previstos en etapas posteriores: `python3 scripts/compilar_tikz.py --comprobar`, la suite Julia
-(`julia --project=Resistencia.jl -e 'using Pkg; Pkg.test()'`) y `pytest python/ pruebas/web/`.
+Previstos en etapas posteriores: pruebas de navegador (Playwright) y comprobación de enlaces sobre `_site`.
+Si cambias `Resistencia.jl`, regenera el JSON de referencia y vuelve a pasar las tres suites.
 
 **Entorno restringido (sandbox de Claude Code):** Quarto necesita escribir su caché; si falla con
 «unable to open database file», ejecuta `HOME=$TMPDIR/home quarto render`. Un servidor local y

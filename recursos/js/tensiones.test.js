@@ -160,3 +160,27 @@ test("propiedades con tensores generados aquí: Jacobi = cúbica, invariancia, |
     assert.ok(T.admisible(r.sigmaN, r.tau, p.valores, 1e-6), "punto en la región admisible");
   }
 });
+
+test("referencia Julia: barra uniaxial, desviador principal y distancias de Mohr", () => {
+  const b = ref.ej_barra;
+  const th = (b.theta_grados * Math.PI) / 180;
+  const sig = [[b.sigma0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  const r = T.componentesPlano(sig, [Math.cos(th), Math.sin(th), 0]);
+  cerca(r.sigmaN, b.sigma_n, 1e-9);
+  cerca(r.sigmaN, b.sigma0 * Math.cos(th) ** 2, 1e-9, "σn = σ0 cos²θ");
+  cerca(r.tau, b.tau, 1e-9);
+  cerca(r.tau, b.sigma0 * Math.sin(th) * Math.cos(th), 1e-9, "τ = σ0 sinθ cosθ");
+  cerca(T.rotar(sig, T.matrizRotacionEjes([0, 0, 1], th)), b.sigma_prima, 1e-9);
+  const p = ref.ej5;
+  const lam = T.principales(ref.sigmaA).valores;
+  const c = T.circulosMohr(lam);
+  const d = [c.c13, c.c12, c.c23].map((cc) => (p.sigma_n - cc) ** 2 + p.tau ** 2);
+  cerca(d, p.dist2, 1e-9);
+  cerca([c.r13 ** 2, c.r12 ** 2, c.r23 ** 2], p.radios2, 1e-9);
+  const e = T.esfericoDesviador(ref.sigmaA);
+  cerca(lam.map((l) => l - e.sigmaM), ref.esfdes.desviador_principales, 1e-9);
+  const o = T.octaedricas(ref.sigmaA);
+  assert.equal(T.admisible(o.sigmaOct, o.tauOct, lam), ref.mohr.oct_en_region);
+  cerca(ref.ej1.tau_max_con_radial, T.tauMax([ref.ej1.sigma_theta, ref.ej1.sigma_x, -ref.ej1.p]), 1e-12);
+  cerca(ref.ej_peso.sigma_max, ref.ej_peso.rho_g * ref.ej_peso.L, 1e-12);
+});

@@ -1,0 +1,233 @@
+---
+title: "E01.17 · Preparación de la defensa oral"
+tema-id: e01
+---
+
+::: {.aviso}
+**Material de entrenamiento público.** Estas diez situaciones sirven para practicar la explicación oral y
+razonada. **No son preguntas de examen** ni sustituyen a la evaluación de la guía docente (examen 80 %, medios
+orales 10 %, producciones 10 %). El procedimiento de evaluación oral es una **propuesta no aprobada**
+(véase [Proyecto](../../proyecto/index.qmd)). Cualquier material reservado de evaluación **no** se publica.
+:::
+
+## Cómo se trabaja una situación
+
+1. Lee el enunciado y mira la representación.
+2. Responde en voz alta a las **preguntas progresivas**, en orden, sin mirar la guía.
+3. Si alguien te interrumpe con una **repregunta**, razónala también.
+4. Contrasta con los **criterios** y con los **errores habituales**.
+
+**Rúbrica común** (cuatro criterios, cada uno de 0 a 3):
+
+| Criterio | 0 | 1 | 2 | 3 |
+|---|---|---|---|---|
+| Corrección conceptual | Confunde conceptos | Parcial, con errores | Correcta con algún fallo menor | Correcta y precisa |
+| Razonamiento | Sin justificar | Justifica a medias | Justifica con hipótesis | Justifica, declara hipótesis y límites |
+| Verificación | Ninguna | La menciona | Comprueba un resultado | Usa invariantes, Mohr o límites para comprobar |
+| Comunicación | Confusa | Entendible con esfuerzo | Clara | Clara, ordenada y con el vocabulario correcto |
+
+---
+
+## S1 · Leer un tensor {#sec-s1}
+
+**Enunciado.** En un punto, en ejes $x,y,z$ (MPa): $\boldsymbol\sigma=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}$.
+
+**Representación.** El cubo de componentes del [apartado 2](02-tensor.qmd).
+
+**Preguntas progresivas.** (1) ¿Qué vector tensión actúa sobre el plano de normal $x$? (2) ¿Es de tracción o de
+compresión la tensión normal sobre el plano $y$? (3) ¿Por qué el tensor es simétrico?
+
+**Repreguntas.** ¿Qué cambiaría si hubiera pares distribuidos? ¿Qué elemento infinitesimal usas para justificarlo?
+
+**Conceptos evaluados.** Lectura de filas, convenio de signos, simetría por equilibrio de momentos.
+
+**Errores habituales.** Confundir filas y columnas; decir «tracción» para $-4$; justificar la simetría «porque la
+matriz es cuadrada».
+
+::: {.resolucion titulo="Guía para el profesorado"}
+Fila $x$: $(24,48,0)$ MPa. Sobre $y$: $\sigma_{yy}=-4$ MPa es **compresión**. Simetría: equilibrio de momentos de un
+cubo infinitesimal (sin pares distribuidos). Valorar que mencione la hipótesis.
+:::
+
+## S2 · Resultado imposible: una tensión normal fuera de rango {#sec-s2}
+
+**Enunciado.** Un compañero afirma que, en un punto con tensiones principales $60$, $20$ y $-40$ MPa, ha
+calculado un plano con $\sigma_n=80$ MPa.
+
+**Representación.** Los círculos de Mohr del [apartado 9](09-mohr.qmd).
+
+**Preguntas.** (1) ¿Es posible? ¿Por qué? (2) ¿Y $\sigma_n=-45$ MPa? (3) ¿Y el par $(\sigma_n,\tau)=(30,60)$?
+
+**Repreguntas.** Si el punto fuera $(60,20,-40)$ y obtienes $\tau=55$ en algún plano, ¿qué sospechas?
+
+**Conceptos.** $\sigma_3\le\sigma_n\le\sigma_1$; $\tau\le\tau_{\max}=(\sigma_1-\sigma_3)/2$; región de Mohr.
+
+**Errores habituales.** Aceptar cualquier $\sigma_n$ calculado; no distinguir entre «dentro del círculo grande» y
+«fuera de los pequeños».
+
+::: {.resolucion titulo="Guía para el profesorado"}
+Ninguno de los tres es posible: $80>\sigma_1$; $-45<\sigma_3$; $\tau=60>\tau_{\max}=50$ (y $\tau=55>50$). Pedir que
+el estudiante enuncie la desigualdad $\sigma_3\le\sigma_n\le\sigma_1$ y la región completa.
+:::
+
+## S3 · Resultado imposible: el invariante que no se conserva {#sec-s3}
+
+**Enunciado.** Tras girar los ejes alrededor de $z$, un estudiante obtiene
+$\boldsymbol\sigma'=\begin{pmatrix}55&-27&0\\-27&-25&0\\0&0&20\end{pmatrix}$ MPa a partir del tensor del S1 (cuya traza es $40$).
+
+**Preguntas.** (1) ¿Qué magnitud permite detectar un error sin rehacer todo? (2) ¿Qué traza tiene $\boldsymbol\sigma'$?
+(3) ¿Qué comprobarías de la matriz $Q$ usada?
+
+**Repreguntas.** Si la traza se conserva, ¿garantiza eso que el resultado es correcto?
+
+**Conceptos.** Invariantes; ortogonalidad de $Q$; ley $Q\boldsymbol\sigma Q^{\mathsf T}$.
+
+**Errores habituales.** Pensar que la traza cambia al girar; no distinguir condición necesaria de suficiente.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+$\operatorname{tr}\boldsymbol\sigma'=55-25+20=50\ne40$: hay un error (típicamente $Q$ no ortogonal o fórmula
+$Q\boldsymbol\sigma$ sin $Q^{\mathsf T}$). Conservar la traza es **necesario, no suficiente**: hay que comprobar también $I_2$, $I_3$.
+:::
+
+## S4 · Resultado imposible: autovalores complejos {#sec-s4}
+
+**Enunciado.** Un programa devuelve para un punto, en el plano $xy$, la matriz
+$\begin{pmatrix}10&30\\-30&10\end{pmatrix}$ MPa y para ella los autovalores $10\pm30i$. ¿Puede ser un tensor de tensiones?
+
+**Preguntas.** (1) ¿Qué falla? (2) ¿Qué propiedad física se ha violado? (3) ¿Qué garantiza el álgebra lineal para
+un tensor de tensiones real?
+
+**Repreguntas.** ¿Qué significaría físicamente un «plano principal» si los autovalores fueran complejos?
+
+**Conceptos.** Simetría $\Rightarrow$ autovalores reales y direcciones ortogonales.
+
+**Errores habituales.** Aceptar los autovalores complejos como «valores a tratar»; no relacionar la asimetría con el
+equilibrio de momentos.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+La matriz **no es simétrica** ($\sigma_{xy}=30\ne\sigma_{yx}=-30$): viola el equilibrio de momentos en el modelo
+clásico. Una matriz simétrica real tiene autovalores reales. El resultado indica un **error de entrada o de
+convención de signos**, no un fenómeno físico.
+:::
+
+## S5 · Un punto, varios planos {#sec-s5}
+
+**Enunciado.** Una barra soporta $\sigma_0=100$ MPa. Compara tres planos: normal a $0^\circ$, $30^\circ$ y $45^\circ$
+con el eje.
+
+**Representación.** La figura de los [dos planos](01-tension-punto.qmd) y los resultados del apartado 1.
+
+**Preguntas.** (1) Calcula $\sigma_n$ y $\tau$ en cada uno. (2) ¿En cuál es máxima $\tau$? (3) ¿Por qué un ensayo de
+tracción puede romper por deslizamiento a $45^\circ$ en un material dúctil?
+
+**Repreguntas.** ¿Y a $90^\circ$? ¿Qué relación hay con los círculos de Mohr del estado uniaxial?
+
+**Conceptos.** $\sigma_n=\sigma_0\cos^2\theta$, $\tau=\tfrac12\sigma_0\sin2\theta$; dependencia del plano.
+
+**Errores habituales.** Usar el ángulo del plano en lugar del ángulo de su normal.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+$\theta=30^\circ$: $\sigma_n=$ {{< num e01 ej_barra.sigma_n dec=0 >}} y $\tau=$ {{< num e01 ej_barra.tau dec=1 >}} MPa; $45^\circ$:
+$50$ y $50$ MPa. Cuidado con la definición del ángulo (el de la normal con el eje).
+:::
+
+## S6 · Girar los ejes o girar el elemento {#sec-s6}
+
+**Enunciado.** Para pasar un tensor a unos ejes girados, un estudiante escribe $\boldsymbol\sigma'=Q\boldsymbol\sigma$
+y otro, $\boldsymbol\sigma'=Q^{\mathsf T}\boldsymbol\sigma Q$.
+
+**Representación.** La figura de [ejes y elemento](05-cambio-ejes.qmd).
+
+**Preguntas.** (1) ¿Quién tiene razón y por qué? (2) ¿Qué representan las filas de $Q$? (3) ¿Cambian las tensiones
+principales al girar los ejes?
+
+**Repreguntas.** ¿Qué ocurre con $Q^{\mathsf T}\boldsymbol\sigma Q$ si se interpreta $Q$ como el giro del elemento?
+
+**Conceptos.** $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$; filas = ejes nuevos; invariancia de las principales.
+
+**Errores habituales.** Mezclar el cambio directo con el inverso; creer que girar los ejes cambia el estado físico.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+Ninguno: $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$. La segunda expresión es el cambio **inverso**
+(correcto si $Q$ fuese el paso de nuevos a antiguos). Las principales **no** cambian.
+:::
+
+## S7 · Estado cilíndrico {#sec-s7}
+
+**Enunciado.** En un punto, $\boldsymbol\sigma=\mathrm{diag}(50,10,10)$ MPa.
+
+**Representación.** El elipsoide de Lamé y los círculos del [apartado 11](11-estados-particulares.qmd).
+
+**Preguntas.** (1) ¿Cuántas direcciones principales hay? (2) ¿Qué forma tiene el elipsoide de Lamé? (3) ¿Cómo son los
+círculos de Mohr?
+
+**Repreguntas.** ¿Qué plano es principal si tomas $\vec n=(0,1,1)/\sqrt2$?
+
+**Conceptos.** Autovalor doble; infinitas bases principales.
+
+**Errores habituales.** Decir que hay solo tres direcciones; creer que el programa devuelve «la» base única.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+La dirección $x$ es única; **cualquier** dirección perpendicular a ella es principal (infinitas bases). El
+elipsoide es de revolución y un círculo de Mohr se reduce a un punto. $(0,1,1)/\sqrt2$ es principal con
+$\sigma_n=10$ y $\tau=0$.
+:::
+
+## S8 · El sólido sumergido {#sec-s8}
+
+**Enunciado.** Un sólido pequeño está sumergido a gran profundidad y soporta una presión uniforme $p$.
+
+**Preguntas.** (1) ¿Qué tensor describe el estado? (2) ¿Cómo son los círculos de Mohr y cuánto vale $\tau_{\max}$?
+(3) ¿Cuál es la parte esférica y cuál la desviadora?
+
+**Repreguntas.** ¿Por qué, en un material dúctil, no se espera que este estado lo plastifique? (Responde con lo que
+sabes hasta ahora y deja constancia de lo que se verá en E06.)
+
+**Conceptos.** Estado esférico, $\mathbf S=\mathbf0$, $J_2=0$.
+
+**Errores habituales.** Pensar que $\tau_{\max}\ne0$; confundir el signo ($\sigma=-p$ en compresión).
+
+::: {.resolucion titulo="Guía para el profesorado"}
+$\boldsymbol\sigma=-p\,I$; tres círculos reducidos a un punto; $\tau_{\max}=0$; $\mathbf S=\mathbf0$ y
+$J_2=0$. Admitir que la respuesta a la repregunta se completa con los criterios de E06.
+:::
+
+## S9 · El depósito y la tensión radial {#sec-s9}
+
+**Enunciado.** Un depósito cilíndrico de pared delgada ($p=2$ MPa, $r=200$ mm, $t=5$ mm) se analiza despreciando la
+tensión radial.
+
+**Preguntas.** (1) ¿Cuánto valen $\sigma_\theta$ y $\sigma_x$? (2) ¿Por qué se desprecia $\sigma_r$? (3) Si se
+incluye $\sigma_r=-p$ en la cara interior, ¿cómo cambia $\tau_{\max}$?
+
+**Repreguntas.** ¿Qué pasaría si $t$ fuese comparable a $r$?
+
+**Conceptos.** Hipótesis de pared delgada; condiciones de contorno; $\tau_{\max}=(\sigma_1-\sigma_3)/2$.
+
+**Errores habituales.** Intercambiar $\sigma_\theta$ y $\sigma_x$; olvidar el signo de la presión.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+$\sigma_\theta=$ {{< num e01 ej1.sigma_theta dec=0 >}} y $\sigma_x=$ {{< num e01 ej1.sigma_x dec=0 >}} MPa;
+despreciar $\sigma_r$ da $\tau_{\max}=$ {{< num e01 ej1.tau_max dec=0 >}} MPa y con $\sigma_r=-p$,
+$\tau_{\max}=$ {{< num e01 ej1.tau_max_con_radial dec=0 >}} MPa. Si $t\sim r$ la hipótesis falla y hay que usar el
+problema de Lamé (más adelante).
+:::
+
+## S10 · Octaédrico y Mohr {#sec-s10}
+
+**Enunciado.** Para $\boldsymbol\sigma_A$, el estudiante calcula $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$ y afirma que
+«los ocho planos octaédricos tienen valores distintos».
+
+**Preguntas.** (1) ¿Es cierta esa afirmación? (2) ¿Cómo se relacionan $\tau_{\text{oct}}$ y $J_2$? (3) ¿El punto
+$(\sigma_{\text{oct}},\tau_{\text{oct}})$ debe estar en la región de Mohr? ¿Por qué?
+
+**Repreguntas.** ¿Puede ser $\tau_{\text{oct}}>\tau_{\max}$?
+
+**Conceptos.** $\sigma_{\text{oct}}=I_1/3$, $\tau_{\text{oct}}=\sqrt{2J_2/3}$, región admisible.
+
+**Errores habituales.** Confundir $\tau_{\text{oct}}$ con $\tau_{\max}$.
+
+::: {.resolucion titulo="Guía para el profesorado"}
+Falso: los ocho tienen la **misma** $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$. $\tau_{\text{oct}}=\sqrt{2J_2/3}$. Debe estar
+en la región, porque corresponde a planos reales. Y $\tau_{\text{oct}}\le\tfrac{2\sqrt2}{3}\tau_{\max}<\tau_{\max}$.
+:::

@@ -1,0 +1,127 @@
+---
+title: "E01.16 · Código en Julia y Python"
+tema-id: e01
+---
+
+Todo lo que se calcula en el tema se puede **reproducir en tu ordenador**, en Julia y en Python. No hace
+falta para seguir el curso: las cifras de esta web ya salen de este código. Pero ejecutarlo es la mejor
+manera de entender qué hace cada fórmula.
+
+El código que ves aquí **no está copiado**: se extrae automáticamente de los archivos del repositorio, de
+modo que lo que lees es lo que se ejecuta y se prueba.
+
+## Requisitos y ejecución
+
+| | Julia | Python |
+|---|---|---|
+| Versión | 1.12 (solo biblioteca estándar) | 3.x con `numpy` |
+| Código | [`Resistencia.jl/src/Tensiones.jl`](https://github.com/me1catrr/resistencia/blob/main/Resistencia.jl/src/Tensiones.jl) | [`python/resistencia/tensiones.py`](https://github.com/me1catrr/resistencia/blob/main/python/resistencia/tensiones.py) |
+| Ejemplo | [`ejemplos/e01.jl`](https://github.com/me1catrr/resistencia/blob/main/Resistencia.jl/ejemplos/e01.jl) | [`ejemplos/e01_ejemplo.py`](https://github.com/me1catrr/resistencia/blob/main/python/ejemplos/e01_ejemplo.py) |
+| Pruebas | `julia --project=Resistencia.jl Resistencia.jl/test/runtests.jl` | `python3 -m unittest discover -s python/tests -t python` |
+
+Desde la raíz del repositorio:
+
+```sh
+julia --project=Resistencia.jl Resistencia.jl/ejemplos/e01.jl
+python3 python/ejemplos/e01_ejemplo.py
+```
+
+Existe una **tercera implementación en JavaScript** ([`recursos/js/tensiones.js`](https://github.com/me1catrr/resistencia/blob/main/recursos/js/tensiones.js)),
+la que usa el [simulador](14-simulador.qmd). Las tres se comparan automáticamente con el mismo archivo de
+resultados que genera Julia, que es la referencia: `node --test "recursos/js/**/*.test.js"`.
+
+## 1 · Simetría
+
+Antes de nada, se comprueba la hipótesis del modelo: el tensor debe ser simétrico.
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="simetria" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="simetria" lang="python" >}}
+:::
+
+## 2 · Vector tensión sobre un plano
+
+Fórmula de Cauchy, $\vec t=\boldsymbol\sigma\vec n$, y descomposición en normal y tangencial.
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="traccion" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="traccion" lang="python" >}}
+:::
+
+## 3 · Cambio de base
+
+Matriz $Q$ de un giro de ejes (con las filas como ejes nuevos) y $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$.
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="cambio_base" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="cambio_base" lang="python" >}}
+:::
+
+## 4 · Tensiones y direcciones principales
+
+Autovalores y autovectores, ordenados $\sigma_1\ge\sigma_2\ge\sigma_3$, con la convención de signo del libro.
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="principales" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="principales" lang="python" >}}
+:::
+
+## 5 · Invariantes
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="invariantes" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="invariantes" lang="python" >}}
+:::
+
+## 6 · Esférico, desviador y octaédricas
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="esferico_desviador" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="esferico_desviador" lang="python" >}}
+:::
+
+## 7 · Círculos de Mohr y región admisible
+
+::: {.panel-tabset}
+### Julia
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="mohr" lang="julia" >}}
+### Python
+{{< codigo archivo="python/resistencia/tensiones.py" region="mohr" lang="python" >}}
+:::
+
+## Qué debes obtener
+
+Al ejecutar el ejemplo con $\boldsymbol\sigma_A$ deben salir estos resultados (pueden diferir en la última
+cifra decimal por el redondeo del punto flotante, p. ej. $-40{,}0$ puede salir como $-39{,}99999999999993$):
+
+| Magnitud | Valor |
+|---|---|
+| Tensiones principales (MPa) | {{< num e01 ej3.sigma1 dec=1 >}}, {{< num e01 ej3.sigma2 dec=1 >}}, {{< num e01 ej3.sigma3 dec=1 >}} |
+| $I_1$, $I_2$, $I_3$ | {{< num e01 ej3.I1 dec=0 >}}, {{< num e01 ej3.I2 dec=0 >}}, {{< num e01 ej3.I3 dec=0 >}} |
+| $\sigma_n$ y $\tau$ en $\vec n=(1,2,2)/3$ (MPa) | {{< num e01 ej5.sigma_n dec=4 >}} y {{< num e01 ej5.tau dec=4 >}} |
+| $\sigma'_{xx}$, $\sigma'_{yy}$, $\sigma'_{xy}$ con $\cos\theta=3/5$ (MPa) | {{< num e01 ej4.sigma_prima.1.1 dec=2 >}}, {{< num e01 ej4.sigma_prima.2.2 dec=2 >}}, {{< num e01 ej4.sigma_prima.1.2 dec=2 >}} |
+| $\sigma_m$ y $J_2$ | {{< num e01 esfdes.sigma_m dec=4 >}} MPa y {{< num e01 esfdes.J2 dec=4 >}} MPa² |
+| $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$ (MPa) | {{< num e01 esfdes.sigma_oct dec=4 >}} y {{< num e01 esfdes.tau_oct dec=4 >}} |
+
+## Ejercicios de ampliación
+
+1. Añade una función que calcule la **tensión normal máxima** y la **tangencial máxima** de un tensor y comprueba
+   que coinciden con $\sigma_1$ y $(\sigma_1-\sigma_3)/2$.
+2. Genera 1000 planos al azar con un tensor fijo y comprueba que **todos** los pares $(\sigma_n,\tau)$ caen en la
+   región admisible de Mohr (`admisible`).
+3. Escribe una función que dibuje los tres círculos de Mohr (en Python con `matplotlib`; en Julia, a mano con
+   puntos o con el paquete que prefieras).
+4. Comprueba numéricamente que $\tau_{\text{oct}}\le\tfrac{2\sqrt2}{3}\tau_{\max}$ con tensores aleatorios.
+5. Rompe algo a propósito (p. ej., usa $Q^{\mathsf T}\boldsymbol\sigma Q$) y observa qué invariantes cambian.

@@ -1,0 +1,55 @@
+---
+title: "E01.18 · Sesión piloto de 90 minutos"
+tema-id: e01
+---
+
+::: {.aviso}
+**Propuesta docente, no aprobada.** Sesión de 90 minutos para el grupo completo, con el alumnado en su ordenador.
+No pretende dar todo E01: cubre los apartados 1 a 4. Los tiempos son orientativos; lo importante es el ritmo de
+**explicar–parar–preguntar–usar el simulador**. Activa el **modo clase** (tecla `c`) para proyectar.
+:::
+
+## Objetivos de la sesión
+
+Al terminar, el alumnado debe poder: explicar qué es el vector tensión y por qué depende del plano; escribir el
+tensor y justificar su simetría; aplicar la fórmula de Cauchy a un plano; y enunciar las condiciones de equilibrio
+interno y de contorno.
+
+## Antes de clase
+
+- El alumnado trae **abierta** esta página y tiene el [simulador](14-simulador.qmd) accesible.
+- Conocimientos previos: producto matriz–vector y vectores unitarios.
+
+## Guion
+
+| Minutos | Qué ocurre | Material | Interacción |
+|---|---|---|---|
+| 0–8 | **Motivación y predicción.** Una barra a tracción se corta con planos inclinados: ¿dónde es mayor la tensión tangencial? | [Apartado 1](01-tension-punto.qmd), pregunta `e01-q04` | Votación y justificación por parejas |
+| 8–22 | **Concepto de tensión.** Método de las secciones, vector tensión, normal y tangencial. | [Apartado 1](01-tension-punto.qmd) | El profesor explica con la figura; preguntas cortas |
+| 22–27 | **Pausa activa: ¿depende del plano?** Cada pareja calcula $\sigma_n$ y $\tau$ de la barra a $0^\circ$, $30^\circ$, $45^\circ$. | `e01-q03`, ejemplo del apartado 1 | Trabajo en parejas, 5 min |
+| 27–45 | **El tensor y el tetraedro de Cauchy.** 9 componentes, convenio de índices y fórmula $\vec t=\boldsymbol\sigma\vec n$. | [Apartados 2 y 3](02-tensor.qmd) | El profesor deduce; el alumnado resuelve `e01-q05` |
+| 45–50 | **Para clase: la simetría.** ¿Por qué $\sigma_{xy}=\sigma_{yx}$? | `e01-q19` (reflexión) | Se piensa 1 min y se comparte con un compañero 2 min |
+| 50–65 | **Simulador.** Se elige un caso predefinido, se cambia la normal y se observa $\vec t$, $\sigma_n$ y $\tau$. | [Simulador](14-simulador.qmd) | Se propone: «¿qué normal da $\tau=0$?» |
+| 65–82 | **Ejercicios de nivel 1–2 por parejas.** | `e01-q07`, `e01-q08`, `e01-q09` | Parejas; el profesor circula |
+| 82–90 | **Síntesis y ticket de salida.** Equilibrio interno y contorno en 2 minutos; ticket final. | `e01-q01`, `e01-q05`, `e01-q20` | Individual, en el navegador (sin registro) |
+
+## Ticket de salida (3 preguntas, 5 minutos)
+
+1. ¿Qué es el vector tensión? (`e01-q01`)
+2. ¿Cuántas componentes independientes tiene el tensor? (`e01-q05`)
+3. ¿Cuánto vale $\sigma_{rr}$ en la cara interior de un depósito a presión? (`e01-q20`)
+
+Es **formativo y anónimo**: la web no recoge las respuestas.
+
+## Qué se deja para las sesiones siguientes
+
+- **Sesión 2** (propuesta): cambio de ejes, tensiones principales, invariantes y círculos de Mohr (apartados 5–7 y 9).
+- **Trabajo autónomo:** elipsoide de Lamé, esférico/desviador, estados particulares y octaédricas (8, 10–12) y los
+  [ejemplos resueltos](13-ejemplos.qmd).
+- **Itinerario B:** los recuadros violeta, para quien quiera profundizar.
+
+## Si algo no sale como esperabas
+
+- Si el tiempo apremia, el **apartado 4 (equilibrio y contorno)** puede reducirse a la idea de los dos tipos de
+  condición y dejar la deducción para casa.
+- Si el simulador falla (red, navegador), las figuras del apartado 3 y los ejemplos 2 y 5 cubren lo mismo con papel.

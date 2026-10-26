@@ -1,0 +1,161 @@
+---
+title: "E01.13 · Ejemplos resueltos"
+tema-id: e01
+---
+
+Cinco problemas con números sencillos y **verificados** con la implementación de referencia. Del 2 al 5
+comparten el mismo tensor $\boldsymbol\sigma_A$, para poder seguir un hilo. Cada uno sigue el mismo
+esquema: enunciado, datos, hipótesis, resolución, resultado con unidades, interpretación, verificación y
+errores frecuentes. Los números que aparecen proceden del cálculo de Julia (véase [Código](16-codigo.qmd)).
+
+::: {.aviso}
+Intenta cada ejemplo **antes** de abrir la resolución, que está plegada.
+:::
+
+## Ejemplo 1 · Depósito cilíndrico de pared delgada {#sec-ej1}
+
+**Enunciado.** Un depósito cilíndrico cerrado, de radio medio $r$ y espesor $t$, contiene gas a presión
+$p$. Halla el estado de tensiones en un punto de la pared, sus tensiones principales y la tensión
+tangencial máxima.
+
+**Datos.** $p=$ {{< num e01 ej1.p dec=0 unidad=MPa >}}, $r=$ {{< num e01 ej1.r dec=0 unidad=mm >}},
+$t=$ {{< num e01 ej1.t dec=0 unidad=mm >}}.
+
+**Hipótesis.** Pared delgada ($t\ll r$; aquí $r/t=40$), alejado de los fondos y de discontinuidades, tensiones
+uniformes en el espesor y tensión radial despreciable frente a las otras.
+
+::: {.resolucion}
+- *Tensión circunferencial* $\sigma_\theta$: se corta el depósito por un plano diametral. En una longitud $L$,
+  la presión empuja con $p\cdot2rL$ y la pared resiste con $2\,\sigma_\theta\,tL$, luego $\sigma_\theta=p\,r/t$.
+- *Tensión axial* $\sigma_x$: se corta por un plano perpendicular al eje. La presión sobre el fondo da
+  $p\,\pi r^2$ y la pared resiste con $\sigma_x\,2\pi rt$, luego $\sigma_x=p\,r/(2t)$.
+- En los ejes (axial, circunferencial, radial) el tensor es diagonal: $\mathrm{diag}(\sigma_x,\sigma_\theta,\sigma_r\approx0)$.
+:::
+
+**Resultado.** $\sigma_\theta=$ {{< num e01 ej1.sigma_theta dec=0 unidad=MPa >}} y
+$\sigma_x=$ {{< num e01 ej1.sigma_x dec=0 unidad=MPa >}}. Las tensiones principales, ordenadas, son
+$\sigma_1=$ {{< num e01 ej1.principales.1 dec=0 unidad=MPa >}}, $\sigma_2=$ {{< num e01 ej1.principales.2 dec=0 unidad=MPa >}}
+y $\sigma_3=$ {{< num e01 ej1.principales.3 dec=0 unidad=MPa >}}, y $\tau_{\max}=(\sigma_1-\sigma_3)/2=$ {{< num e01 ej1.tau_max dec=0 unidad=MPa >}}.
+
+**Interpretación.** La pared se «estira» al doble en la dirección circunferencial que en la axial: por eso
+un depósito reventado se abre **longitudinalmente**, siguiendo la dirección axial. No hay tangenciales sobre
+los planos de los ejes porque son planos principales.
+
+**Verificación.** Los radios de los círculos de Mohr son {{< num e01 ej1.circulos.r13 dec=0 >}}, {{< num e01 ej1.circulos.r12 dec=0 >}} y
+{{< num e01 ej1.circulos.r23 dec=0 >}} MPa. Si se **incluye** la tensión radial de la cara interior ($\sigma_r=-p$), la
+tensión tangencial máxima pasa a ser $\tau_{\max}=$ {{< num e01 ej1.tau_max_con_radial dec=0 unidad=MPa >}}: solo un
+{{< num e01 ej1.cociente_p_sigma_theta dec=3 >}} de diferencia relativa en $p/\sigma_\theta$, y la hipótesis es razonable.
+
+**Errores frecuentes.** Intercambiar $\sigma_\theta$ y $\sigma_x$; usar $p\,r/t$ para la tensión axial; olvidar
+que la fórmula solo es válida en pared delgada.
+
+## Ejemplo 2 · Lectura física de un tensor {#sec-ej2}
+
+**Enunciado.** En un punto, $\boldsymbol\sigma_A=\begin{pmatrix}24&48&0\\48&-4&0\\0&0&20\end{pmatrix}$ MPa.
+Interpreta cada fila: ¿qué vector tensión actúa sobre cada plano coordenado y de qué tipo es?
+
+**Datos e hipótesis.** El tensor dado, en ejes $x,y,z$; sin pares distribuidos (el tensor es simétrico).
+
+::: {.resolucion}
+Cada fila es el vector tensión sobre el plano de normal $\vec e_i$ (fórmula de Cauchy con
+$\vec n=\vec e_i$):
+
+| Plano | $\vec t$ (MPa) | $\sigma_n$ | $\tau$ (MPa) |
+|---|---|---|---|
+| $x$ | ({{< num e01 ej2.t_x.1 dec=0 >}}, {{< num e01 ej2.t_x.2 dec=0 >}}, {{< num e01 ej2.t_x.3 dec=0 >}}) | tracción | {{< num e01 ej2.tau_cara_x dec=0 >}} |
+| $y$ | ({{< num e01 ej2.t_y.1 dec=0 >}}, {{< num e01 ej2.t_y.2 dec=0 >}}, {{< num e01 ej2.t_y.3 dec=0 >}}) | **compresión** | {{< num e01 ej2.tau_cara_y dec=0 >}} |
+| $z$ | ({{< num e01 ej2.t_z.1 dec=0 >}}, {{< num e01 ej2.t_z.2 dec=0 >}}, {{< num e01 ej2.t_z.3 dec=0 >}}) | tracción | {{< num e01 ej2.tau_cara_z dec=0 >}} |
+:::
+
+**Interpretación.** Los planos $x$ e $y$ soportan un cortante fuerte (48 MPa), igual en ambos por la simetría.
+El plano $z$ soporta solo tracción: no tiene tangenciales, es un **plano principal** (se confirma en el
+ejemplo 3).
+
+**Verificación.** La suma de cuadrados de la fila $x$ es $\lvert\vec t\rvert^2=\sigma_n^2+\tau^2$ con
+$\sigma_n=24$ y $\tau=48$: $24^2+48^2=2880$ ✔.
+
+**Errores frecuentes.** Leer columnas en lugar de filas (con simetría no importa, pero conviene el hábito);
+olvidar que el signo $-4$ indica **compresión** sobre el plano $y$.
+
+## Ejemplo 3 · Tensiones principales {#sec-ej3}
+
+**Enunciado.** Halla las tensiones y las direcciones principales de $\boldsymbol\sigma_A$ y comprueba con los invariantes.
+
+**Hipótesis.** Tensor simétrico real: los autovalores son reales y las direcciones, perpendiculares.
+
+::: {.resolucion}
+Por el bloque en $xy$ y la tercera fila independiente, $\sigma_z=20$ MPa ya es principal
+($\vec v=\vec e_z$). Para el bloque $\begin{pmatrix}24&48\\48&-4\end{pmatrix}$: traza $20$ y determinante
+$-2400$, luego $\lambda^2-20\lambda-2400=0\Rightarrow\lambda=10\pm50$. Las tres tensiones principales, ordenadas:
+
+$\sigma_1=$ {{< num e01 ej3.sigma1 dec=0 unidad=MPa >}}, $\sigma_2=$ {{< num e01 ej3.sigma2 dec=0 unidad=MPa >}}, $\sigma_3=$ {{< num e01 ej3.sigma3 dec=0 unidad=MPa >}}.
+
+Direcciones: $\vec v_1=(4,3,0)/5$, $\vec v_2=(0,0,1)$ y $\vec v_3=\vec v_1\times\vec v_2=(3,-4,0)/5$. La terna es dextrógira.
+:::
+
+**Resultado.** $\tau_{\max}=$ {{< num e01 ej3.tau_max dec=0 unidad=MPa >}}; el plano de $\sigma_1$ forma
+$\arctan(3/4)\approx36{,}9^\circ$ con el eje $x$.
+
+**Interpretación.** El material en este punto se «estira» sobre todo en la dirección $(4,3,0)$ y se
+comprime en la perpendicular dentro del plano $xy$; en $z$ se estira moderadamente.
+
+**Verificación.** $I_1=$ {{< num e01 ej3.I1 dec=0 >}}, $I_2=$ {{< num e01 ej3.I2 dec=0 >}}, $I_3=$ {{< num e01 ej3.I3 dec=0 >}} coinciden con los de las
+componentes ($24-4+20$; $-2400-80+480$; $20\cdot(-2400)$).
+
+**Errores frecuentes.** Olvidar ordenar $\sigma_1\ge\sigma_2\ge\sigma_3$ (aquí $\sigma_2=20>\sigma_3=-40$);
+dar una dirección sin normalizar; dar $\vec v_3$ con orientación que rompa la terna dextrógira (sirve su opuesta
+como dirección, pero hay que decirlo).
+
+## Ejemplo 4 · Cambio de base {#sec-ej4}
+
+**Enunciado.** Con $\cos\theta=3/5$ y $\sin\theta=4/5$, escribe $\boldsymbol\sigma_A$ en los ejes girados $\theta$
+alrededor de $z$ y comprueba los invariantes. Después, halla el giro que diagonaliza el tensor.
+
+**Datos.** $Q=\begin{pmatrix}3/5&4/5&0\\-4/5&3/5&0\\0&0&1\end{pmatrix}$ (filas = ejes nuevos).
+
+::: {.resolucion}
+$\boldsymbol\sigma'=Q\boldsymbol\sigma_AQ^{\mathsf T}$. Las componentes del bloque $xy$ son
+
+$\sigma'_{xx}=$ {{< num e01 ej4.sigma_prima.1.1 dec=2 unidad=MPa >}} $\ (=1304/25)$,
+$\sigma'_{yy}=$ {{< num e01 ej4.sigma_prima.2.2 dec=2 unidad=MPa >}} $\ (=-804/25)$ y
+$\sigma'_{xy}=$ {{< num e01 ej4.sigma_prima.1.2 dec=2 unidad=MPa >}} $\ (=-672/25)$; $\sigma'_{zz}=20$ MPa.
+:::
+
+**Verificación.** $I_1'=$ {{< num e01 ej4.invariantes_prima.1 dec=1 >}}, $I_2'=$ {{< num e01 ej4.invariantes_prima.2 dec=1 >}},
+$I_3'=$ {{< num e01 ej4.invariantes_prima.3 dec=1 >}}: **los mismos** que en el ejemplo 3.
+
+**Giro que diagonaliza.** Con $\cos\theta=4/5$ y $\sin\theta=3/5$ (es decir, ejes a lo largo de
+$\vec v_1$ y de la perpendicular), el tensor queda diagonal:
+$\mathrm{diag}$ ({{< num e01 ej4.sigma_diagonal.1.1 dec=0 >}}, {{< num e01 ej4.sigma_diagonal.2.2 dec=0 >}}, {{< num e01 ej4.sigma_diagonal.3.3 dec=0 >}}) MPa.
+
+**Interpretación.** Las componentes cambian con los ejes y el estado no. El giro que anula las tangenciales es
+el que alinea los ejes con las direcciones principales.
+
+**Errores frecuentes.** $Q\boldsymbol\sigma$ en lugar de $Q\boldsymbol\sigma Q^{\mathsf T}$; usar $Q^{\mathsf T}$ por $Q$
+(giro en sentido contrario); no comprobar los invariantes.
+
+## Ejemplo 5 · Plano oblicuo {#sec-ej5}
+
+**Enunciado.** Sobre el plano de normal $\vec n=(1,2,2)/3$ de $\boldsymbol\sigma_A$, calcula el vector
+tensión, $\sigma_n$ y $\tau$, y comprueba que el resultado es físicamente posible.
+
+**Hipótesis.** Normal unitaria ($1^2+2^2+2^2=9$, $\lvert\vec n\rvert=1$ ✔).
+
+::: {.resolucion}
+$\vec t=\boldsymbol\sigma_A\vec n=\tfrac13\bigl(24+96,\ 48-8,\ 40\bigr)=(40,\ 40/3,\ 40/3)$ MPa;
+$\sigma_n=\vec t\cdot\vec n=\tfrac{280}{9}$; $\lvert\vec t\rvert^2=\tfrac{17600}{9}$ y
+$\tau^2=\lvert\vec t\rvert^2-\sigma_n^2=\tfrac{80000}{81}$.
+:::
+
+**Resultado.** $\vec t$ = ({{< num e01 ej5.t.1 dec=1 >}}, {{< num e01 ej5.t.2 dec=2 >}}, {{< num e01 ej5.t.3 dec=2 >}}) MPa;
+$\sigma_n=$ {{< num e01 ej5.sigma_n dec=2 unidad=MPa >}} (tracción) y $\tau=$ {{< num e01 ej5.tau dec=2 unidad=MPa >}}.
+
+**Interpretación.** Aunque $\tau_{\max}=$ {{< num e01 mohr.tau_max dec=0 unidad=MPa >}} se alcanza en otros planos, en este el cortante es menor
+y la normal es de tracción.
+
+**Verificación.** $\sigma_3=-40\le\sigma_n\le\sigma_1=60$ ✔; $\sigma_n^2+\tau^2=\lvert\vec t\rvert^2$ ✔;
+$(\sigma_n,\tau)$ dentro de la región de Mohr ✔ (apartado 9). Además, con las componentes en ejes principales,
+$\sigma_n=\sum\sigma_in_i^2$ con los cosenos de $\vec n$ en esa base da el mismo valor.
+
+**Errores frecuentes.** No normalizar $\vec n$; calcular $\tau=\lvert\vec t\rvert-\sigma_n$ (mal: es
+$\sqrt{\lvert\vec t\rvert^2-\sigma_n^2}$).

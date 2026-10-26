@@ -4,7 +4,8 @@
 -- ::: {.definicion titulo="Tensión"} … :::  →  recuadro con rótulo «Definición · Tensión».
 -- Clases: definicion, teorema, ejemplo, advertencia, idea-clave, hipotesis,
 -- historia, para-clase, pausa. El color nunca es la única señal: el rótulo es
--- texto y el icono lo pone el CSS. La clase .profundiza (itinerario B) se
+-- texto y el icono lo pone el CSS. La clase .resolucion es un <details> plegado con la
+-- resolución de un ejemplo. La clase .profundiza (itinerario B) se
 -- convierte en un <details> plegable.
 -- =============================================================================
 
@@ -43,6 +44,17 @@ local function Div(el)
     local salida = pandoc.List({ abre })
     salida:extend(el.content)
     salida:insert(cierra)
+    return salida
+  end
+
+  if el.classes:includes("resolucion") then
+    local titulo = el.attributes["titulo"]
+    local resumen = "Resolución"
+    if titulo ~= nil and titulo ~= "" then resumen = resumen .. ": " .. titulo end
+    local salida = pandoc.List({ pandoc.RawBlock("html",
+      '<details class="resolucion bloque"><summary>' .. esc(resumen) .. '</summary>') })
+    salida:extend(el.content)
+    salida:insert(pandoc.RawBlock("html", "</details>"))
     return salida
   end
 

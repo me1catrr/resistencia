@@ -54,7 +54,7 @@ local function referencias(v)
   local lista = v.referencias
   if lista == nil then return nil end
   local citaciones = pandoc.List()
-  local items = (lista.t == "MetaList") and lista or { lista }
+  local items = (pandoc.utils.type(lista) == "List") and lista or { lista }
   for _, k in ipairs(items) do
     local clave = txt(k)
     -- también admite «a, b» en una sola cadena

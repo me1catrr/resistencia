@@ -1,0 +1,112 @@
+---
+title: "E01.14 · Simulador del tensor de tensiones"
+tema-id: e01
+---
+
+Un instrumento para **manipular** el estado de tensiones de un punto y ver a la vez todo lo que has
+estudiado: la matriz, el elemento, las tensiones principales, la tensión sobre un plano y los círculos de
+Mohr. Funciona en tu navegador, sin servidor y sin conexión una vez cargada la página.
+
+::: {.aviso}
+**Prototipo (v0.1).** El elemento se dibuja en una **proyección fija** y no en un 3D giratorio: así no hay
+ilusiones de perspectiva que confundan. Las limitaciones están en el [apartado 8](#sec-limitaciones).
+:::
+
+## 1 · Objetivo docente {#sec-objetivo}
+
+Que, tras usarlo, puedas: (a) leer un tensor y ver las componentes sobre las caras; (b) comprobar que girar
+los ejes cambia las componentes pero no las tensiones principales ni los invariantes; (c) elegir un plano
+y relacionar su vector tensión con $\sigma_n$ y $\tau$ y con los círculos de Mohr; y (d) detectar cuándo un
+resultado es imposible.
+
+## 2 · Fundamento físico {#sec-fundamento}
+
+Todo está en los apartados anteriores; el simulador aplica exactamente esas fórmulas:
+
+- fórmula de Cauchy $\vec t=\boldsymbol\sigma\vec n$ y $\sigma_n$, $\tau$ ([apartado 3](03-plano.qmd));
+- cambio de ejes $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$ ([apartado 5](05-cambio-ejes.qmd));
+- autovalores y autovectores ([apartado 6](06-principales.qmd)) e invariantes ([apartado 7](07-invariantes.qmd));
+- región de Mohr ([apartado 9](09-mohr.qmd)) y descomposición esférico–desviador ([apartado 10](10-esferico-desviador.qmd)).
+
+## 3 · Hipótesis del modelo {#sec-hipotesis}
+
+::: {.hipotesis titulo="Qué se supone"}
+- Un único punto del sólido (no hay variación de las tensiones con la posición).
+- Tensor **simétrico** (modelo clásico, sin pares distribuidos): por eso se piden solo 6 componentes.
+- Tracción positiva; MPa; ejes dextrógiros.
+- Los giros son de **ejes** (cambio de base), no del material.
+:::
+
+## 4 · Variables de entrada {#sec-entradas}
+
+| Entrada | Qué es | Notas |
+|---|---|---|
+| Caso predefinido | Siete estados típicos | Cambia las seis componentes |
+| $\sigma_{xx},\sigma_{yy},\sigma_{zz},\sigma_{xy},\sigma_{yz},\sigma_{zx}$ | Componentes en MPa | Admite coma decimal |
+| Normal $(n_x,n_y,n_z)$ | Plano sobre el que se calcula $\vec t$ | Se normaliza; no puede ser nula |
+| Eje de giro y ángulo | Define $Q$ (ángulo en grados) | El eje no puede ser nulo |
+| Elemento en ejes girados | Casilla | Dibuja el cubo con $\boldsymbol\sigma'$ |
+
+## 5 · Visualización {#sec-visualizacion}
+
+::: {#sim-tensor3d}
+
+{{< simulacion tensor3d >}}
+
+Simulador del tensor de tensiones 3D: matrices, elemento, tensiones principales, plano y círculos de Mohr.
+:::
+
+El elemento muestra las nueve componentes sobre las tres caras visibles (primer índice = normal de la cara);
+**azul**, tensiones normales; **cobre**, tangenciales. La longitud es proporcional al valor (la mayor componente
+usa la longitud máxima). Una flecha que apunta **hacia el interior** de la cara es de compresión.
+
+## 6 · Resultados numéricos {#sec-resultados}
+
+Se calculan y se muestran: las matrices $\boldsymbol\sigma$, $Q$ y $\boldsymbol\sigma'$; las tensiones
+principales y sus direcciones; $I_1,I_2,I_3$ en ambos ejes (con la comprobación de que se conservan);
+$\sigma_m$, $J_2$, $\tau_{\text{oct}}$ y $\tau_{\max}$; y, para el plano elegido, $\vec t$, $\sigma_n$, $\tau$
+y si el par $(\sigma_n,\tau)$ cae en la región admisible de Mohr. Una línea de texto (`aria-live`) resume lo
+esencial para quien use lector de pantalla.
+
+## 7 · Interpretación y preguntas {#sec-interpretacion}
+
+Prueba, con el caso $\boldsymbol\sigma_A$:
+
+1. Cambia la normal a $(1,0,0)$, $(0,1,0)$, $(0,0,1)$: ¿qué reconoces? (Son las filas del tensor.)
+2. Pon la normal en la dirección $\vec v_1=(4,3,0)$: ¿cuánto vale $\tau$? ¿Y $\sigma_n$? (Es un plano principal.)
+3. Gira los ejes alrededor de $z$ hasta que $\sigma'_{xy}=0$: ¿qué ángulo es? ¿Qué ves en el cubo?
+4. Elige «Hidrostático»: ¿cómo son los círculos de Mohr? Prueba cualquier normal.
+5. Elige «Cortante puro»: ¿qué ejes dan solo tensiones normales?
+6. Con cualquier tensor, mueve el deslizador de ángulo: ¿qué se mantiene fijo?
+
+## 8 · Limitaciones {#sec-limitaciones}
+
+::: {.advertencia}
+- **Proyección fija:** no es un 3D giratorio. Es una representación axonométrica del cubo con ejes
+  $x$ hacia el observador, $y$ a la derecha y $z$ hacia arriba.
+- Solo se representa el **tensor simétrico clásico**, en un punto. No hay variación espacial ni equilibrio.
+- Los giros son **cambios de ejes**; el simulador no «gira el material».
+- En los estados con **valores principales repetidos** las direcciones mostradas son una base válida entre
+  infinitas.
+- Es un modelo didáctico: no sustituye al cálculo de una pieza real.
+:::
+
+## 9 · Ejercicios relacionados {#sec-ejercicios}
+
+[Ejemplos resueltos](13-ejemplos.qmd) (compruébalos con el simulador) y las cuestiones de la
+[autoevaluación](15-autoevaluacion.qmd), en especial `e01-q07`, `e01-q10` y `e01-q21`.
+
+## 10 · Pruebas de validación {#sec-validacion}
+
+El simulador reutiliza la implementación en JavaScript, que se contrasta con la referencia de Julia
+(tensores de los ejemplos, casos predefinidos y 30 tensores aleatorios):
+
+```sh
+node --test "recursos/js/**/*.test.js"
+```
+
+Se comprueba que: los casos predefinidos coinciden con los de Julia; las tensiones principales, invariantes,
+$\sigma_n$ y $\tau$ del estado inicial reproducen los ejemplos; los invariantes se conservan con giros
+arbitrarios; la geometría de Mohr es coherente (círculos y punto dentro de la región); y los dibujos no
+contienen valores no válidos con ninguno de los casos. **No se ha probado todavía en un navegador real**
+(véase la página de [pendientes](../../proyecto/pendientes.qmd)).

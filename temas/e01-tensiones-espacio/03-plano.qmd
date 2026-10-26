@@ -1,0 +1,109 @@
+---
+title: "E01.3 · Tensión sobre un plano"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## El problema {#sec-problema}
+
+Conocemos $\boldsymbol\sigma$, es decir, el vector tensión sobre los tres planos coordenados. Queremos
+el vector tensión $\vec t$ sobre **un plano cualquiera** de normal $\vec n=(n_x,n_y,n_z)$, con
+$\lvert\vec n\rvert=1$.
+
+## El tetraedro de Cauchy {#sec-tetraedro}
+
+Se aísla un tetraedro infinitesimal con tres caras en los planos coordenados y la cuarta, $ABC$,
+perpendicular a $\vec n$ (@fig-tetraedro). Sea $\mathrm dA$ el área de $ABC$.
+
+![Tetraedro infinitesimal. Las caras coordenadas (ocultas) tienen áreas $\mathrm dA_i=n_i\,\mathrm dA$.](/recursos/fig/tetraedro-cauchy.svg){#fig-tetraedro .figura-tikz fig-alt="Un tetraedro con un vértice O en el origen y los otros tres vértices A, B y C sobre los ejes x, y y z. La cara inclinada ABC lleva dibujados el vector normal y el vector tensión."}
+
+**Áreas.** La proyección de $ABC$ sobre el plano coordenado de normal $\vec e_i$ es la cara de ese plano,
+de modo que
+$$
+\mathrm dA_i=n_i\,\mathrm dA\qquad (i=x,y,z).
+$$ {#eq-areas}
+
+**Equilibrio de fuerzas.** Sobre $ABC$ actúa $\vec t\,\mathrm dA$. Sobre la cara coordenada de normal
+**exterior** $-\vec e_i$ actúa el vector tensión del plano de normal $-\vec e_i$, que es
+$-\vec t(\vec e_i)$ (la acción sobre una cara es la opuesta a la acción sobre la cara contraria; es el
+principio de acción y reacción aplicado al corte). Con $\vec f$ la fuerza por unidad de volumen:
+
+$$
+\vec t\,\mathrm dA-\sum_{i}\vec t(\vec e_i)\,n_i\,\mathrm dA+\vec f\,\mathrm dV=0 .
+$$
+
+El volumen $\mathrm dV$ es de tercer orden en las dimensiones del tetraedro y $\mathrm dA$ de segundo:
+al reducir el tetraedro al punto, el término de volumen es despreciable frente a los de área. Queda
+
+$$
+\vec t=\sum_i n_i\,\vec t(\vec e_i),\qquad\text{es decir}\qquad t_j=\sum_i n_i\,\sigma_{ij}.
+$$
+
+## Fórmula de Cauchy {#sec-cauchy}
+
+Como $\boldsymbol\sigma$ es simétrico ($\sigma_{ij}=\sigma_{ji}$), la suma anterior es el producto de la
+matriz por el vector:
+
+::: {.teorema titulo="Fórmula de Cauchy"}
+$$
+\vec t(\vec n)=\boldsymbol\sigma\,\vec n,\qquad
+\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}=
+\begin{pmatrix}\sigma_{xx}&\sigma_{xy}&\sigma_{xz}\\\sigma_{xy}&\sigma_{yy}&\sigma_{yz}\\\sigma_{xz}&\sigma_{yz}&\sigma_{zz}\end{pmatrix}
+\begin{pmatrix}n_x\\n_y\\n_z\end{pmatrix}.
+$$ {#eq-cauchy}
+:::
+
+**Consecuencia.** Seis números bastan para conocer $\vec t$ sobre **cualquier** plano. Las componentes
+intrínsecas del [apartado 1](01-tension-punto.qmd) salen de $\vec t$:
+
+$$
+\sigma_n=\vec n\cdot\boldsymbol\sigma\,\vec n=\sum_{i,j}\sigma_{ij}\,n_i n_j,\qquad
+\tau^{2}=\lvert\vec t\rvert^{2}-\sigma_n^{2}.
+$$ {#eq-sn-tau}
+
+::: {.hipotesis titulo="Qué hemos usado"}
+Equilibrio del tetraedro (medio continuo, sin pares distribuidos) y que las fuerzas de volumen son finitas,
+de modo que su efecto es de orden superior. La fórmula vale en cualquier punto, tenga o no el cuerpo
+tensiones uniformes.
+:::
+
+## Cómo se usa {#sec-uso}
+
+1. Escribe $\boldsymbol\sigma$ en unos ejes y la normal $\vec n$ **unitaria** (normalízala si hace falta).
+2. Calcula $\vec t=\boldsymbol\sigma\vec n$.
+3. Calcula $\sigma_n=\vec t\cdot\vec n$ y $\tau=\sqrt{\lvert\vec t\rvert^2-\sigma_n^2}$.
+4. **Verifica**: $\lvert\vec t\rvert^{2}=\sigma_n^{2}+\tau^{2}$ y $\tau\ge0$ (si te sale negativo bajo la raíz, hay un error).
+
+::: {.ejemplo titulo="Comprobación con la barra a tracción"}
+Con $\boldsymbol\sigma=\mathrm{diag}(\sigma_0,0,0)$ y $\vec n=(\cos\theta,\sin\theta,0)$:
+$\vec t=(\sigma_0\cos\theta,0,0)$ y $\sigma_n=\vec t\cdot\vec n=\sigma_0\cos^2\theta$, que es el resultado
+$\sigma_0\cos^2\theta$ obtenido en el [apartado 1](01-tension-punto.qmd#sec-depende-plano) por equilibrio directo. La fórmula de Cauchy lo reproduce.
+:::
+
+::: {.ejemplo titulo="Un plano oblicuo en $\boldsymbol\sigma_A$"}
+Con el tensor $\boldsymbol\sigma_A$ del [apartado 2](02-tensor.qmd#sec-lectura) y $\vec n=(1,2,2)/3$:
+$\vec t$ = ({{< num e01 ej5.t.1 dec=1 >}}, {{< num e01 ej5.t.2 dec=2 >}}, {{< num e01 ej5.t.3 dec=2 >}}) MPa,
+$\sigma_n=$ {{< num e01 ej5.sigma_n dec=2 unidad=MPa >}} y $\tau=$ {{< num e01 ej5.tau dec=2 unidad=MPa >}}.
+El desarrollo completo está en los [ejemplos](13-ejemplos.qmd).
+:::
+
+{{< pregunta e01-q07 >}}
+
+::: {.idea-clave}
+**Fórmula de Cauchy:** $\vec t=\boldsymbol\sigma\vec n$. El tensor $\boldsymbol\sigma$ es, literalmente,
+la «máquina» que convierte la orientación de un plano en la tensión que actúa sobre él.
+:::
+
+::: {.advertencia titulo="Errores frecuentes"}
+- Usar una normal **no unitaria**: $\vec t$ sale escalado.
+- Tomar $\sigma_n=\lvert\vec t\rvert$: solo es cierto si $\tau=0$.
+- Olvidar que $\sigma_n$ **tiene signo** (tracción o compresión) y $\tau$ no.
+:::
+
+::: {.profundiza titulo="Por qué $\vec t$ es lineal en $\vec n$"}
+El tetraedro prueba que $\vec t(\vec n)=\sum n_i\,\vec t(\vec e_i)$, pero **supone** el lema de Cauchy
+$\vec t(-\vec n)=-\vec t(\vec n)$. Este se obtiene aplicando el equilibrio a una lámina de espesor tendiendo
+a cero que encierra el punto: las dos caras opuestas son de área igual y las fuerzas de volumen, de
+orden superior, no compensan una diferencia entre ellas. Con él, la dependencia de $\vec t$ respecto de
+$\vec n$ resulta lineal, y esa linealidad es precisamente lo que define al tensor.
+:::

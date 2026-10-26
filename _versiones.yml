@@ -6,8 +6,9 @@
 # La fecha de última modificación NO se escribe aquí: sale de git.
 versiones:
   e01:
-    version: "0.0.1"
-    estado: esqueleto
+    version: "0.1.0"
+    estado: borrador
+    referencias: [rodriguezavial2023, ortiz1998, solaguren2016, gasch2013resistencia, jimenez2019]
   e02:
     version: "0.0.1"
     estado: esqueleto

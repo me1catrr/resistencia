@@ -5,6 +5,5 @@ title: "Autoevaluación"
 Bancos de cuestiones por tema para practicar. Son **formativos y locales**: tus respuestas se
 quedan en tu navegador; nadie las recibe ni las califica.
 
-::: {.aviso-esqueleto}
-**Pendiente de desarrollo.** El banco de **E01** se publica con el tema.
-:::
+Disponible: la [autoevaluación de E01](../temas/e01-tensiones-espacio/15-autoevaluacion.qmd), con 27 cuestiones
+de cuatro niveles (siete de ellas «Para clase»).

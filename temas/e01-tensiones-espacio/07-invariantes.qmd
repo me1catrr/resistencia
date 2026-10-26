@@ -1,0 +1,95 @@
+---
+title: "E01.7 · Invariantes"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Lo que no cambia al girar los ejes {#sec-invariancia}
+
+Al girar los ejes cambian las seis componentes (apartado 5), pero las tensiones principales **no cambian**:
+son propiedades del estado, no de los ejes. Si lo son los autovalores, también lo son las combinaciones de
+ellos. Esas combinaciones se pueden calcular **directamente con las componentes**, sin diagonalizar.
+
+## Definición y relación con las principales {#sec-definicion}
+
+::: {.definicion titulo="Invariantes del tensor de tensiones"}
+$$
+\begin{aligned}
+I_1&=\operatorname{tr}\boldsymbol\sigma=\sigma_{xx}+\sigma_{yy}+\sigma_{zz},\\
+I_2&=\tfrac12\bigl[(\operatorname{tr}\boldsymbol\sigma)^2-\operatorname{tr}(\boldsymbol\sigma^2)\bigr]
+=\sigma_{xx}\sigma_{yy}+\sigma_{yy}\sigma_{zz}+\sigma_{zz}\sigma_{xx}-\sigma_{xy}^2-\sigma_{yz}^2-\sigma_{zx}^2,\\
+I_3&=\det\boldsymbol\sigma .
+\end{aligned}
+$$ {#eq-invariantes}
+:::
+
+Son los coeficientes de la ecuación característica del [apartado 6](06-principales.qmd#sec-autovalores), $\lambda^3-I_1\lambda^2+I_2\lambda-I_3=0$, y se relacionan con las principales:
+
+$$
+I_1=\sigma_1+\sigma_2+\sigma_3,\qquad
+I_2=\sigma_1\sigma_2+\sigma_2\sigma_3+\sigma_3\sigma_1,\qquad
+I_3=\sigma_1\sigma_2\sigma_3 .
+$$ {#eq-inv-principales}
+
+## Por qué son invariantes {#sec-por-que}
+
+Con $Q$ ortogonal, $\boldsymbol\sigma'-\lambda I=Q(\boldsymbol\sigma-\lambda I)Q^{\mathsf T}$ y, como
+$\det Q=\pm1$ y $\det Q^{\mathsf T}=\det Q$,
+
+$$
+\det(\boldsymbol\sigma'-\lambda I)=\det Q\,\det(\boldsymbol\sigma-\lambda I)\,\det Q^{\mathsf T}
+=\det(\boldsymbol\sigma-\lambda I).
+$$
+
+Los dos polinomios característicos son idénticos, así que **sus coeficientes $I_1,I_2,I_3$ coinciden**.
+Un corolario físico de $I_1$: la suma de las tensiones normales sobre **tres planos mutuamente
+perpendiculares cualesquiera** es siempre la misma.
+
+## Comprobación numérica {#sec-numerica}
+
+::: {.ejemplo titulo="Invariantes de $\boldsymbol\sigma_A$ calculados de dos formas"}
+Con las componentes de $\boldsymbol\sigma_A$ ([apartado 2](02-tensor.qmd#sec-lectura)): $I_1=24-4+20=$ {{< num e01 ej3.I1 dec=0 >}} MPa;
+$I_2=(24)(-4)-48^2+(-4)(20)+(24)(20)=$ {{< num e01 ej3.I2 dec=0 >}} MPa²; y, como el tensor está
+«en bloques», $I_3=20\cdot\bigl[24\cdot(-4)-48^2\bigr]=$ {{< num e01 ej3.I3 dec=0 >}} MPa³.
+
+Con las principales ($60$, $20$ y $-40$ MPa): $60+20-40=40$; $60\cdot20+20\cdot(-40)+(-40)\cdot60=-2000$;
+$60\cdot20\cdot(-40)=-48000$. **Coinciden**: la comprobación cruzada es una buena forma de detectar errores
+de cálculo.
+
+Y tras el giro «racional» del apartado 5, las componentes eran otras pero
+$I_1'=$ {{< num e01 ej4.invariantes_prima.1 dec=1 >}}, $I_2'=$ {{< num e01 ej4.invariantes_prima.2 dec=1 >}} e
+$I_3'=$ {{< num e01 ej4.invariantes_prima.3 dec=1 >}}: los mismos.
+:::
+
+## Para qué sirven {#sec-uso}
+
+- **Verificar cálculos.** Después de cambiar de ejes o de hallar las principales, comprueba $I_1,I_2,I_3$.
+  Si $I_1$ no se conserva, hay un error. (Es una de las situaciones de la [defensa oral](17-defensa-oral.qmd).)
+- **Obtener las principales** como raíces de una cúbica cuyos coeficientes se calculan con las componentes.
+- **Construir magnitudes físicas.** Cualquier cantidad que dependa solo del estado y no de los ejes
+  —tensión media, $J_2$, tensión octaédrica…— es función de los invariantes (apartados 10 y 12).
+
+{{< pregunta e01-q15 >}}
+
+{{< pregunta e01-q16 >}}
+
+::: {.advertencia titulo="Errores frecuentes"}
+- Pensar que **cada componente** es invariante: solo lo son las combinaciones $I_1,I_2,I_3$.
+- Calcular $I_2$ olvidando los términos tangenciales (al cuadrado y restando).
+- Confundir $I_2$ con $\operatorname{tr}(\boldsymbol\sigma^2)$: son distintos, aunque están relacionados.
+:::
+
+::: {.idea-clave}
+Los invariantes $I_1,I_2,I_3$ resumen el estado **sin depender de los ejes**: son simétricos en las
+principales y sirven para comprobar cualquier cambio de base.
+:::
+
+::: {.profundiza titulo="Cayley–Hamilton y otras familias de invariantes"}
+Todo tensor cumple su propia ecuación característica (**teorema de Cayley–Hamilton**):
+$\boldsymbol\sigma^3-I_1\boldsymbol\sigma^2+I_2\boldsymbol\sigma-I_3I=0$. Con ella, cualquier función
+polinómica de $\boldsymbol\sigma$ se reduce a una combinación de $I,\boldsymbol\sigma,\boldsymbol\sigma^2$.
+Hay otras familias de tres invariantes equivalentes, como
+$\operatorname{tr}\boldsymbol\sigma,\ \operatorname{tr}\boldsymbol\sigma^2,\ \operatorname{tr}\boldsymbol\sigma^3$;
+y las del *desviador* ($J_2$ y $J_3$, [apartado 10](10-esferico-desviador.qmd)), que son las que usan los
+criterios de agotamiento (E06).
+:::

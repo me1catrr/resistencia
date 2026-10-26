@@ -4,8 +4,91 @@ tema-id: e01
 tipo-pagina: tema
 ---
 
-::: {.aviso-esqueleto}
-**Pendiente de desarrollo.** Este tema (Elasticidad) forma parte del temario oficial de la
-guía docente, pero todavía no tiene contenido. Su estructura de apartados se fijará cuando se
-desarrolle; no se rellena con texto genérico.
+Este es el tema piloto del libro. Responde a una pregunta que condiciona todo lo que viene después:
+**¿cómo se describe lo que ocurre dentro de un sólido cuando soporta cargas?** Saber que «hay una
+fuerza de 100 kN» no basta: lo que decide si el material aguanta es cuánta fuerza actúa *por unidad de
+área* y *sobre qué plano*. El estado tensional es la respuesta completa a esa pregunta en un punto.
+
+::: {.aviso}
+Los apartados de este tema (E01.1, E01.2…) son una **propuesta docente**: la guía docente oficial fija
+solo el título «Estado de tensiones en el espacio». El tema se enmarca en las competencias C24 y HD18
+(fundamentos de la elasticidad y resistencia de materiales aplicados a sólidos reales).
 :::
+
+## Qué sabrás hacer al terminar
+
+1. Explicar qué es el vector tensión en un punto y por qué depende del plano elegido.
+2. Escribir e interpretar el tensor de tensiones y justificar que, en el modelo clásico, es simétrico.
+3. Calcular la tensión sobre un plano cualquiera con la fórmula de Cauchy y descomponerla en normal y tangencial.
+4. Plantear las ecuaciones de equilibrio interno y las condiciones de contorno.
+5. Cambiar de sistema de referencia y comprobar que el estado físico no cambia.
+6. Obtener tensiones y direcciones principales, e invariantes, y leerlos con sentido físico.
+7. Representar un estado con el elipsoide de Lamé y con los tres círculos de Mohr, y decir qué pares $(\sigma_n,\tau)$ son imposibles.
+8. Separar un estado en parte esférica y desviadora, y reconocer estados particulares y tensiones octaédricas.
+
+## Qué necesitas saber
+
+Álgebra lineal de segundo curso: producto de matrices, matrices simétricas y ortogonales, y **autovalores
+y autovectores** (la guía insiste en esto). Si lo tienes oxidado, repasa antes [Herramientas
+matemáticas](../../matematicas/index.qmd).
+
+## Mapa del tema
+
+| # | Apartado | Pregunta que responde |
+|---|---|---|
+| 1 | [La tensión en un punto](01-tension-punto.qmd) | ¿Qué es la tensión y por qué depende del plano? |
+| 2 | [El tensor de tensiones](02-tensor.qmd) | ¿Cuántos números describen el estado en un punto? |
+| 3 | [Tensión sobre un plano](03-plano.qmd) | Conocido el tensor, ¿qué tensión hay en cualquier plano? |
+| 4 | [Equilibrio y contorno](04-equilibrio-contorno.qmd) | ¿Qué condiciones cumplen las tensiones en el interior y en la superficie? |
+| 5 | [Cambio de ejes](05-cambio-ejes.qmd) | ¿Cómo cambian las componentes al girar los ejes? |
+| 6 | [Tensiones principales](06-principales.qmd) | ¿Existen planos sin tensión tangencial? |
+| 7 | [Invariantes](07-invariantes.qmd) | ¿Qué no cambia al girar los ejes? |
+| 8 | [Elipsoide de Lamé](08-lame.qmd) | ¿Cómo «se ve» el estado de tensiones? |
+| 9 | [Círculos de Mohr](09-mohr.qmd) | ¿Qué pares $(\sigma_n,\tau)$ son posibles? |
+| 10 | [Esférico y desviador](10-esferico-desviador.qmd) | ¿Qué parte del estado cambia el volumen y cuál la forma? |
+| 11 | [Estados particulares](11-estados-particulares.qmd) | Uniaxial, cortante puro, cilíndrico, esférico… |
+| 12 | [Tensiones octaédricas](12-octaedricas.qmd) | ¿Qué tensión «media» hay en los planos equiinclinados? |
+
+Y, para practicar: [Ejemplos resueltos](13-ejemplos.qmd) · [Simulador](14-simulador.qmd) ·
+[Autoevaluación](15-autoevaluacion.qmd) · [Código en Julia y Python](16-codigo.qmd) ·
+[Preparación de la defensa oral](17-defensa-oral.qmd) · [Sesión piloto de 90 minutos](18-sesion-01.qmd).
+
+## Plan de sesiones (propuesta)
+
+La guía asigna 36 h de grupo completo para los 13 temas, es decir, unas dos sesiones de 90 minutos por
+tema. Propuesta, **no aprobada**:
+
+| Sesión | Contenido | Resto |
+|---|---|---|
+| 1 | Apartados 1–4 y primer contacto con el simulador ([guion](18-sesion-01.qmd)) | |
+| 2 | Apartados 5–7 y 9 (cambio de ejes, principales, invariantes, Mohr) | |
+| Trabajo autónomo | Apartados 8 y 10–12 y [ejemplos](13-ejemplos.qmd) | Profundización (itinerario B) |
+
+## Convenciones del libro
+
+::: {.idea-clave}
+- **Signo:** tracción positiva, compresión negativa.
+- **Índices:** en $\sigma_{ij}$, el primer índice es la **normal del plano** y el segundo la **dirección** de la componente.
+- **Orden:** $\sigma_1 \ge \sigma_2 \ge \sigma_3$.
+- **Unidades:** tensiones en MPa ($=\,$N/mm²) y longitudes en mm.
+- **Cambio de base:** la matriz $Q$ tiene por **filas** los vectores de la nueva base y $\sigma' = Q\,\sigma\,Q^{\mathsf T}$.
+- **Ejes frente a elemento:** girar los ejes no es girar el elemento.
+:::
+
+## Cómo usar este tema
+
+- En clase, activa el **modo clase** (tecla `c`): letra grande, soluciones plegadas y los bloques «Para clase» destacados.
+- Cada apartado termina con cuestiones: se corrigen en tu navegador y no cuentan para la nota.
+- Los números que ves en los ejemplos proceden de un cálculo de referencia en Julia, contrastado con Python y JavaScript (véase [Código](16-codigo.qmd)).
+
+::: {.profundiza titulo="Qué incluye el itinerario B de este tema"}
+Los recuadros violeta plegables como este amplían el tema: el tensor como aplicación lineal, la ley de
+transformación en notación indicial, una idea de la demostración del teorema espectral, el extremo de
+$\sigma_n$ con multiplicadores de Lagrange y la cuádrica de Cauchy. No hacen falta para seguir el curso.
+:::
+
+## Bibliografía principal del tema
+
+Los apartados siguen el temario habitual de la materia con explicaciones, ejemplos y figuras propios.
+Para profundizar, y como referencias de contraste: @rodriguezavial2023; @ortiz1998; @solaguren2016; @gasch2013resistencia; @jimenez2019.
+Estado de verificación de cada ficha: [Bibliografía](../../recursos/bibliografia.qmd).

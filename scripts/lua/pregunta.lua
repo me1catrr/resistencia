@@ -12,7 +12,8 @@
 -- Esquema de cada pregunta en el YAML:
 --   id, tipo, nivel, clase (true), intentos, enunciado (markdown),
 --   opciones: [{texto, correcta: true, feedback}],        (opcion, grafica, prediccion, error)
---   respuesta (vf: v|f; numerico: número), tol, tolrel, unidad,
+--   respuesta (vf: v|f; numerico: número) o `fuente: "archivo ruta.json"` (toma el número del JSON
+--   de referencia, así no se teclea), tol, tolrel, unidad,
 --   pistas: [markdown, …], solucion (markdown), razonamiento (markdown, vf razonado).
 -- Se leen como metadatos de Pandoc, así que fórmulas y markdown funcionan.
 -- Este shortcode genera el MISMO div que se escribiría a mano; el resto lo hace ejercicios.lua.
@@ -63,6 +64,27 @@ local function es_verdadero(v)
   return v ~= nil and (v == true or str(v) == "true")
 end
 
+-- Valor numérico del JSON de referencia: `fuente: "e01 ej5.sigma_n"` (archivo y ruta con puntos).
+local function valor_referencia(fuente)
+  local nombre, ruta = fuente:match("^(%S+)%s+(%S+)$")
+  if nombre == nil then error("pregunta: `fuente` debe ser «archivo ruta.con.puntos»: " .. fuente) end
+  local base = (quarto and quarto.project and quarto.project.directory) or "."
+  local archivo = base .. "/pruebas/referencia/" .. nombre .. ".json"
+  local f = io.open(archivo, "r")
+  if f == nil then error("pregunta: no existe " .. archivo) end
+  local datos = pandoc.json.decode(f:read("*a"), false)
+  f:close()
+  local actual = datos
+  for clave in ruta:gmatch("[^%.]+") do
+    if type(actual) ~= "table" then error("pregunta: «" .. fuente .. "» no existe (en «" .. clave .. "»)") end
+    local k = tonumber(clave)
+    if k ~= nil and actual[k] ~= nil then actual = actual[k] else actual = actual[clave] end
+    if actual == nil then error("pregunta: «" .. fuente .. "» no existe (falta «" .. clave .. "»)") end
+  end
+  if type(actual) ~= "number" then error("pregunta: «" .. fuente .. "» no es un número") end
+  return actual
+end
+
 local function construir(q)
   local id, tipo = str(q.id), str(q.tipo)
   if id == nil or tipo == nil then error("pregunta: toda pregunta necesita id y tipo") end
@@ -71,6 +93,9 @@ local function construir(q)
     if q[k] ~= nil then attrs[k] = str(q[k]) end
   end
   attrs["tipo"] = tipo
+  if q.fuente ~= nil then
+    attrs["respuesta"] = string.format("%.15g", valor_referencia(str(q.fuente)))
+  end
   if es_verdadero(q.clase) then attrs["clase"] = "si" end
 
   local contenido = pandoc.Blocks({})

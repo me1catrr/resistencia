@@ -1,0 +1,33 @@
+---
+title: "E01.15 · Autoevaluación"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+Banco de **27 cuestiones** del tema, de cuatro niveles: **1** fundamentos, **2** aplicación,
+**3** integración y **4** desafío opcional. Las marcadas «Para clase» son las más adecuadas para discutir en
+voz alta durante la sesión. Cada una admite pistas, y la solución se desbloquea tras un primer intento.
+
+Hay de varios tipos: opción múltiple, verdadero/falso razonado, numéricas con tolerancia, encontrar el
+error en una resolución, predecir un resultado antes de verlo, reflexionar y preparar una explicación oral.
+
+::: {.aviso}
+Para practicar, no para calificar: tus respuestas se corrigen en tu navegador y no se envían a ninguna parte.
+Cada pregunta es la misma que aparece en los apartados del tema.
+:::
+
+## Nivel 1 · Fundamentos
+
+{{< pregunta todas nivel=1 >}}
+
+## Nivel 2 · Aplicación
+
+{{< pregunta todas nivel=2 >}}
+
+## Nivel 3 · Integración
+
+{{< pregunta todas nivel=3 >}}
+
+## Nivel 4 · Desafío (opcional)
+
+{{< pregunta todas nivel=4 >}}

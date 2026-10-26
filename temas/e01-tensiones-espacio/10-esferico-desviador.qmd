@@ -1,0 +1,69 @@
+---
+title: "E01.10 · Esférico y desviador"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Separar el estado en dos partes {#sec-separar}
+
+Todo estado de tensiones se puede escribir como suma de una parte **esférica** (igual en todas las
+direcciones) y otra **desviadora** (lo que queda).
+
+::: {.definicion titulo="Tensión media, esférico y desviador"}
+$$
+\sigma_m=\frac{\operatorname{tr}\boldsymbol\sigma}{3}=\frac{I_1}{3},\qquad
+\boldsymbol\sigma=\underbrace{\sigma_m\,I}_{\text{esférico}}+\underbrace{\mathbf S}_{\text{desviador}},\qquad
+\mathbf S=\boldsymbol\sigma-\sigma_m\,I .
+$$ {#eq-descomposicion}
+:::
+
+El desviador tiene **traza nula** ($\operatorname{tr}\mathbf S=I_1-3\sigma_m=0$) y tiene las **mismas
+direcciones principales** que $\boldsymbol\sigma$ (pues $\mathbf S$ y $\boldsymbol\sigma$ difieren en un
+múltiplo de $I$, que no cambia los autovectores). Sus valores principales son $s_i=\sigma_i-\sigma_m$.
+
+![El estado $\boldsymbol\sigma$ (con tensiones solo en tres caras, en ejes principales) es suma de uno esférico, de tensión igual en las tres direcciones, y de un desviador, cuya suma de tensiones normales es nula.](/recursos/fig/esferico-desviador.svg){#fig-esf-des .figura-tikz fig-alt="Tres cubos en perspectiva unidos por un signo igual y un signo más. Cada cubo lleva flechas perpendiculares en sus caras: distintas en el primero, iguales en el segundo y de resultante nula en el tercero."}
+
+## Significado físico {#sec-significado}
+
+- La parte **esférica** es una presión o tracción uniforme: tiende a cambiar el **volumen** sin cambiar la
+  forma. En un material isótropo elástico lineal esa es la única parte que produce cambio de volumen
+  (se demostrará en E04).
+- La parte **desviadora** tiende a cambiar la **forma** (distorsión) sin cambiar el volumen.
+
+Esta separación es la base de muchos criterios de agotamiento (E06), que atribuyen la plastificación de los
+metales sobre todo a la parte desviadora.
+
+## Segundo invariante del desviador {#sec-j2}
+
+$$
+J_2=\tfrac12\,\mathbf S:\mathbf S=\tfrac12\sum_{i,j}S_{ij}^2
+=\tfrac16\bigl[(\sigma_1-\sigma_2)^2+(\sigma_2-\sigma_3)^2+(\sigma_3-\sigma_1)^2\bigr]
+=\frac{I_1^2-3I_2}{3}.
+$$ {#eq-j2}
+
+Para ver la última igualdad: $\sum s_i^2=\sum\sigma_i^2-3\sigma_m^2$, y como $\sum\sigma_i^2=I_1^2-2I_2$,
+$\sum s_i^2=\tfrac23I_1^2-2I_2$, de donde $J_2=\tfrac12\sum s_i^2=(I_1^2-3I_2)/3$. Como depende solo de los
+invariantes, **$J_2$ es invariante**. Existe también $J_3=\det\mathbf S$.
+
+::: {.ejemplo titulo="Descomposición de $\boldsymbol\sigma_A$"}
+$\sigma_m=I_1/3=$ {{< num e01 esfdes.sigma_m dec=2 unidad=MPa >}}. Los valores principales del desviador son
+$s_1=$ {{< num e01 esfdes.desviador_principales.1 dec=2 >}}, $s_2=$ {{< num e01 esfdes.desviador_principales.2 dec=2 >}} y
+$s_3=$ {{< num e01 esfdes.desviador_principales.3 dec=2 >}} MPa (suman 0 ✔). El segundo invariante es
+$J_2=$ {{< num e01 esfdes.J2 dec=1 >}} MPa²; con la fórmula de los invariantes,
+$(40^2-3\cdot(-2000))/3$ da el mismo valor.
+:::
+
+{{< pregunta e01-q22 >}}
+
+{{< pregunta e01-q23 >}}
+
+::: {.advertencia titulo="Errores frecuentes"}
+- Restar $\sigma_m$ solo de las componentes **normales**: el desviador tiene las **mismas tangenciales** que $\boldsymbol\sigma$.
+- Creer que el desviador «no tiene» tensiones: tiene tangenciales y normales; solo su traza es nula.
+- Confundir la tensión media $\sigma_m$ con la tensión normal sobre un plano.
+:::
+
+::: {.idea-clave}
+$\boldsymbol\sigma=\sigma_m I+\mathbf S$: la parte esférica cambia el **volumen** y la desviadora la **forma**.
+$J_2$ mide la intensidad del desviador y es invariante.
+:::

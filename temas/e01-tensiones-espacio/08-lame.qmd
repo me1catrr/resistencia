@@ -1,0 +1,75 @@
+---
+title: "E01.8 · Elipsoide de Lamé"
+tema-id: e01
+preguntas: preguntas.yml
+---
+
+## Ver todo el estado a la vez {#sec-ver}
+
+En cada plano hay un vector tensión $\vec t$. ¿Dónde acaban las puntas de **todos** los $\vec t$ cuando el
+plano recorre todas las orientaciones? La respuesta es una superficie sencilla.
+
+## Deducción {#sec-deduccion}
+
+En la base principal, con cosenos directores $(n_1,n_2,n_3)$, $\vec t=\boldsymbol\sigma\vec n$ vale
+$$
+t_1=\sigma_1n_1,\qquad t_2=\sigma_2n_2,\qquad t_3=\sigma_3n_3 .
+$$
+Si las tres tensiones principales no son nulas, despejamos $n_i=t_i/\sigma_i$ y usamos $\sum n_i^2=1$:
+
+$$
+\left(\frac{t_1}{\sigma_1}\right)^{2}+\left(\frac{t_2}{\sigma_2}\right)^{2}+\left(\frac{t_3}{\sigma_3}\right)^{2}=1 .
+$$ {#eq-lame}
+
+Es un **elipsoide de semiejes $\lvert\sigma_1\rvert,\lvert\sigma_2\rvert,\lvert\sigma_3\rvert$**: el
+**elipsoide de Lamé** (o de tensiones). Cada plano proporciona un punto del elipsoide, y viceversa: el punto
+$(t_1,t_2,t_3)$ corresponde al plano de normal $n_i=t_i/\sigma_i$. Se conoce la superficie de esta
+construcción con el nombre de Lamé [@lame1852] (no he podido verificar en qué obra aparece).
+
+![Sección del elipsoide de Lamé por el plano $\sigma_1\sigma_2$: al recorrer las normales unitarias $\vec n$ (circunferencia), las puntas de $\vec t$ recorren una elipse de semiejes $\sigma_1$ y $\sigma_2$.](/recursos/fig/lame-elipse.svg){#fig-lame .figura-tikz fig-alt="Una circunferencia unitaria dentro de una elipse horizontal. Desde el centro salen una normal a la circunferencia y un vector tensión hasta la elipse, con sus proyecciones punteadas sobre los ejes."}
+
+## Qué se lee en él {#sec-lectura}
+
+- **Los semiejes son las tensiones principales.** El vector $\vec t$ más largo es el del plano con la
+  mayor $\lvert\sigma_i\rvert$.
+- **$\vec t$ no es paralelo a $\vec n$** salvo en los planos principales: en los tres ejes del elipsoide.
+- **Si hay valores repetidos**, el elipsoide se hace de revolución ($\sigma_2=\sigma_3$, estado cilíndrico)
+  o una **esfera** ($\sigma_1=\sigma_2=\sigma_3$): en una esfera, todo plano tiene $\vec t\parallel\vec n$.
+- **Si una tensión principal es nula** (estado plano), $t_3=0$ siempre y las puntas de $\vec t$ llenan el
+  interior de una elipse, no solo su borde (la @eq-lame deja de valer: exige las tres no nulas).
+
+::: {.ejemplo titulo="Elipsoide de $\boldsymbol\sigma_A$"}
+Semiejes: $\lvert\sigma_1\rvert=$ {{< num e01 ej3.sigma1 dec=0 unidad=MPa >}}, $\lvert\sigma_2\rvert=$ {{< num e01 ej3.sigma2 dec=0 unidad=MPa >}}
+y el módulo de $\sigma_3=$ {{< num e01 ej3.sigma3 dec=0 unidad=MPa >}} (compresión: el elipsoide
+recoge los módulos y no distingue tracción de compresión).
+:::
+
+::: {.advertencia titulo="Límite de esta representación"}
+El elipsoide da $\vec t$ pero **no separa** directamente $\sigma_n$ y $\tau$ ni dice qué pares
+$(\sigma_n,\tau)$ son posibles. Eso lo da el [diagrama de Mohr](09-mohr.qmd). Además, mezcla tracción y
+compresión en los semiejes (módulos).
+:::
+
+{{< pregunta e01-q17 >}}
+
+::: {.idea-clave}
+Las puntas de los vectores tensión de **todos** los planos de un punto forman un elipsoide cuyos semiejes
+son las tensiones principales.
+:::
+
+::: {.profundiza titulo="Cuádrica de Cauchy"}
+Otra construcción geométrica asocia al tensor la superficie $\sum\sigma_{ij}x_ix_j=\pm k^{2}$, es decir,
+en la base principal, $\sigma_1x^2+\sigma_2y^2+\sigma_3z^2=\pm k^2$ (elipsoide si las tres tensiones
+principales tienen el mismo signo; hiperboloide si no, como en $\boldsymbol\sigma_A$). Tiene dos propiedades
+que se comprueban directamente:
+
+1. Un punto $\vec r=\rho\,\vec n$ de la superficie cumple $\vec n\cdot\boldsymbol\sigma\vec n=\pm k^2/\rho^2$:
+   **la tensión normal sobre un plano es inversamente proporcional al cuadrado de la distancia a la
+   superficie** a lo largo de su normal.
+2. El gradiente de $\sum\sigma_{ij}x_ix_j$ es $2\boldsymbol\sigma\vec r=2\rho\,\vec t$: **$\vec t$ es normal a
+   la cuádrica** en el punto donde la recta de dirección $\vec n$ la corta.
+
+En la bibliografía en español estas construcciones aparecen con nombres como cuádricas *indicatriz* y
+*directriz*. No he podido contrastar qué denomina exactamente cada texto, por lo que aquí la llamo cuádrica
+de Cauchy. `[PENDIENTE: fijar la nomenclatura y la definición de «directriz» con Ortiz Berrocal y Rodríguez-Avial]`.
+:::

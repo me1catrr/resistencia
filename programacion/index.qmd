@@ -14,6 +14,5 @@ El código es el de los archivos reales del repositorio, y las dos versiones se 
 casos de solución conocida. La web **no ejecuta código al construirse**: los números que ves proceden
 de un archivo de resultados verificado.
 
-::: {.aviso-esqueleto}
-**Pendiente de desarrollo.** El código de E01 se publica con el tema.
-:::
+Disponible: el [código de E01](../temas/e01-tensiones-espacio/16-codigo.qmd), con las implementaciones en Julia y
+Python del estado de tensiones, scripts de ejemplo ejecutables y los resultados que debes obtener.

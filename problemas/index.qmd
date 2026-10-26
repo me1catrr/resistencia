@@ -9,7 +9,5 @@ Problemas resueltos y propuestos, organizados por tema y por niveles:
 3. **Integración**: combinar varios apartados del tema.
 4. **Desafío** (opcional): para ir más allá.
 
-::: {.aviso-esqueleto}
-**Pendiente de desarrollo.** Los problemas de cada tema se escriben a la vez que el tema. Los de
-**E01** irán en su página de ejemplos y en los ejercicios intercalados del texto.
-:::
+Disponible: los [cinco ejemplos resueltos de E01](../temas/e01-tensiones-espacio/13-ejemplos.qmd) y las cuestiones
+intercaladas en cada apartado del tema. Los problemas de los demás temas se escribirán a la vez que cada tema.

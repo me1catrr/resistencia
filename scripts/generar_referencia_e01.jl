@@ -71,15 +71,20 @@ function resumen(σ)
     σo, τo = octaedricas(σ)
     return obj("sigma" => σ, "principales" => p.valores, "vectores" => p.vectores,
                "invariantes" => [I1, I2, I3], "sigma_m" => σm, "desviador" => S,
-               "J2" => J2, "J3" => J3, "sigma_oct" => σo, "tau_oct" => τo,
+               "J2" => J2, "J3" => J3, "desviador_principales" => p.valores .- σm,
+               "sigma_oct" => σo, "tau_oct" => τo,
                "tau_max" => tau_max(p.valores))
 end
 
 function plano(σ, n)
     r = componentes_plano(σ, n)
     λ = principales(σ).valores
+    c = circulos_mohr(λ)
+    d(c0) = (r.σn - c0)^2 + r.τ^2          # distancia² del punto (σn, τ) al centro de cada círculo
     return obj("n" => normalizar(n), "t" => r.t, "sigma_n" => r.σn, "tau" => r.τ,
-               "tau_vec" => r.τvec, "admisible" => admisible(r.σn, r.τ, λ))
+               "tau_vec" => r.τvec, "admisible" => admisible(r.σn, r.τ, λ),
+               "dist2" => [d(c.c13), d(c.c12), d(c.c23)],
+               "radios2" => [c.r13^2, c.r12^2, c.r23^2])
 end
 
 function circulos(λ)
@@ -98,8 +103,30 @@ let p = 2.0, r = 200.0, t = 5.0
         obj("p" => p, "r" => r, "t" => t, "sigma_theta" => σθ, "sigma_x" => σx,
             "sigma" => σ, "principales" => principales(σ).valores,
             "tau_max" => tau_max(principales(σ).valores),
-            "circulos" => circulos(principales(σ).valores))
+            "circulos" => circulos(principales(σ).valores),
+            # con la tensión radial de la cara interior (σr = −p) en lugar de despreciarla
+            "sigma_r_interior" => -p,
+            "tau_max_con_radial" => tau_max([σθ, σx, -p]),
+            "cociente_p_sigma_theta" => p / σθ)
     end
+end
+
+# Barra a tracción uniaxial cortada por un plano de normal a θ del eje
+let σ0 = 100.0, θg = 30.0
+    θ = deg2rad(θg)
+    σ = Matrix(Diagonal([σ0, 0.0, 0.0]))
+    r = componentes_plano(σ, [cos(θ), sin(θ), 0])
+    r45 = componentes_plano(σ, [1, 1, 0])
+    Q = matriz_rotacion_ejes([0, 0, 1], θ)
+    global ej_barra = obj("sigma0" => σ0, "theta_grados" => θg,
+        "sigma_n" => r.σn, "tau" => r.τ, "t_modulo" => norm(r.t),
+        "sigma_n_45" => r45.σn, "tau_45" => r45.τ,
+        "Q" => Q, "sigma_prima" => rotar(σ, Q))
+end
+
+# Barra colgada de peso propio (σzz = ρ g z): acero ≈ 77 kN/m³ = 7.7e-5 N/mm³
+let ρg = 7.7e-5, L = 10_000.0
+    global ej_peso = obj("rho_g" => ρg, "L" => L, "sigma_max" => ρg * L)
 end
 
 # Ejemplo 2: lectura física del tensor σA
@@ -133,6 +160,7 @@ ej5 = plano(σA, [1, 2, 2])
 
 esfdes = resumen(σA)
 mohr = obj("circulos" => circulos(principales(σA).valores),
+           "oct_en_region" => let (so, to) = octaedricas(σA); admisible(so, to, principales(σA).valores) end,
            "tau_max" => tau_max(principales(σA).valores))
 
 # Casos predefinidos del simulador
@@ -174,6 +202,7 @@ doc = obj(
         "vectores_principales" => "v1 y v2 con primera componente no nula positiva; v3 = v1 x v2",
     ),
     "sigmaA" => σA,
+    "ej_barra" => ej_barra, "ej_peso" => ej_peso,
     "ej1" => ej1, "ej2" => ej2, "ej3" => ej3, "ej4" => ej4, "ej5" => ej5,
     "esfdes" => esfdes, "mohr" => mohr,
     "casos" => casos, "aleatorios" => aleatorios,
