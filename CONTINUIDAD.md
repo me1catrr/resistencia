@@ -20,7 +20,7 @@ Registro de estado para retomar el trabajo en otra sesión. **Actualízalo al ce
 | E3 · Navegación completa y esqueletos | Hecha (26/10/2026) | `generar_estructura.py --comprobar`; 35 páginas renderizadas |
 | E4 · Diseño visual y modo clase | Hecha salvo revisión visual (26/10/2026) | contraste y lógica del modo clase en `node --test`; **sin revisar en navegador real** |
 | E5 · Cuestionarios y simulaciones (sistemas) | Hecha salvo revisión en navegador (26/10/2026) | `node --test` 43/43 (DOM simulado); estructura HTML comprobada en `_site-pruebas` |
-| E6 · Tema E01 (piloto) | **Borrador completo** (26/10/2026): 12 apartados + ejemplos, simulador, 27 cuestiones, código, defensa oral y sesión | render sin avisos; sin revisar en navegador; **pendiente de revisión del profesor** |
+| E6 · Tema E01 (piloto) | **Borrador completo** (26/10/2026): 12 apartados + ejemplos, simulador, 27 cuestiones, código, defensa oral y sesión | render sin avisos; sin revisar en navegador; **pendiente de revisión del profesorado** |
 | E7 · Simulador E01 y código Julia/Python | Hecha salvo prueba en navegador | Julia 1884, Python 11, JS 66 comprobaciones; `--comprobar` de TikZ y estructura |
 | E8 · Sesión, laboratorio, evaluación, Moodle | Parcial: sesión de 90 min y banco de defensa oral de E01 hechos; **faltan** fichas de laboratorio, propuesta de evaluación oral, Moodle XML y `proyecto/moodle.qmd` | — |
 | E9 · Pruebas, CI y cierre | Parcial: `publish.yml` (pruebas JS/Python de herramientas + render + Pages) creado; **faltan** Julia/pytest/Playwright en CI y comprobación de enlaces | — |
@@ -58,39 +58,26 @@ Registro de estado para retomar el trabajo en otra sesión. **Actualízalo al ce
 - Bibliografía: 6 fichas verificadas («sí»), 6 «parcial» y 1 «no» (Granados Romera/Garceta, no localizada). París Carballo y Vázquez Fernández (de la guía) siguen «parcial»: falta contrastarlas con catálogo. Las fuentes históricas (Cauchy 1823/1827, Mohr 1882, Lamé 1852, Timoshenko) no se han leído; se citan con cautela.
 - Nomenclatura de las cuádricas «indicatriz/directriz» por contrastar con Ortiz Berrocal y Rodríguez-Avial (marcador en `08-lame.qmd`).
 - `Pkg.test()` no se puede ejecutar en el sandbox (pide el registro por red): las pruebas de Julia se ejecutan directamente con `julia --project=Resistencia.jl Resistencia.jl/test/runtests.jl`.
-- No se ha usado FigureLabs (cupo de 10 intactas): las 10 figuras de E01 son TikZ originales.
+- FigureLabs: 1 imagen generada y no incluida (ver `recursos/fig/REGISTRO-FIGURELABS.md`); las figuras de E01 son TikZ originales.
 
-## FASE DE MEJORA DE E01 (encargo del usuario, 26/10/2026) — LEER ANTES DE CONTINUAR
+## FASE DE MEJORA DE E01 — HECHA (26/10/2026), pendiente de tu revisión
 
-El usuario pidió **mejorar mucho E01 antes de seguir con otros temas**; E01 es la «fuente de mejora» que luego se replica.
-Estado: push de `6fb7a76` hecho por el usuario (la web ya tiene los arreglos de LaTeX). Trabajo de mejora **pendiente**:
+Hecho y verificado (render sin avisos; Julia 1896, Python 13, JS 67, herramientas 24; `--comprobar` de estructura y de las 20 figuras TikZ;
+`node scripts/revisar_navegador.mjs` sin problemas a 390, 768 y 1200 px: sin errores de consola, de Observable JS ni desbordamiento):
 
-1. **Cajas de «datos históricos» más vistosas, con las referencias al lado** (margen). Usar `citation-location: margin`
-   (hay que portar `referencias.lua` de `~/Desktop/resonancia/scripts/referencias.lua` para la lista final) y un color propio
-   (ámbar/dorado) con comprobación de contraste. Ampliar la historia SOLO con hechos verificados por búsqueda web.
-2. **Código de los casos particulares dentro del propio tema** (apartado 11), con pestañas Julia / Python. Crear
-   `Resistencia.jl/ejemplos/e01_casos.jl` y `python/ejemplos/e01_casos.py` con `# region casos` y mostrarlos con `{{< codigo >}}`.
-   Idem: pestañas de código en los apartados 3, 5, 6, 7, 9, 10 (reutilizando las regiones existentes).
-3. **Simulaciones en cada apartado donde correspondan** (no solo en `14-simulador`) y también en el catálogo `simulaciones/`.
-   El usuario dice que **las de RESONANCIA quedaban mejor**; las de aquí son JS puro + SVG (`recursos/js/sim/`). Inspeccionar
-   cómo eran las de RESONANCIA (`~/Desktop/resonancia`, buscar páginas con simulaciones; `recursos/js/componentes/` solo tiene
-   linea-temporal y permisos) y rediseñar: más visuales y más interactivas (deslizadores, vectores sobre el plano, curvas σn(θ), τ(θ)).
-4. **Figuras: las letras se ven muy pequeñas.** Pasar los TikZ a 12 pt con etiquetas `\normalsize`, y que cada SVG se muestre con
-   un ancho coherente (ancho natural × ~1,6, máx. 100 %) leyendo el `width="…pt"` del SVG desde un filtro Lua.
-5. **Cajas ROJAS «Ojo: errores frecuentes en el alumnado»** (lenguaje inclusivo: «alumnado», «estudiantado», sin masculino genérico),
-   invitando a revisar los errores típicos. Nueva clase `.errores` en `bloques.lua` + token `--r-rojo` (contraste ≥ 4,5).
-   Convertir todas las `.advertencia titulo="Errores frecuentes"`. Pasada de lenguaje inclusivo por todo E01 (profesor→profesorado, etc.).
-6. **FigureLabs:** el usuario quiere que se **intente** (no se ha usado nunca; cupo 10). Herramientas cargadas:
-   `mcp__claude_ai_FigureLabs__figurelabs_project_bootstrap` / `_illustration` / `_plot` / `_flowchart`. Ideas: motivación
-   (eje de transmisión, depósito a presión, unión soldada). Revisar técnicamente cada imagen y registrar en
-   `recursos/fig/REGISTRO-FIGURELABS.md`. No retratos de personas reales.
-7. **Más figuras con TikZ y Julia:** Julia calcula datos (usando `Resistencia.Tensiones`) → archivos `.dat` → TikZ/pgfplots dibuja.
-   Candidatas: σn(θ) y τ(θ) de la barra; nube de planos en el diagrama de Mohr; polar de σn/τ para σA; mapa de color de σn
-   sobre la esfera de normales; componentes σ' al girar los ejes (invariantes constantes); depósito, eje a torsión y unión soldada
-   (ilustración); elipsoide de Lamé en 3D. Los `.dat` deben entrar en el sello SHA-256 de `scripts/compilar_tikz.py`.
-8. **Verificación visual:** Chromium headless se colgó. Probar con más banderas (`--no-first-run --disable-extensions
-   --disable-background-networking --disable-component-update --disable-sync --use-gl=swiftshader`, perfil en `/tmp/claude/…`,
-   `dangerouslyDisableSandbox`, tiempo límite 40 s). PNG de figuras: `python3 scripts/compilar_tikz.py --vista DIR` y leer el PNG.
+1. Cajas ámbar «Datos históricos» con citas al margen y lista final de referencias (`referencias.lua`).
+2. Cajas rojas «Ojo: errores frecuentes en el alumnado» en los apartados 01–12 y en los ejemplos (lenguaje inclusivo).
+3. Código de los casos particulares dentro del tema (pestañas Julia / Python) en los apartados 03, 05, 06, 07, 09, 10 y 11.
+4. Simulaciones en Observable JS en cada apartado (01–12) y simulador completo en `14-simulador`; catálogo en `simulaciones/index.qmd`.
+   Física en módulos puros con pruebas (`recursos/js/sim/ojs-e01.js`).
+5. Figuras con letra mayor (12 pt) y ancho proporcional; 20 figuras TikZ, varias con datos calculados por Julia (`recursos/tikz/datos/*.dat`, incluidos en el sello SHA-256).
+6. FigureLabs: una prueba generada y **no usada** (ver `recursos/fig/REGISTRO-FIGURELABS.md`).
+7. Herramientas: `scripts/captura.mjs` (capturas) y `scripts/revisar_navegador.mjs` (revisión automática en navegador real; comparten `scripts/lib/navegador.mjs`).
 
-Después de E01 mejorado: replicar el patrón en E02…; luego E8 (laboratorio, evaluación oral, Moodle) y E9 (CI/Playwright/enlaces).
-Restricciones permanentes: nunca `git push` (lo hace el usuario; mis intentos son denegados); commits locales por etapa.
+Pendiente de la mejora de E01:
+- Revisión visual humana de todas las páginas (modo oscuro, modo clase) y revisión técnica del profesorado (E01 sigue en `borrador`).
+- Decidir si se revisa/descarga la imagen de FigureLabs.
+- Nomenclatura «indicatriz/directriz» de las cuádricas por contrastar.
+
+Siguiente: con tu visto bueno, replicar el patrón en E02…; luego E8 (laboratorio, evaluación oral, Moodle) y E9 (CI con Julia/pytest/Playwright y enlaces).
+Restricción permanente: `git push` solo con autorización expresa; commits locales por etapa.

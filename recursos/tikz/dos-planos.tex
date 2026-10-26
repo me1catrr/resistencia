@@ -1,21 +1,21 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
-\begin{tikzpicture}[x=1cm,y=1cm]
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
 \coordinate (P) at (0,0);
 % plano 1: horizontal (visto de canto), normal vertical
-\draw[acero,thick] (-3,0) -- (3,0);
-\node[etiq,acero,right] at (3,0) {plano 1};
-\draw[vnormal] (P) -- (0,1.6) node[above,etiq,verde]{$\vec n_1$};
-\draw[vtension,very thick] (P) -- (2.3,1.2) node[right,etiq]{$\vec t_1$};
+\draw[acero,very thick] (-3.2,0) -- (3.2,0);
+\node[etq,text=acero,anchor=west] at (3.3,0) {plano 1};
+\draw[vnormal] (P) -- (0,1.7) node[above,etq,text=verde]{$\vec n_1$};
+\draw[vtension] (P) -- (2.4,1.2) node[right,etq]{$\vec t_1$};
 % plano 2: inclinado 60°
 \begin{scope}[rotate=60]
-  \draw[cobre,thick] (-3,0) -- (3,0);
-  \node[etiq,cobre,right] at (3,0) {plano 2};
-  \draw[vnormal] (P) -- (0,1.6) node[above,etiq,verde]{$\vec n_2$};
-  \draw[vtension,very thick] (P) -- (-0.4,0.6) node[left,etiq]{$\vec t_2$};
+  \draw[cobre,very thick] (-2.5,0) -- (2.8,0);
+  \node[etq,text=cobre,anchor=south west] at (2.8,0) {plano 2};
+  \draw[vnormal] (P) -- (0,1.7) node[above left,etq,text=verde]{$\vec n_2$};
 \end{scope}
-\fill (P) circle (2pt) node[below right=2pt,etiq]{$P$};
-\node[etiq,align=center] at (0,-2.3) {Mismo punto, planos distintos:\\ $\vec t_1\neq\vec t_2$};
+\draw[vtension] (P) -- (-1.1,-0.9) node[below left,etq]{$\vec t_2$};
+\fill (P) circle (2.4pt) node[below right=3pt,etq]{$P$};
+\node[etiq,align=center] at (0,-3.2) {Mismo punto, planos distintos:\ $\vec t_1\neq\vec t_2$};
 \end{tikzpicture}
 \end{document}

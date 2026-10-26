@@ -35,9 +35,13 @@ resultados que genera Julia, que es la referencia: `node --test "recursos/js/**/
 Antes de nada, se comprueba la hipótesis del modelo: el tensor debe ser simétrico.
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="simetria" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="simetria" lang="python" >}}
 :::
 
@@ -46,9 +50,13 @@ Antes de nada, se comprueba la hipótesis del modelo: el tensor debe ser simétr
 Fórmula de Cauchy, $\vec t=\boldsymbol\sigma\vec n$, y descomposición en normal y tangencial.
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="traccion" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="traccion" lang="python" >}}
 :::
 
@@ -57,9 +65,13 @@ Fórmula de Cauchy, $\vec t=\boldsymbol\sigma\vec n$, y descomposición en norma
 Matriz $Q$ de un giro de ejes (con las filas como ejes nuevos) y $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$.
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="cambio_base" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="cambio_base" lang="python" >}}
 :::
 
@@ -68,36 +80,52 @@ Matriz $Q$ de un giro de ejes (con las filas como ejes nuevos) y $\boldsymbol\si
 Autovalores y autovectores, ordenados $\sigma_1\ge\sigma_2\ge\sigma_3$, con la convención de signo del libro.
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="principales" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="principales" lang="python" >}}
 :::
 
 ## 5 · Invariantes
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="invariantes" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="invariantes" lang="python" >}}
 :::
 
 ## 6 · Esférico, desviador y octaédricas
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="esferico_desviador" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="esferico_desviador" lang="python" >}}
 :::
 
 ## 7 · Círculos de Mohr y región admisible
 
 ::: {.panel-tabset}
+
 ### Julia
+
 {{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="mohr" lang="julia" >}}
+
 ### Python
+
 {{< codigo archivo="python/resistencia/tensiones.py" region="mohr" lang="python" >}}
 :::
 

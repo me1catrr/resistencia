@@ -1,0 +1,27 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\input{datos-e01}
+\begin{document}
+% Depósito cilíndrico de pared delgada: elemento de pared con σθ (circunferencial) y σx (axial).
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
+\def\R{1.7}\def\L{7.2}
+\filldraw[cuerpo] (0,\R) -- (\L,\R) arc[start angle=90,end angle=-90,x radius=0.55,y radius=\R] -- (0,-\R) arc[start angle=-90,end angle=-270,x radius=0.55,y radius=\R] -- cycle;
+\draw[contorno] (\L,0) ellipse (0.55 and \R);
+\draw[eje,dash pattern=on 6pt off 3pt,thin] (-0.8,0) -- (\L+1.2,0);
+% presión interior
+\foreach \x in {1.4,2.0,4.9,5.5,6.1}{
+  \draw[fuerza,thin] (\x,0.0) -- (\x,0.95);\draw[fuerza,thin] (\x,0.0) -- (\x,-0.95);
+}
+\node[etq,text=cobre] at (0.8,-0.25) {$p$};
+% elemento de pared
+\begin{scope}[xshift=3.1cm,yshift=1.15cm]
+  \filldraw[fill=acero!18,draw=acero,thick] (-0.5,-0.32) rectangle (0.5,0.32);
+  \draw[vtension] (0,0.32) -- (0,1.05);
+  \draw[vtension] (0,-0.32) -- (0,-1.05);
+  \draw[vtension] (0.5,0) -- (1.15,0);
+  \draw[vtension] (-0.5,0) -- (-1.15,0);
+\end{scope}
+\node[etq,text=acero,anchor=west] at (-0.8,-2.45) {$\sigma_\theta=\pgfmathprintnumber[fixed,precision=0]{\SigmaTheta}$ MPa (circunferencial) \quad $\sigma_x=\pgfmathprintnumber[fixed,precision=0]{\SigmaX}$ MPa (axial)};
+\node[etiq,align=center] at (3.6,-3.45) {Pared delgada: $\sigma_\theta=\dfrac{p\,r}{t}$ \quad y \quad $\sigma_x=\dfrac{p\,r}{2t}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\input{datos-e01}
+\begin{document}
+% Mil planos al azar de σA (datos de Julia) llenan la región entre los tres círculos de Mohr.
+\pgfmathsetmacro{\cA}{(\Suno+\Stres)/2}\pgfmathsetmacro{\rA}{(\Suno-\Stres)/2}
+\pgfmathsetmacro{\cB}{(\Suno+\Sdos)/2}\pgfmathsetmacro{\rB}{(\Suno-\Sdos)/2}
+\pgfmathsetmacro{\cC}{(\Sdos+\Stres)/2}\pgfmathsetmacro{\rC}{(\Sdos-\Stres)/2}
+\begin{tikzpicture}
+\begin{axis}[width=13cm,height=7.4cm,axis equal image,xlabel={$\sigma_n$ (MPa)},ylabel={$\tau$ (MPa)},
+  xmin=-50,xmax=70,ymin=0,ymax=58,xtick={-40,-20,0,20,40,60},ytick={0,25,50},grid=major,grid style={gris!40}]
+\addplot[only marks,mark=*,mark size=0.9pt,acero!80,opacity=0.35,every axis plot/.append style={}]
+  table[x=sn,y=tau] {datos/nube.dat};
+\addplot[acero,domain=0:180,samples=120,no marks]({\cA+\rA*cos(x)},{\rA*sin(x)});
+\addplot[verde,domain=0:180,samples=80,no marks]({\cB+\rB*cos(x)},{\rB*sin(x)});
+\addplot[cobre,domain=0:180,samples=80,no marks]({\cC+\rC*cos(x)},{\rC*sin(x)});
+\end{axis}
+\end{tikzpicture}
+\end{document}

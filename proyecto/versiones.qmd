@@ -10,8 +10,8 @@ referencias principales.
 | Estado | Significado |
 |---|---|
 | esqueleto | Solo existe el título oficial; sin contenido |
-| borrador | Desarrollado, **pendiente de revisión por el profesor** |
-| revisado | Revisado técnicamente por el profesor (con fecha) |
+| borrador | Desarrollado, **pendiente de revisión del profesoradoado** |
+| revisado | Revisado técnicamente por el profesorado (con fecha) |
 | publicado | Revisado y dado por definitivo para el curso |
 
 ## De dónde salen las fechas

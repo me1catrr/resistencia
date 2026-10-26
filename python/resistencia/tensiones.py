@@ -23,7 +23,7 @@ __all__ = [
     "es_simetrica", "normalizar", "traccion", "componentes_plano", "matriz_rotacion_ejes",
     "es_ortogonal", "rotar", "principales", "principales_cubica", "invariantes",
     "esferico_desviador", "octaedricas", "circulos_mohr", "tau_max", "admisible",
-    "componentes_desde_principales", "tension_desde_principales",
+    "componentes_desde_principales", "tension_desde_principales", "clasificar_estado",
 ]
 
 
@@ -192,6 +192,35 @@ def admisible(sigma_n: float, tau: float, lam, tol: float = 1e-9) -> bool:
     d23 = (sigma_n - c["c23"]) ** 2 + tau ** 2
     return bool(d13 <= c["r13"] ** 2 + tol and d12 >= c["r12"] ** 2 - tol and d23 >= c["r23"] ** 2 - tol)
 # endregion mohr
+
+
+# region clasificar
+def clasificar_estado(sigma, rtol: float = 1e-9) -> str:
+    """Reconoce el estado particular a partir de las tensiones principales.
+
+    Devuelve ``"esferico"`` (las tres iguales), ``"uniaxial"`` (dos nulas), ``"cortante_puro"``
+    (sigma2 = 0 y sigma1 = -sigma3), ``"biaxial"`` (una nula), ``"cilindrico"`` (dos iguales y no
+    nulas) o ``"triaxial"`` (el resto). La tolerancia es relativa a la mayor tensión principal en
+    valor absoluto (o a 1 si es menor).
+    """
+    lam = principales(sigma)["valores"]
+    escala = max(float(np.max(np.abs(lam))), 1.0)
+
+    def nulo(x):
+        return abs(x) <= rtol * escala
+
+    def igual(a, b):
+        return abs(a - b) <= rtol * escala
+
+    if igual(lam[0], lam[1]) and igual(lam[1], lam[2]):
+        return "esferico"
+    ceros = sum(nulo(x) for x in lam)
+    if ceros == 2:
+        return "uniaxial"
+    if ceros == 1:
+        return "cortante_puro" if (nulo(lam[1]) and igual(lam[0], -lam[2])) else "biaxial"
+    return "cilindrico" if (igual(lam[0], lam[1]) or igual(lam[1], lam[2])) else "triaxial"
+# endregion clasificar
 
 
 # region desde_principales

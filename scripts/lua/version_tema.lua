@@ -101,13 +101,9 @@ local function Pandoc(doc)
     f2 = f2 .. " · " .. rev_txt
     bloques:insert(pandoc.Para(linea1))
     bloques:insert(pandoc.Para({ pandoc.Str(f2) }))
-    local refs = referencias(v)
-    if refs ~= nil then
-      bloques:insert(pandoc.Para({ pandoc.Str("Referencias principales: "), refs }))
-    end
     if estado == "borrador" then
       bloques:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str(
-        "Borrador pendiente de revisión por el profesor. Parte del contenido se ha elaborado con ayuda de herramientas de IA y no debe darse por revisado.") }) }))
+        "Borrador pendiente de revisión del profesoradoado. Parte del contenido se ha elaborado con ayuda de herramientas de IA y no debe darse por revisado.") }) }))
     elseif estado == "esqueleto" then
       bloques:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str("Pendiente de desarrollo.") }) }))
     end

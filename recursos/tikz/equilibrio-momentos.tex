@@ -1,23 +1,23 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
-\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.2pt}]
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
 \filldraw[cuerpo] (-1.8,-1.8) rectangle (1.8,1.8);
-\fill (0,0) circle (1.5pt);
+\fill (0,0) circle (1.6pt);
 % caras x: sigma_xy (en y)
-\draw[fuerza] (1.8,-0.8) -- (1.8,0.8) node[midway,right,etq,xshift=3pt]{$\sigma_{xy}$};
-\draw[fuerza] (-1.8,0.8) -- (-1.8,-0.8) node[midway,left,etq,xshift=-3pt]{$\sigma_{xy}$};
+\draw[fuerza] (1.8,-0.9) -- (1.8,0.9) node[midway,right,etq,xshift=4pt]{$\sigma_{xy}$};
+\draw[fuerza] (-1.8,0.9) -- (-1.8,-0.9) node[midway,left,etq,xshift=-4pt]{$\sigma_{xy}$};
 % caras y: sigma_yx (en x)
-\draw[vtension] (-0.8,1.8) -- (0.8,1.8) node[midway,above,etq,yshift=3pt]{$\sigma_{yx}$};
-\draw[vtension] (0.8,-1.8) -- (-0.8,-1.8) node[midway,below,etq,yshift=-3pt]{$\sigma_{yx}$};
+\draw[vtension] (-0.9,1.8) -- (0.9,1.8) node[midway,above,etq,yshift=4pt]{$\sigma_{yx}$};
+\draw[vtension] (0.9,-1.8) -- (-0.9,-1.8) node[midway,below,etq,yshift=-4pt]{$\sigma_{yx}$};
 % cotas
-\draw[cota,<->] (-1.8,-2.75) -- (1.8,-2.75) node[midway,below,etq]{$\mathrm{d}x$};
-\draw[cota,<->] (-3.0,-1.8) -- (-3.0,1.8) node[midway,left,etq]{$\mathrm{d}y$};
+\draw[cota,<->] (-1.8,-3.1) -- (1.8,-3.1) node[midway,below,etq]{$\mathrm{d}x$};
+\draw[cota,<->] (-3.3,-1.8) -- (-3.3,1.8) node[midway,left,etq]{$\mathrm{d}y$};
 % sentidos de los momentos
-\node[etiq,cobre,align=center] at (4.6,0.9) {las dos parejas de $\sigma_{xy}$\\ giran en sentido antihorario};
-\node[etiq,acero,align=center] at (4.6,-0.9) {las dos parejas de $\sigma_{yx}$\\ giran en sentido horario};
+\node[etiq,text=cobre,align=left,anchor=west,text width=5.2cm] at (3.6,0.95) {Las dos parejas de $\sigma_{xy}$ dan un momento \mbox{\textbf{antihorario}}.};
+\node[etiq,text=acero,align=left,anchor=west,text width=5.2cm] at (3.6,-0.95) {Las dos parejas de $\sigma_{yx}$ dan un momento \mbox{\textbf{horario}}.};
 % ejes
-\draw[eje] (-4.3,-2.5) -- ++(0.9,0) node[right,etq]{$x$};
-\draw[eje] (-4.3,-2.5) -- ++(0,0.9) node[above,etq]{$y$};
+\draw[eje] (-5.2,-2.4) -- ++(1.0,0) node[right,etq]{$x$};
+\draw[eje] (-5.2,-2.4) -- ++(0,1.0) node[above,etq]{$y$};
 \end{tikzpicture}
 \end{document}

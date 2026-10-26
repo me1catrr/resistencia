@@ -1,8 +1,17 @@
 % Estilo común de las figuras TikZ de RESISTENCIA.
 % Colores = tokens del tema claro (recursos/css/claro.scss).
 \ProvidesPackage{resistencia}[2026/10/26 Estilo de figuras de RESISTENCIA]
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
 \RequirePackage{tikz}
 \RequirePackage{amsmath,amssymb}
+\RequirePackage{pgfplots}
+\RequirePackage{pgfplotstable}
+\pgfplotsset{compat=1.18,
+  every axis/.append style={font=\large, tick label style={font=\normalsize}, label style={font=\large},
+    legend style={font=\large, draw=gris}, /pgf/number format/use comma, /pgf/number format/1000 sep={}},
+  every axis plot/.append style={very thick}}
 \usetikzlibrary{arrows.meta,calc,angles,quotes,positioning,decorations.markings,patterns}
 
 \definecolor{acero}{HTML}{24527A}
@@ -16,16 +25,16 @@
 \tikzset{
   >=Stealth,
   every node/.style={text=tinta},
-  fuerza/.style={-{Stealth[length=2.6mm]}, very thick, cobre},
-  vtension/.style={-{Stealth[length=2.4mm]}, thick, acero},
-  vnormal/.style={-{Stealth[length=2.4mm]}, thick, verde},
-  eje/.style={-{Stealth[length=2.4mm]}, thick, tinta},
+  fuerza/.style={-{Stealth[length=3.2mm,width=2.6mm]}, very thick, cobre},
+  vtension/.style={-{Stealth[length=3.2mm,width=2.6mm]}, very thick, acero},
+  vnormal/.style={-{Stealth[length=3.2mm,width=2.6mm]}, very thick, verde},
+  eje/.style={-{Stealth[length=3mm,width=2.4mm]}, thick, tinta},
   contorno/.style={thick, tinta},
   cuerpo/.style={thick, tinta, fill=superficie},
   corte/.style={dashed, thick, violeta},
   plano/.style={fill=acero!12, draw=acero, thick},
   cota/.style={thin, tinta},
-  etiq/.style={font=\small},
+  etiq/.style={font=\large},
 }
 
 % Flecha de tensión normal sobre una cara (tracción hacia fuera)

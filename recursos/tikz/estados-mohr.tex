@@ -1,0 +1,35 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% Círculos de Mohr de los estados particulares (principales calculadas por Julia en casos.dat).
+\pgfplotstableread{datos/casos.dat}\casos
+\def\nombreuniaxial{Uniaxial}\def\nombrebiaxial{Biaxial}\def\nombrecortante{Cortante puro}
+\def\nombrecilindrico{Cilíndrico}\def\nombrehidrostatico{Hidrostático}
+\begin{tikzpicture}[x=1cm,y=1cm,k/.store in=\k,k=0.022]
+\foreach \i/\px/\py in {0/0/0, 1/6.4/0, 2/12.8/0, 3/3.2/-4.6, 4/9.6/-4.6}{
+  \pgfplotstablegetelem{\i}{s1}\of\casos \edef\sa{\pgfplotsretval}
+  \pgfplotstablegetelem{\i}{s2}\of\casos \edef\sb{\pgfplotsretval}
+  \pgfplotstablegetelem{\i}{s3}\of\casos \edef\sc{\pgfplotsretval}
+  \pgfplotstablegetelem{\i}{nombre}\of\casos \edef\clave{\pgfplotsretval}
+  \begin{scope}[shift={(\px,\py)}]
+    \pgfmathsetmacro{\xa}{\sa*\k}\pgfmathsetmacro{\xb}{\sb*\k}\pgfmathsetmacro{\xc}{\sc*\k}
+    \pgfmathsetmacro{\ca}{(\xa+\xc)/2}\pgfmathsetmacro{\ra}{(\xa-\xc)/2}
+    \pgfmathsetmacro{\cb}{(\xa+\xb)/2}\pgfmathsetmacro{\rb}{(\xa-\xb)/2}
+    \pgfmathsetmacro{\cc}{(\xb+\xc)/2}\pgfmathsetmacro{\rc}{(\xb-\xc)/2}
+    \draw[eje] (-1.6,0) -- (2.7,0) node[right,etiq]{$\sigma$};
+    \draw[eje] (0,-0.1) -- (0,2.6) node[above,etiq]{$\tau$};
+    \ifdim \ra pt>0.01pt
+      \draw[acero,very thick] (\ca+\ra,0) arc[start angle=0,end angle=180,radius=\ra];
+    \fi
+    \ifdim \rb pt>0.01pt
+      \draw[verde,very thick] (\ca+\ra,0) arc[start angle=0,end angle=180,radius=\rb];
+    \fi
+    \ifdim \rc pt>0.01pt
+      \draw[cobre,very thick] (\xb,0) arc[start angle=0,end angle=180,radius=\rc];
+    \fi
+    \foreach \x in {\xa,\xb,\xc}{\fill (\x,0) circle (2.4pt);}
+    \node[etiq,below] at (0,-0.55) {\csname nombre\clave\endcsname};
+  \end{scope}
+}
+\end{tikzpicture}
+\end{document}

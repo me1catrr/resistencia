@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -31,7 +32,14 @@ FIG = "recursos/fig"
 ESTILO = "resistencia.sty"
 JSON_DATOS = "pruebas/referencia/e01.json"
 USA_DATOS = "datos-e01"
+DATOS = "recursos/tikz/datos"   # tablas que genera Julia (scripts/generar_figuras_*.jl)
 VERSION_SCRIPT = "1"  # súbela si cambia la forma de compilar
+
+
+def datos_de(tex: Path, raiz: Path) -> list[Path]:
+    """Tablas de datos (datos/NOMBRE.dat) que cita la figura, en orden alfabético."""
+    nombres = sorted(set(re.findall(r"datos/([\w.\-]+\.(?:dat|txt))", tex.read_text(encoding="utf-8"))))
+    return [raiz / DATOS / n for n in nombres]
 
 
 def entradas(tex: Path, raiz: Path) -> list[Path]:
@@ -39,6 +47,7 @@ def entradas(tex: Path, raiz: Path) -> list[Path]:
     lista = [tex, raiz / TIKZ / ESTILO]
     if USA_DATOS in tex.read_text(encoding="utf-8"):
         lista.append(raiz / JSON_DATOS)
+    lista.extend(datos_de(tex, raiz))
     return lista
 
 
@@ -96,6 +105,9 @@ def macros_datos(raiz: Path) -> str:
         f"\\newcommand{{\\Stres}}{{{f(p['sigma3'])}}}",
         f"\\newcommand{{\\SigmaPlano}}{{{f(pl['sigma_n'])}}}",
         f"\\newcommand{{\\TauPlano}}{{{f(pl['tau'])}}}",
+        f"\\newcommand{{\\SigmaTheta}}{{{f(d['ej1']['sigma_theta'])}}}",
+        f"\\newcommand{{\\SigmaX}}{{{f(d['ej1']['sigma_x'])}}}",
+        f"\\newcommand{{\\PresionP}}{{{f(d['ej1']['p'])}}}",
     ]
     return "\n".join(lineas) + "\n"
 
@@ -106,6 +118,12 @@ def compilar(tex: Path, raiz: Path, vista: Path | None = None) -> None:
         tmp = Path(t)
         shutil.copy(tex, tmp / tex.name)
         shutil.copy(raiz / TIKZ / ESTILO, tmp / ESTILO)
+        for d in datos_de(tex, raiz):
+            if not d.exists():
+                raise SystemExit(f"ERROR: {tex.name} necesita {d.relative_to(raiz)}; genera los datos con "
+                                 "julia --project=Resistencia.jl scripts/generar_figuras_e01.jl")
+            (tmp / "datos").mkdir(exist_ok=True)
+            shutil.copy(d, tmp / "datos" / d.name)
         (tmp / f"{USA_DATOS}.tex").write_text(macros_datos(raiz), encoding="utf-8")
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", tex.name],
                            cwd=tmp, capture_output=True, text=True)

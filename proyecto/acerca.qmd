@@ -15,7 +15,7 @@ Coordinador: Rafael Castro Triguero.
 - **No es una plataforma de evaluación.** Los cuestionarios son formativos y funcionan en tu
   navegador: no se envía, guarda ni califica nada en ningún servidor.
 - **No está todo revisado.** Parte del material se ha elaborado con ayuda de herramientas de IA y
-  figura como *borrador* hasta que el profesor lo revise (véase [Versiones](versiones.qmd)).
+  figura como *borrador* hasta que el profesorado lo revise (véase [Versiones](versiones.qmd)).
 
 ## Cómo se ha hecho
 

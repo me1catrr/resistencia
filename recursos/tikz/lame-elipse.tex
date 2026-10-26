@@ -1,23 +1,22 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
 % Sección del elipsoide de Lamé por un plano principal (σ1 y σ2): ejes principales como ejes.
-\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.2pt}]
-\def\sa{3.4}\def\sb{1.8}
-% circunferencia de normales unitarias y elipse de vectores tensión
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
+\def\sa{3.6}\def\sb{1.9}
 \draw[gris,thick] (0,0) circle (1);
 \draw[acero,very thick] (0,0) ellipse ({\sa} and {\sb});
-\draw[eje] (-4.1,0) -- (4.3,0) node[right,etq]{$\sigma_1$};
-\draw[eje] (0,-2.4) -- (0,2.6) node[above,etq]{$\sigma_2$};
-% una normal n y su vector tensión t = (σ1 n1, σ2 n2)
+\draw[eje] (-4.4,0) -- (4.7,0) node[right,etq]{$\sigma_1$};
+\draw[eje] (0,-2.5) -- (0,2.9) node[above,etq]{$\sigma_2$};
 \pgfmathsetmacro{\ang}{40}
 \pgfmathsetmacro{\nx}{cos(\ang)}\pgfmathsetmacro{\ny}{sin(\ang)}
 \pgfmathsetmacro{\tx}{\sa*\nx}\pgfmathsetmacro{\ty}{\sb*\ny}
-\draw[vnormal] (0,0) -- (\nx,\ny) node[above left,etq,text=verde]{$\vec n$};
-\draw[vtension,very thick] (0,0) -- (\tx,\ty) node[above right,etq]{$\vec t$};
+\draw[vnormal] (0,0) -- (\nx,\ny);
+\node[etq,text=verde] at (-0.28,0.95) {$\vec n$};
+\draw[vtension] (0,0) -- (\tx,\ty) node[above right,etq]{$\vec t$};
 \draw[dashed,tinta!60] (\tx,0) -- (\tx,\ty) -- (0,\ty);
-\node[etq,text=acero] at (-2.2,2.25) {lugar de las puntas de $\vec t$};
-\node[etq,text=tinta!70] at (-0.95,-0.55) {normales $\vec n$};
-\fill (0,0) circle (1.4pt);
+\node[etq,text=acero,anchor=west] at (0.4,-2.85) {lugar de las puntas de $\vec t$};
+\node[etq,text=tinta!70] at (0.9,-0.62) {normales};
+\fill (0,0) circle (1.6pt);
 \end{tikzpicture}
 \end{document}

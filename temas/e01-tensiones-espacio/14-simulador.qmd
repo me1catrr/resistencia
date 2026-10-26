@@ -8,7 +8,7 @@ estudiado: la matriz, el elemento, las tensiones principales, la tensión sobre 
 Mohr. Funciona en tu navegador, sin servidor y sin conexión una vez cargada la página.
 
 ::: {.aviso}
-**Prototipo (v0.1).** El elemento se dibuja en una **proyección fija** y no en un 3D giratorio: así no hay
+**Prototipo (v0.2).** El elemento se dibuja en una **proyección fija** y no en un 3D giratorio: así no hay
 ilusiones de perspectiva que confundan. Las limitaciones están en el [apartado 8](#sec-limitaciones).
 :::
 
@@ -41,24 +41,132 @@ Todo está en los apartados anteriores; el simulador aplica exactamente esas fó
 
 | Entrada | Qué es | Notas |
 |---|---|---|
-| Caso predefinido | Siete estados típicos | Cambia las seis componentes |
+| Caso predefinido | Siete estados típicos | Reinicia las seis componentes |
 | $\sigma_{xx},\sigma_{yy},\sigma_{zz},\sigma_{xy},\sigma_{yz},\sigma_{zx}$ | Componentes en MPa | Admite coma decimal |
-| Normal $(n_x,n_y,n_z)$ | Plano sobre el que se calcula $\vec t$ | Se normaliza; no puede ser nula |
-| Eje de giro y ángulo | Define $Q$ (ángulo en grados) | El eje no puede ser nulo |
+| Normal (acimut $\varphi$ y ángulo polar $\vartheta$) | Plano sobre el que se calcula $\vec t$ | $\varphi$ medido en $xy$ desde $x$; $\vartheta$ desde $z$ |
+| Giros $\alpha,\beta,\gamma$ | Definen $Q=Q_z(\gamma)Q_y(\beta)Q_x(\alpha)$ (grados) | Giros de ejes alrededor de los ejes originales |
 | Elemento en ejes girados | Casilla | Dibuja el cubo con $\boldsymbol\sigma'$ |
 
 ## 5 · Visualización {#sec-visualizacion}
 
-::: {#sim-tensor3d}
+::: {.sim-caja}
+<p class="sim-titulo">Simulador del tensor de tensiones 3D</p>
 
-{{< simulacion tensor3d >}}
+::: {.sim-controles}
+```{ojs}
+//| echo: false
+import {CASOS, analisis, normalDesdeAngulos, cuboPlot, proyectar, nubeMohr, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof S_caso = Inputs.select(CASOS, {label: "Caso", format: d => d.nombre, value: CASOS[CASOS.length - 1]})
+```
 
-Simulador del tensor de tensiones 3D: matrices, elemento, tensiones principales, plano y círculos de Mohr.
+```{ojs}
+//| echo: false
+viewof S_sxx = Inputs.range([-120, 120], {value: S_caso.c[0], step: 1, label: "σxx (MPa)"})
+viewof S_syy = Inputs.range([-120, 120], {value: S_caso.c[1], step: 1, label: "σyy"})
+viewof S_szz = Inputs.range([-120, 120], {value: S_caso.c[2], step: 1, label: "σzz"})
+viewof S_sxy = Inputs.range([-120, 120], {value: S_caso.c[3], step: 1, label: "σxy"})
+viewof S_syz = Inputs.range([-120, 120], {value: S_caso.c[4], step: 1, label: "σyz"})
+viewof S_szx = Inputs.range([-120, 120], {value: S_caso.c[5], step: 1, label: "σzx"})
+```
+
+```{ojs}
+//| echo: false
+viewof S_az = Inputs.range([0, 360], {value: 63, step: 1, label: "normal: acimut φ (°)"})
+viewof S_po = Inputs.range([0, 180], {value: 48, step: 1, label: "normal: polar ϑ (°)"})
+viewof S_a = Inputs.range([-180, 180], {value: 0, step: 1, label: "giro α, eje x (°)"})
+viewof S_b = Inputs.range([-180, 180], {value: 0, step: 1, label: "giro β, eje y (°)"})
+viewof S_g = Inputs.range([-180, 180], {value: 0, step: 1, label: "giro γ, eje z (°)"})
+viewof S_ver = Inputs.toggle({label: "elemento en ejes girados", value: false})
+viewof S_nube = Inputs.toggle({label: "nube de planos en Mohr", value: true})
+```
 :::
 
-El elemento muestra las nueve componentes sobre las tres caras visibles (primer índice = normal de la cara);
-**azul**, tensiones normales; **cobre**, tangenciales. La longitud es proporcional al valor (la mayor componente
-usa la longitud máxima). Una flecha que apunta **hacia el interior** de la cara es de compresión.
+```{ojs}
+//| echo: false
+S_c = [S_sxx, S_syy, S_szz, S_sxy, S_syz, S_szx]
+S_n = normalDesdeAngulos(S_az, S_po)
+S = analisis(S_c, S_n, S_a, S_b, S_g)
+S_mat = (m, dec = 1) => html`<table class="t3d-matriz"><tbody>${m.map(f => html`<tr>${f.map(v => html`<td>${fmt(v, dec)}</td>`)}</tr>`)}</tbody></table>`
+S_cubo = {
+  const sigma = S_ver ? S.sigmaRot : S.sigma;
+  const C = cuboPlot(sigma);
+  const o = proyectar(0.5, 0.5, 0.5);
+  const Mv = (v) => S_ver ? S.Q.map(f => f[0] * v[0] + f[1] * v[1] + f[2] * v[2]) : v;
+  const proy = (v) => [v[1] - 0.7 * v[0], v[2] - 0.5 * v[0]];
+  const nv = S.plano ? Mv(S.plano.n) : null, tv = S.plano ? Mv(S.plano.t) : null;
+  const k = 0.8 / Math.max(1e-9, ...S.lambda.map(Math.abs));
+  const fl = (v, color, t, esc) => {
+    const p = proy(v);
+    return [Plot.arrow([{x1: o[0], y1: o[1], x2: o[0] + p[0] * esc, y2: o[1] + p[1] * esc}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: 3, headLength: 11, bend: 0}),
+      Plot.text([{x: o[0] + p[0] * esc * 1.18, y: o[1] + p[1] * esc * 1.18, t}], {x: "x", y: "y", text: "t", fill: color, fontSize: 16, fontWeight: 700})];
+  };
+  const svg = Plot.plot({
+    width: 520, height: 420, aspectRatio: 1, margin: 12, style: {fontSize: "14px"},
+    x: {domain: [-1.25, 1.75], axis: null}, y: {domain: [-0.95, 1.55], axis: null},
+    marks: [
+      ...C.ocultas.map(seg => Plot.line(seg, {x: d => d[0], y: d => d[1], stroke: "#8a94a3", strokeDasharray: "5 4"})),
+      ...C.caras.map((c, i) => Plot.line([...c.puntos, c.puntos[0]], {x: d => d[0], y: d => d[1], stroke: "currentColor", strokeWidth: 1.6, fill: "#8a94a3", fillOpacity: [0.14, 0.28, 0.0][i]})),
+      Plot.arrow(C.flechas.filter(f => f.visible), {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: f => f.normal ? colores.acero : colores.cobre, strokeWidth: 3.5, headLength: 12, bend: 0}),
+      Plot.text(C.flechas.filter(f => f.visible), {x: "tx", y: "ty", text: "nombre", fill: f => f.normal ? colores.acero : colores.cobre, fontSize: 14, fontWeight: 600}),
+      ...(S.plano ? [...fl(nv, colores.violeta, "n", 0.55), ...fl(tv, colores.verde, "t", k * 0.9)] : []),
+      Plot.dot([o], {x: d => d[0], y: d => d[1], r: 3, fill: "currentColor"})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Elemento cúbico en proyección fija, visto en los ejes ${S_ver ? "girados" : "originales"}, con las nueve componentes y la normal y el vector tensión del plano elegido.`);
+  return svg;
+}
+S_pts = nubeMohr(S.lambda[0], S.lambda[1], S.lambda[2], 1500)
+S_mohr = {
+  const M = S.mohr, k = M.k, ymax = Math.max(k.r13 * 1.18, 8), pad = 0.12 * Math.max(k.r13 * 2, 20);
+  const etiqueta = (x, t) => Plot.text([{x, y: 0, t}], {x: "x", y: "y", text: "t", dy: 18, fill: "currentColor", fontSize: 14, fontWeight: 600});
+  const pl = S.plano;
+  const svg = Plot.plot({
+    width: 560, height: 360, marginBottom: 44, marginLeft: 50, aspectRatio: 1, style: {fontSize: "14px"},
+    x: {label: "σn (MPa)", labelAnchor: "center", domain: [M.lambda[2] - pad, M.lambda[0] + pad], grid: true},
+    y: {label: "τ (MPa)", domain: [-0.1 * ymax, ymax], grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "currentColor"}), Plot.ruleX([0], {stroke: "#8a94a3"}),
+      ...(S_nube ? [Plot.dot(S_pts, {x: "sn", y: "tau", r: 1.6, fill: colores.acero, fillOpacity: 0.35})] : []),
+      Plot.line(M.c13, {x: "sn", y: "tau", stroke: colores.acero, strokeWidth: 3}),
+      Plot.line(M.c12, {x: "sn", y: "tau", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(M.c23, {x: "sn", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.dot(M.lambda.map(v => ({x: v, y: 0})), {x: "x", y: "y", r: 4, fill: "currentColor"}),
+      etiqueta(M.lambda[0], "σ₁"), etiqueta(M.lambda[1], "σ₂"), etiqueta(M.lambda[2], "σ₃"),
+      ...(pl ? [Plot.dot([{x: pl.sigmaN, y: pl.tau}], {x: "x", y: "y", r: 8, fill: pl.admisible ? colores.violeta : "#d62728", stroke: "white", strokeWidth: 2})] : [])
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Diagrama de Mohr con los tres círculos y el punto del plano elegido.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">tensión normal</span><span style="color:${colores.cobre}">tensión tangencial</span><span style="color:${colores.violeta}">n: normal del plano</span><span style="color:${colores.verde}">t = σ n</span></div>
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:flex-start; overflow-x:auto">${S_cubo}${S_mohr}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<div style="display:flex; gap:1.6rem; flex-wrap:wrap; align-items:flex-start">
+<div><p class="t3d-sub">σ (ejes originales, MPa)</p>${S_mat(S.sigma)}<p class="t3d-sub">σ′ (ejes girados)</p>${S_mat(S.sigmaRot)}</div>
+<div><p class="t3d-sub">Tensiones principales y direcciones (x; y; z)</p><table class="t3d-tabla"><thead><tr><th></th><th>MPa</th><th>dirección</th></tr></thead><tbody>
+${[0, 1, 2].map(i => html`<tr><th scope="row">σ${["₁", "₂", "₃"][i]}</th><td>${fmt(S.lambda[i], 1)}</td><td>(${[0, 1, 2].map(r => fmt(S.vectores[r][i], 3)).join("; ")})</td></tr>`)}
+</tbody></table>
+<table class="t3d-tabla"><thead><tr><th>Invariante</th><th>ejes originales</th><th>ejes girados</th></tr></thead><tbody>
+${["I₁", "I₂", "I₃"].map((n, i) => html`<tr><th scope="row">${n}</th><td>${fmt(S.invariantes[i], 1)}</td><td>${fmt(S.invariantesRot[i], 1)}</td></tr>`)}</tbody></table></div></div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite">${S.invariantesConservados ? "✔ Los invariantes se conservan al girar los ejes." : "✘ Los invariantes NO se conservan: algo falla."} Estado reconocido: <em>${S.clase.replace("_", " ")}</em> · σm = ${fmt(S.sigmaM)} MPa · J₂ = ${fmt(S.J2)} MPa² · τoct = ${fmt(S.tauOct)} MPa · τmáx = ${fmt(S.tauMax)} MPa.
+${S.plano ? html`<br><strong>Plano de normal</strong> n = (${S.plano.n.map(v => fmt(v, 3)).join("; ")}): t = (${S.plano.t.map(v => fmt(v)).join("; ")}) MPa, |t| = ${fmt(S.plano.modulo)} MPa, σn = ${fmt(S.plano.sigmaN)} MPa (${S.plano.sigmaN >= 0 ? "tracción" : "compresión"}), τ = ${fmt(S.plano.tau)} MPa. ${S.plano.admisible ? "✔ Cae en la región de Mohr." : "✘ Fuera de la región de Mohr."}` : ""}</p>`
+```
+:::
+
+El elemento muestra las nueve componentes sobre las tres caras visibles (**azul**, normales; **cobre**,
+tangenciales; primer índice = normal de la cara); la longitud es proporcional al valor y una flecha que apunta
+**hacia el interior** es de compresión. En violeta, la normal $\vec n$ del plano elegido (siempre en los ejes
+originales; con «elemento en ejes girados» se muestra la misma normal descrita en los ejes nuevos) y, en verde,
+su vector tensión $\vec t=\boldsymbol\sigma\vec n$.
 
 ## 6 · Resultados numéricos {#sec-resultados}
 
@@ -85,7 +193,7 @@ Prueba, con el caso $\boldsymbol\sigma_A$:
 - **Proyección fija:** no es un 3D giratorio. Es una representación axonométrica del cubo con ejes
   $x$ hacia el observador, $y$ a la derecha y $z$ hacia arriba.
 - Solo se representa el **tensor simétrico clásico**, en un punto. No hay variación espacial ni equilibrio.
-- Los giros son **cambios de ejes**; el simulador no «gira el material».
+- Los giros son **cambios de ejes** (tres giros sucesivos alrededor de $x$, $y$ y $z$); el simulador no «gira el material».
 - En los estados con **valores principales repetidos** las direcciones mostradas son una base válida entre
   infinitas.
 - Es un modelo didáctico: no sustituye al cálculo de una pieza real.
@@ -98,8 +206,9 @@ Prueba, con el caso $\boldsymbol\sigma_A$:
 
 ## 10 · Pruebas de validación {#sec-validacion}
 
-El simulador reutiliza la implementación en JavaScript, que se contrasta con la referencia de Julia
-(tensores de los ejemplos, casos predefinidos y 30 tensores aleatorios):
+El simulador está hecho con Observable JS (deslizadores y Observable Plot). Todo el cálculo sale de la implementación
+en JavaScript de `recursos/js/tensiones.js` y de `recursos/js/sim/ojs-e01.js`, que se contrastan con la referencia de
+Julia (tensores de los ejemplos, casos predefinidos y 30 tensores aleatorios):
 
 ```sh
 node --test "recursos/js/**/*.test.js"
@@ -107,6 +216,9 @@ node --test "recursos/js/**/*.test.js"
 
 Se comprueba que: los casos predefinidos coinciden con los de Julia; las tensiones principales, invariantes,
 $\sigma_n$ y $\tau$ del estado inicial reproducen los ejemplos; los invariantes se conservan con giros
-arbitrarios; la geometría de Mohr es coherente (círculos y punto dentro de la región); y los dibujos no
-contienen valores no válidos con ninguno de los casos. **No se ha probado todavía en un navegador real**
-(véase la página de [pendientes](../../proyecto/pendientes.qmd)).
+arbitrarios; la geometría de Mohr es coherente (círculos y punto dentro de la región); y la nube de planos
+no sale de la región admisible. Además, el sitio se ha **visto cargado en un navegador real** (Chromium) con
+las simulaciones funcionando; falta la revisión en Safari y Firefox y en móvil (véase [pendientes](../../proyecto/pendientes.qmd)).
+
+Nota: Observable JS carga sus bibliotecas de un CDN, así que las simulaciones necesitan conexión a internet la
+primera vez que se abre la página.

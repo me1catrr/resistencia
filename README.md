@@ -6,7 +6,7 @@ Libro interactivo de **Elasticidad y Resistencia de Materiales II** (280003) · 
 - Repositorio previsto: <https://github.com/me1catrr/resistencia>.
 - Coordinador: Rafael Castro Triguero.
 
-> **Estado: primera iteración en construcción (v0.1.0).** Es un recurso docente abierto y **no sustituye a la guía docente oficial** de la asignatura. Solo el tema E01 se desarrolla en esta iteración; E02–R13 son esqueletos. Los contenidos generados con ayuda de IA son **borradores pendientes de revisión del profesor**.
+> **Estado: primera iteración en construcción (v0.1.0).** Es un recurso docente abierto y **no sustituye a la guía docente oficial** de la asignatura. Solo el tema E01 se desarrolla en esta iteración; E02–R13 son esqueletos. Los contenidos generados con ayuda de IA son **borradores pendientes de revisión del profesorado**.
 
 ## Contenido
 

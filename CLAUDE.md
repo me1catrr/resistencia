@@ -22,7 +22,7 @@ Itinerarios: **A** (curso oficial) y **B** (profundización, opcional y visualme
 - La guía fija los 13 temas **solo por título**. Los apartados internos (E01.0–E01.13…) son **propuesta docente**, y así se rotulan.
 - Distingue siempre, en el texto y en los metadatos: contenido obligatorio de la guía · recurso complementario · ampliación opcional (itinerario B) · propuesta metodológica no aprobada.
 - No inventes competencias, resultados de aprendizaje ni criterios de evaluación. Competencias de la guía: COM02, C01, C24, HD01, HD18. Evaluación: examen 80 %, medios orales 10 %, producciones 10 %.
-- Uso de IA permitido con transparencia: el contenido generado con IA se declara y **no se presenta como revisado por el profesor**.
+- Uso de IA permitido con transparencia: el contenido generado con IA se declara y **no se presenta como revisado por el profesorado**.
 
 ## 1. Originalidad y propiedad intelectual
 
@@ -96,7 +96,7 @@ Cada tema muestra (filtro `version_tema.lua`): identificador, versión, estado, 
 - Estados: `esqueleto` → `borrador` → `revisado` → `publicado`.
 - **Última modificación:** sale de `git log -1 --format=%cs -- <carpeta>`; sin commits se muestra «pendiente de primer commit».
 - **Revisión técnica:** solo aparece si hay entrada en `_versiones.yml`, que escribe una persona tras revisar de verdad. Nunca inventes una fecha de revisión.
-- E01 termina como **borrador (pendiente de revisión del profesor)**. Pasar a `revisado` es decisión exclusiva del profesor.
+- E01 termina como **borrador (pendiente de revisión del profesorado)**. Pasar a `revisado` es decisión exclusiva del profesorado coordinador.
 
 ## 7. Material público y privado
 
@@ -137,7 +137,7 @@ python3 scripts/compilar_tikz.py                # compila las figuras que hayan 
 python3 scripts/compilar_tikz.py --comprobar    # los SVG corresponden a sus fuentes (no necesita LaTeX)
 python3 -m unittest discover -s pruebas/herramientas     # herramientas del sitio (también las recoge pytest)
 python3 -m unittest discover -s python/tests -t python   # Python: tensiones.py frente al JSON de Julia
-node --test "recursos/js/**/*.test.js"                    # JS: tensiones, ejercicios, simulador, modo clase, contraste
+node --test "recursos/js/**/*.test.js"                    # JS: tensiones, ejercicios, simulaciones, modo clase, contraste
 julia --project=Resistencia.jl Resistencia.jl/test/runtests.jl   # Julia (Pkg.test() necesita red)
 julia --project=Resistencia.jl scripts/generar_referencia_e01.jl # regenera pruebas/referencia/e01.json
 ```
@@ -146,8 +146,11 @@ Previstos en etapas posteriores: pruebas de navegador (Playwright) y comprobaci�
 Si cambias `Resistencia.jl`, regenera el JSON de referencia y vuelve a pasar las tres suites.
 
 **Entorno restringido (sandbox de Claude Code):** Quarto necesita escribir su caché; si falla con
-«unable to open database file», ejecuta `HOME=$TMPDIR/home quarto render`. Un servidor local y
-Chromium no arrancan dentro del sandbox: la verificación en navegador real se hace en la máquina del usuario.
+«unable to open database file», ejecuta `HOME=$TMPDIR/home quarto render`. Para ver páginas en un navegador real:
+`node scripts/captura.mjs RUTA.html salida.png [--elemento ".sim-caja" --antes 20 --alto 1200 --selector "svg[role=img]" --oscuro --ancho 390]`
+(sirve `_site/` por HTTP bajo `/resistencia/` y controla chrome-headless-shell por DevTools; hay que ejecutarlo con el sandbox
+desactivado, y necesita red porque MathJax y Observable JS cargan de un CDN). Imprime los errores de consola de la página.
+El modo `--screenshot` de Chrome se cuelga con Observable JS: no usarlo. Revisa SIEMPRE una figura o simulación nueva con una captura.
 
 ## Cómo añadir cosas
 
@@ -157,9 +160,12 @@ Chromium no arrancan dentro del sandbox: la verificación en navegador real se h
 - **Números del texto:** `{{< num e01 ej3.sigma1 dec=1 unidad=MPa >}}` desde `pruebas/referencia/e01.json`. Nunca teclear a mano un resultado.
 - **Código mostrado:** `{{< codigo archivo="…" region="…" lang="python" >}}` con marcas `# region nombre` / `# endregion` en el fuente real.
 - **Preguntas:** banco `preguntas.yml` por tema, `preguntas: preguntas.yml` en la cabecera de la página y `{{< pregunta e01-q07 >}}` o `{{< pregunta todas clase=true >}}`. A mano: `::: {#id .ejercicio tipo="opcion" nivel="2" respuesta="2"}` (ver cabecera de `scripts/lua/ejercicios.lua`).
-- **Simulaciones:** copiar `simulaciones/_plantilla.qmd`; módulo en `recursos/js/sim/<id>.js` con `export function montar(contenedor)`; `{{< simulacion id >}}`.
+- **Simulaciones:** con **Observable JS** (celdas ```{ojs}```: `Inputs.range` y `Plot`), dentro del apartado del tema donde se necesitan y listadas en `simulaciones/index.qmd`. Copiar `simulaciones/_plantilla.qmd`. La física NO se escribe en la celda: se importa de `recursos/js/tensiones.js` o de un módulo de funciones puras (`recursos/js/sim/ojs-e01.js`) con pruebas `node --test`. Rótulos cortos en los deslizadores, `role="img"` + `aria-label` en cada gráfico y lectura `aria-live`.
 
 ## Idioma y estilo
+
+**Lenguaje inclusivo.** Se escribe «alumnado», «estudiantado», «profesorado», «quien imparte», «la persona que…» y frases sin
+género; se evita el masculino genérico (el alumno, el profesor, los compañeros). Las cajas rojas de errores van dirigidas al alumnado.
 
 Español de España, con todas las tildes. Decimales con coma en el texto (el shortcode `num` los formatea). Los identificadores de código y los términos técnicos pueden ir en su forma original. Texto claro, sin relleno.
 

@@ -69,8 +69,13 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 .bloque-idea-clave > .bloque-titulo::before { content: "\2605"; color: var(--r-verde); }
 .bloque-hipotesis { border-left-color: var(--r-acero); border-left-style: dashed; }
 .bloque-hipotesis > .bloque-titulo::before { content: "\22A2"; color: var(--r-acero); }
-.bloque-historia { border-left-color: var(--r-tenue); }
-.bloque-historia > .bloque-titulo::before { content: "\231B\FE0E"; color: var(--r-tenue); }
+.bloque-historia { border-color: var(--r-ambar); border-left-width: 8px; background: var(--r-ambar-fondo); }
+.bloque-historia > .bloque-titulo { background: var(--r-ambar-fondo); color: var(--r-ambar); border-bottom-color: var(--r-ambar); }
+.bloque-historia > .bloque-titulo::before { content: "\231B\FE0E"; color: var(--r-ambar); }
+.bloque-errores { border-color: var(--r-rojo); border-left-width: 8px; background: var(--r-rojo-fondo); }
+.bloque-errores > .bloque-titulo { background: var(--r-rojo-fondo); color: var(--r-rojo); border-bottom-color: var(--r-rojo); }
+.bloque-errores > .bloque-titulo::before { content: "\26A0\FE0E"; color: var(--r-rojo); }
+.bloque-errores .bloque-cuerpo > p:first-child { color: var(--r-rojo); }
 .bloque-para-clase { border-left-color: var(--r-cobre); }
 .bloque-para-clase > .bloque-titulo::before { content: "?"; color: var(--r-cobre); font-weight: 700; }
 .bloque-pausa { border-left-color: var(--r-verde); border-left-style: dashed; }
@@ -82,6 +87,14 @@ details.resolucion {
   margin: 1rem 0; padding: 0 0.9rem 0.5rem; background: var(--r-fondo);
 }
 details.resolucion > summary { cursor: pointer; font-weight: 700; color: var(--r-verde); padding: 0.5rem 0; }
+
+/* Código en Julia y Python dentro de un apartado */
+details.codigo {
+  border: 1px solid var(--r-borde); border-left: 6px solid var(--r-acero); border-radius: 6px;
+  margin: 1rem 0; padding: 0 0.9rem 0.5rem; background: var(--r-fondo);
+}
+details.codigo > summary { cursor: pointer; font-weight: 700; color: var(--r-acero); padding: 0.5rem 0; }
+details.codigo .nav-tabs { margin-bottom: 0.5rem; }
 
 /* Itinerario B: profundización opcional (violeta, plegable) */
 details.profundiza {
@@ -153,6 +166,7 @@ details.profundiza > summary::marker { color: var(--r-violeta); }
 
 /* ---------- Botón de modo clase ---------- */
 .boton-modo-clase {
+  white-space: nowrap;
   font: inherit; font-size: 0.85rem; cursor: pointer; color: inherit;
   background: transparent; border: 1px solid currentColor; border-radius: 1em; padding: 0.1rem 0.8rem;
 }
@@ -246,3 +260,29 @@ body.modo-clase h2 { scroll-margin-top: 4rem; }
 .t3d-punto { fill: var(--r-violeta); }
 .t3d-punto-mal { fill: var(--r-cobre); }
 body.modo-clase .t3d input[type="text"], body.modo-clase .t3d select { font-size: 1.1rem; }
+
+/* Quarto añade una sección #bibliography vacía cuando las citas van al margen; la lista real
+   la genera scripts/lua/referencias.lua (#referencias-unidad). */
+section#bibliography, li:has(> a#toc-bibliography) { display: none; }
+
+/* Observable JS: sin botones de copiar sobre el código oculto de las celdas */
+.code-copy-outer-scaffold:has(> .cell-code.hidden) > .code-copy-button { display: none; }
+.cell-code.hidden { display: none; }
+.sim-lectura { margin: 0.4rem 0 1rem; padding: 0.5rem 0.9rem; border-left: 5px solid var(--r-acero); background: var(--r-superficie); border-radius: 4px; }
+.sim-leyenda { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; font-size: 0.92rem; margin: 0.2rem 0; }
+.sim-leyenda span::before { content: ""; display: inline-block; width: 1.6rem; height: 0.28rem; margin-right: 0.4rem; vertical-align: middle; background: currentColor; }
+.sim-caja { border: 1px solid var(--r-borde); border-radius: 8px; padding: 0.6rem 0.9rem; margin: 1rem 0; background: var(--r-fondo); }
+.sim-caja > .sim-titulo { font-weight: 700; margin: 0 0 0.4rem; }
+
+.sim-controles { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 1.2rem; }
+.sim-controles > .cell { margin: 0; }
+
+/* Las URL largas de la lista de referencias no deben desbordar la página en pantallas estrechas. */
+.csl-entry, #refs .csl-entry a { overflow-wrap: anywhere; }
+
+/* Las ecuaciones destacadas anchas se desplazan dentro de su caja en lugar de ensanchar la página (móvil). */
+mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+/* Ecuaciones numeradas: el contenedor en línea que las envuelve también debe acotar el ancho. */
+span.math.display { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+span.math.display mjx-container[display="true"] { min-width: 0 !important; }
+.ref-final, .ref-final p, .ref-final a { overflow-wrap: anywhere; word-break: break-word; }

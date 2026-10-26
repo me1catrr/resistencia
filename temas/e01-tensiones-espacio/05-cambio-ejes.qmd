@@ -91,7 +91,104 @@ Las componentes han cambiado, pero hay cosas que **no cambian**, y se estudian e
 [apartado 7](07-invariantes.qmd). Por ejemplo, la suma de las tensiones normales:
 $\sigma'_{xx}+\sigma'_{yy}+\sigma'_{zz}=$ {{< num e01 ej4.invariantes_prima.1 dec=1 unidad=MPa >}}, la misma que antes.
 
-::: {.advertencia titulo="Errores frecuentes"}
+**Pruébalo tú:** gira los ejes y observa cómo cambian las tensiones sobre las caras del elemento.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Gira los ejes y mira cambiar las componentes</p>
+
+```{ojs}
+//| echo: false
+import {giro, curvasGiro, anguloPrincipal, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof G_sxx = Inputs.range([-100, 100], {value: 24, step: 1, label: "σxx"})
+viewof G_syy = Inputs.range([-100, 100], {value: -4, step: 1, label: "σyy"})
+viewof G_sxy = Inputs.range([-100, 100], {value: 48, step: 1, label: "σxy"})
+viewof G_alin = Inputs.toggle({label: "ejes principales", value: false})
+viewof G_th0 = Inputs.range([0, 180], {value: 20, step: 1, label: "θ (°)"})
+```
+
+```{ojs}
+//| echo: false
+G_thp = anguloPrincipal(G_sxx, G_syy, G_sxy)
+G_th = G_alin ? G_thp : G_th0
+G = giro(G_sxx, G_syy, G_sxy, G_th)
+G_cur = curvasGiro(G_sxx, G_syy, G_sxy)
+G_R = Math.max(Math.abs(G.invariantesOriginales[0]) , 1, ...G_cur.flatMap(q => [Math.abs(q.sxx), Math.abs(q.syy), Math.abs(q.sxy)]))
+G_vista = {
+  const th = G_th * Math.PI / 180, c = Math.cos(th), s = Math.sin(th);
+  const k = 0.95 / G_R;                                    // unidades de dibujo por MPa
+  const rot = (x, y) => [x * c - y * s, x * s + y * c];
+  const cuadrado = [[-1, -1], [1, -1], [1, 1], [-1, 1], [-1, -1]].map(([x, y]) => rot(x, y));
+  const flecha = (p, v, color) => Plot.arrow([{x1: p[0], y1: p[1], x2: p[0] + v[0], y2: p[1] + v[1]}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: 3.5, headLength: 11, bend: 0});
+  const eje = (v, color, t, w = 2.2) => [Plot.arrow([{x1: 0, y1: 0, x2: v[0], y2: v[1]}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: w, headLength: 11, bend: 0}), Plot.text([{x: v[0] * 1.08, y: v[1] * 1.08, t}], {x: "x", y: "y", text: "t", fill: color, fontSize: 16, fontWeight: 600})];
+  const normales = [], tangenciales = [];
+  const ex = [c, s], ey = [-s, c];
+  for (const [signo, e, sn] of [[1, ex, G.sxx], [-1, ex, G.sxx], [1, ey, G.syy], [-1, ey, G.syy]]) {
+    const p = [signo * e[0], signo * e[1]];
+    const l = sn * k;
+    normales.push(flecha(p, [signo * e[0] * l, signo * e[1] * l], colores.acero));
+  }
+  for (const [signo, e, d] of [[1, ex, ey], [-1, ex, ey], [1, ey, ex], [-1, ey, ex]]) {
+    const p = [signo * e[0], signo * e[1]];
+    const l = G.sxy * k * signo;
+    tangenciales.push(flecha(p, [d[0] * l, d[1] * l], colores.cobre));
+  }
+  const arco = Array.from({length: 41}, (_, i) => { const a = th * i / 40; return {x: 0.8 * Math.cos(a), y: 0.8 * Math.sin(a)}; });
+  const svg = Plot.plot({
+    width: 460, height: 440, aspectRatio: 1, margin: 10, style: {fontSize: "14px"},
+    x: {domain: [-2.5, 2.5], axis: null}, y: {domain: [-2.5, 2.5], axis: null},
+    marks: [
+      ...eje([2.3, 0], "#8a94a3", "x", 1.6), ...eje([0, 2.3], "#8a94a3", "y", 1.6),
+      Plot.line(cuadrado, {x: d => d[0], y: d => d[1], stroke: "currentColor", strokeWidth: 1.8, fill: "#8a94a3", fillOpacity: 0.16}),
+      ...eje([2.3 * c, 2.3 * s], colores.violeta, "x′"), ...eje([-2.3 * s, 2.3 * c], colores.violeta, "y′"),
+      ...(G_th > 0.5 ? [Plot.line(arco, {x: "x", y: "y", stroke: colores.violeta, strokeWidth: 2}), Plot.text([{x: 1.0 * Math.cos(th / 2), y: 1.0 * Math.sin(th / 2), t: "θ"}], {x: "x", y: "y", text: "t", fill: colores.violeta, fontSize: 16})] : []),
+      ...normales, ...tangenciales
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Elemento girado ${G_th} grados con sus tensiones normales y tangenciales sobre las caras.`);
+  return svg;
+}
+G_graf = {
+  const svg = Plot.plot({
+    width: 460, height: 440, marginLeft: 52, marginBottom: 44, style: {fontSize: "14px"},
+    x: {label: "θ (grados)", labelAnchor: "center", domain: [0, 180], ticks: [0, 45, 90, 135, 180]},
+    y: {label: "MPa", grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "#8a94a3"}),
+      Plot.ruleX([G_thp], {stroke: colores.gris, strokeDasharray: "2 4"}),
+      Plot.line(G_cur, {x: "theta", y: "sxx", stroke: colores.acero, strokeWidth: 2.5}),
+      Plot.line(G_cur, {x: "theta", y: "syy", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(G_cur, {x: "theta", y: "sxy", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.ruleX([G_th], {stroke: colores.violeta, strokeDasharray: "5 4"}),
+      Plot.dot([{x: G_th, y: G.sxx}], {x: "x", y: "y", fill: colores.acero, r: 6}),
+      Plot.dot([{x: G_th, y: G.syy}], {x: "x", y: "y", fill: colores.verde, r: 6}),
+      Plot.dot([{x: G_th, y: G.sxy}], {x: "x", y: "y", fill: colores.cobre, r: 6}),
+      Plot.text([{x: G_thp, y: G_R * 0.98, t: "θp"}], {x: "x", y: "y", text: "t", fill: colores.gris, fontSize: 14, dx: 12})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Componentes del tensor en los ejes girados en función del ángulo de giro; el punto marca el ángulo elegido y la línea de puntos el giro a ejes principales.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">σ′xx</span><span style="color:${colores.verde}">σ′yy</span><span style="color:${colores.cobre}">σ′xy</span><span style="color:${colores.violeta}">ejes girados (x′, y′)</span></div>
+<div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-start; overflow-x:auto">${G_vista}${G_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>θ = ${fmt(G_th, 1)}°:</strong> σ′xx = ${fmt(G.sxx)} · σ′yy = ${fmt(G.syy)} · σ′xy = ${fmt(G.sxy)} MPa. Invariantes (σzz = 0): I₁ = ${fmt(G.invariantes[0])} (antes ${fmt(G.invariantesOriginales[0])}) · I₂ = ${fmt(G.invariantes[1])} (antes ${fmt(G.invariantesOriginales[1])}).${Math.abs(G.sxy) < 0.05 ? " <strong>σ′xy = 0: son los ejes principales</strong> (σ′xx y σ′yy son σ₁ y σ₂)." : ""} El ángulo θp = ${fmt(G_thp, 1)}° da la dirección de la mayor tensión principal.</p>`
+```
+:::
+
+Para ver el efecto de **todos** los giros a la vez, la @fig-rotacion muestra cómo cambian las componentes de
+$\boldsymbol\sigma_A$ al girar los ejes alrededor de $z$ y qué permanece constante:
+
+![Componentes $\sigma'_{xx}$, $\sigma'_{yy}$ y $\sigma'_{xy}$ de $\boldsymbol\sigma_A$ al girar los ejes un ángulo $\theta$ alrededor de $z$. La suma $I_1$ no cambia. Datos calculados con Julia.](/recursos/fig/rotacion-componentes.svg){#fig-rotacion .figura-tikz fig-alt="Tres curvas sinusoidales para las componentes y una recta horizontal discontinua en 40 megapascales para la suma de las tensiones normales."}
+
+Observa que $\sigma'_{xx}$ alcanza su máximo (60 MPa) justo donde $\sigma'_{xy}$ se anula: ese es el giro que
+diagonaliza el tensor y que estudiamos a continuación.
+
+::: {.errores}
 - Escribir $\sigma'=Q\sigma$ (falta $Q^{\mathsf T}$) o $\sigma'=Q^{\mathsf T}\sigma Q$ (es el cambio **inverso**).
 - Mezclar **filas** y **columnas** de $Q$. Aquí las filas son los vectores nuevos.
 - Girar el ángulo en sentido contrario: con $Q_z(\theta)$, un $\theta>0$ gira los ejes en sentido antihorario.
@@ -104,6 +201,19 @@ Gira $90^\circ$ los ejes de una barra a tracción en $x$ ($\sigma_{xx}=\sigma_0$
 :::
 
 {{< pregunta e01-q10 >}}
+
+::::: {.codigo titulo="giro de ejes y cambio de base"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="cambio_base" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="cambio_base" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 $\boldsymbol\sigma'=Q\boldsymbol\sigma Q^{\mathsf T}$: **las componentes cambian, el estado no**. Las

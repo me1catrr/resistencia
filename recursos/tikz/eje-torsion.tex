@@ -1,0 +1,36 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
+% ---- eje (vista lateral) ----
+\def\R{0.9}\def\L{6.2}
+\filldraw[cuerpo] (0,\R) -- (\L,\R) arc[start angle=90,end angle=-90,x radius=0.32,y radius=\R] -- (0,-\R) arc[start angle=-90,end angle=-270,x radius=0.32,y radius=\R] -- cycle;
+\draw[contorno] (\L,0) ellipse (0.32 and \R);
+\draw[eje,dash pattern=on 6pt off 3pt,thin] (-0.9,0) -- (\L+1.2,0);
+% pares en los extremos
+\draw[fuerza,<-] (-0.95,0.9) arc[start angle=100,end angle=-100,x radius=0.35,y radius=0.95];
+\node[etq,text=cobre] at (-1.35,0) {$T$};
+\draw[fuerza] (\L+0.95,0.9) arc[start angle=80,end angle=-80,x radius=0.35,y radius=0.95];
+\node[etq,text=cobre] at (\L+1.4,0) {$T$};
+% plano de corte
+\draw[corte] (3.3,-1.5) -- (3.3,1.5);
+\node[etq,text=violeta] at (3.3,1.85) {plano de corte $\Pi$};
+% ---- sección transversal ampliada ----
+\begin{scope}[xshift=10.6cm]
+  \filldraw[cuerpo] (0,0) circle (1.7);
+  \fill (0,0) circle (1.6pt);
+  \foreach \r in {0.55,1.1,1.65}{
+    \draw[gris] (0,0) circle (\r);
+    \foreach \a in {0,90,180,270}{
+      \pgfmathsetmacro{\px}{\r*cos(\a)}\pgfmathsetmacro{\py}{\r*sin(\a)}
+      \pgfmathsetmacro{\dx}{-0.38*\r*sin(\a)}\pgfmathsetmacro{\dy}{0.38*\r*cos(\a)}
+      \draw[fuerza] (\px,\py) -- ++(\dx,\dy);
+    }
+  }
+  \node[etq,text=cobre,anchor=west] at (2.0,0.3) {$\tau_{\max}$};
+  \node[etq,anchor=west] at (2.0,-0.3) {en la superficie};
+  \node[etq,text width=5.6cm,align=center] at (0.3,-2.75) {$\tau=\dfrac{T\,r}{J}$: crece con el radio $r$};
+  \node[etq,text=violeta] at (0,2.25) {sección transversal};
+\end{scope}
+\end{tikzpicture}
+\end{document}

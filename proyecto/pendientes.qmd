@@ -6,7 +6,7 @@ Lo que falta o no se ha verificado, tal como está en este momento.
 
 ## Contenido
 
-- **E01 es un borrador** pendiente de revisión por el profesor. Se ha elaborado con ayuda de herramientas de
+- **E01 es un borrador** pendiente de revisión del profesoradoado. Se ha elaborado con ayuda de herramientas de
   IA y **no** debe darse por revisado.
 - Los temas **E02 a R13** son esqueletos: solo tienen el título oficial.
 - En el apartado de elipsoide de Lamé, la nomenclatura de las cuádricas *indicatriz* y *directriz* y la
@@ -18,7 +18,7 @@ Lo que falta o no se ha verificado, tal como está en este momento.
 
 - El enlace a la guía docente oficial de la UCO **no está verificado** (`[PENDIENTE]`).
 - Las referencias figuran con su grado de verificación (campo `verificado`: sí, parcial o no). Datos como
-  edición, paginación o ISBN **no están contrastados** salvo que se indique. Una obra que el profesor propuso
+  edición, paginación o ISBN **no están contrastados** salvo que se indique. Una obra propuesta por el profesorado
   (Granados Romera, Garceta) **no se ha localizado**.
 - Las fuentes históricas (Cauchy, Mohr, Lamé) se citan con prudencia: no se han leído los originales.
 

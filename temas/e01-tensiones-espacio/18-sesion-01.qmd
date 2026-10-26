@@ -25,12 +25,12 @@ interno y de contorno.
 | Minutos | Qué ocurre | Material | Interacción |
 |---|---|---|---|
 | 0–8 | **Motivación y predicción.** Una barra a tracción se corta con planos inclinados: ¿dónde es mayor la tensión tangencial? | [Apartado 1](01-tension-punto.qmd), pregunta `e01-q04` | Votación y justificación por parejas |
-| 8–22 | **Concepto de tensión.** Método de las secciones, vector tensión, normal y tangencial. | [Apartado 1](01-tension-punto.qmd) | El profesor explica con la figura; preguntas cortas |
+| 8–22 | **Concepto de tensión.** Método de las secciones, vector tensión, normal y tangencial. | [Apartado 1](01-tension-punto.qmd) | Quien imparte explica con la figura; preguntas cortas |
 | 22–27 | **Pausa activa: ¿depende del plano?** Cada pareja calcula $\sigma_n$ y $\tau$ de la barra a $0^\circ$, $30^\circ$, $45^\circ$. | `e01-q03`, ejemplo del apartado 1 | Trabajo en parejas, 5 min |
-| 27–45 | **El tensor y el tetraedro de Cauchy.** 9 componentes, convenio de índices y fórmula $\vec t=\boldsymbol\sigma\vec n$. | [Apartados 2 y 3](02-tensor.qmd) | El profesor deduce; el alumnado resuelve `e01-q05` |
-| 45–50 | **Para clase: la simetría.** ¿Por qué $\sigma_{xy}=\sigma_{yx}$? | `e01-q19` (reflexión) | Se piensa 1 min y se comparte con un compañero 2 min |
+| 27–45 | **El tensor y el tetraedro de Cauchy.** 9 componentes, convenio de índices y fórmula $\vec t=\boldsymbol\sigma\vec n$. | [Apartados 2 y 3](02-tensor.qmd) | Quien imparte deduce; el alumnado resuelve `e01-q05` |
+| 45–50 | **Para clase: la simetría.** ¿Por qué $\sigma_{xy}=\sigma_{yx}$? | `e01-q19` (reflexión) | Se piensa 1 min y se comparte con la otra persona de la pareja 2 min |
 | 50–65 | **Simulador.** Se elige un caso predefinido, se cambia la normal y se observa $\vec t$, $\sigma_n$ y $\tau$. | [Simulador](14-simulador.qmd) | Se propone: «¿qué normal da $\tau=0$?» |
-| 65–82 | **Ejercicios de nivel 1–2 por parejas.** | `e01-q07`, `e01-q08`, `e01-q09` | Parejas; el profesor circula |
+| 65–82 | **Ejercicios de nivel 1–2 por parejas.** | `e01-q07`, `e01-q08`, `e01-q09` | Parejas; quien imparte circula entre ellas |
 | 82–90 | **Síntesis y ticket de salida.** Equilibrio interno y contorno en 2 minutos; ticket final. | `e01-q01`, `e01-q05`, `e01-q20` | Individual, en el navegador (sin registro) |
 
 ## Ticket de salida (3 preguntas, 5 minutos)

@@ -231,7 +231,7 @@ preguntas:
     nivel: 3
     respuesta: "2"
     enunciado: |-
-      Un alumno escribe esta resolución para pasar un tensor $\boldsymbol\sigma$ a unos ejes nuevos. **¿En qué paso está el error?**
+      Alguien escribe esta resolución para pasar un tensor $\boldsymbol\sigma$ a unos ejes nuevos. **¿En qué paso está el error?**
     opciones:
       - texto: |-
           Paso 1: las filas de $Q$ son los vectores de la base nueva escritos en la antigua, y $Q$ es ortogonal.
@@ -298,7 +298,7 @@ preguntas:
     nivel: 3
     respuesta: "3"
     enunciado: |-
-      Para $\boldsymbol\sigma=\begin{pmatrix}3&1\\1&3\end{pmatrix}$ MPa un alumno halla las direcciones principales. **¿Qué paso es erróneo?**
+      Para $\boldsymbol\sigma=\begin{pmatrix}3&1\\1&3\end{pmatrix}$ MPa alguien halla las direcciones principales. **¿Qué paso es erróneo?**
     opciones:
       - texto: |-
           Paso 1: $\det(\boldsymbol\sigma-\lambda I)=(3-\lambda)^2-1=0\Rightarrow\lambda=4$ y $\lambda=2$.

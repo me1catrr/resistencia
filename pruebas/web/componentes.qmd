@@ -54,11 +54,4 @@ La segunda.
 :::
 :::
 
-::: {#sim-ejemplo}
-
-{{< simulacion ejemplo >}}
-
-Simulación de ejemplo (no existe el módulo: debe verse el error).
-:::
-
-Véase @sim-ejemplo.
+Las simulaciones usan celdas `{ojs}` (véase `pruebas/web/ojs-minimo.qmd`).

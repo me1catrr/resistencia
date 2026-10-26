@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% Elipsoide de Lamé de σA en ejes principales (semiejes 60, 20 y 40 MPa); malla calculada por Julia.
+\begin{tikzpicture}
+\begin{axis}[width=15cm,height=13cm,view={125}{22},axis equal,hide axis,
+  xmin=-70,xmax=70,ymin=-70,ymax=70,zmin=-70,zmax=70,every axis plot/.append style={thin}]
+\addplot3[acero!85,no marks,thin] table[x=t1,y=t2,z=t3] {datos/lame_paralelos.dat};
+\addplot3[cobre!85,no marks,thin] table[x=t1,y=t2,z=t3] {datos/lame_meridianos.dat};
+% ejes principales (σ1, σ2, σ3) = ejes de coordenadas t1, t2, t3
+\addplot3[-{Stealth[length=3mm]},very thick,tinta,no marks] coordinates {(-70,0,0) (72,0,0)};
+\addplot3[-{Stealth[length=3mm]},very thick,tinta,no marks] coordinates {(0,-70,0) (0,72,0)};
+\addplot3[-{Stealth[length=3mm]},very thick,tinta,no marks] coordinates {(0,0,-70) (0,0,72)};
+\node[font=\large,fill=white,inner sep=1pt] at (axis cs:80,0,0) {$t_1$};
+\node[font=\large,fill=white,inner sep=1pt] at (axis cs:0,80,0) {$t_2$};
+\node[font=\large,fill=white,inner sep=1pt] at (axis cs:0,0,80) {$t_3$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

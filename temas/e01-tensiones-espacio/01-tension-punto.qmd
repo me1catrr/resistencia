@@ -15,6 +15,21 @@ Tres situaciones de ingeniería sirven para ver el problema.
 - **Una unión soldada** transmite la carga por un cordón de pequeña sección. La misma fuerza produce
   mucha más tensión en un cordón estrecho que en uno ancho.
 
+::: {.panel-tabset}
+
+### Eje de transmisión
+
+![Eje macizo sometido a un par $T$. En la sección, la tensión cortante $\tau$ es tangencial a circunferencias y crece con el radio; es máxima en la superficie.](/recursos/fig/eje-torsion.svg){#fig-eje .figura-tikz fig-alt="Un eje cilíndrico con un par T en cada extremo. A la derecha, su sección transversal circular con flechas tangenciales cada vez más largas hacia el borde."}
+
+### Depósito a presión
+
+![Depósito cilíndrico de pared delgada con presión interior $p$. En un elemento de la pared, la tensión circunferencial $\sigma_\theta$ es el doble de la axial $\sigma_x$.](/recursos/fig/deposito.svg){#fig-deposito .figura-tikz fig-alt="Un cilindro horizontal con flechas internas hacia fuera que representan la presión. Sobre la pared, un pequeño elemento con flechas verticales, circunferenciales, el doble de largas que las horizontales, axiales."}
+
+### Unión soldada
+
+![Unión soldada solapada: la carga $F$ pasa de una chapa a la otra a través de los cordones, que son de sección pequeña.](/recursos/fig/union-soldada.svg){#fig-soldadura .figura-tikz fig-alt="Dos chapas solapadas unidas por dos cordones triangulares en los extremos del solape, con una fuerza F de tracción a cada lado y una línea discontinua que muestra el recorrido de la carga."}
+:::
+
 En los tres casos la fuerza total no decide nada: decide cuánta fuerza hay **por unidad de área** y
 **sobre qué superficie** actúa. Ese es el concepto de tensión.
 
@@ -112,6 +127,81 @@ Antes de seguir: en la barra anterior, ¿qué plano esperas que tenga la mayor t
 
 {{< pregunta e01-q04 >}}
 
+**Pruébalo tú:** mueve el plano de corte y observa el vector tensión y sus componentes.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación 1 · Barra a tracción cortada por un plano inclinado</p>
+
+```{ojs}
+//| echo: false
+import {barraPlano, curvasBarra, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof B_s0 = Inputs.range([20, 200], {value: 100, step: 5, label: "σ₀ (MPa)"})
+viewof B_th = Inputs.range([0, 90], {value: 30, step: 1, label: "θ (°)"})
+```
+
+```{ojs}
+//| echo: false
+B = barraPlano(B_s0, B_th)
+B_curvas = curvasBarra(B_s0)
+B_k = 3.3 / B_s0
+B_vista = {
+  const P = B.centro;
+  const flecha = (v, color, rotulo, dx, dy) => [
+    Plot.arrow([{x1: P[0], y1: P[1], x2: P[0] + v[0] * B_k, y2: P[1] + v[1] * B_k}],
+      {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: 3.5, headLength: 14, bend: 0}),
+    Plot.text([{x: P[0] + v[0] * B_k + dx, y: P[1] + v[1] * B_k + dy, t: rotulo}],
+      {x: "x", y: "y", text: "t", fill: color, fontSize: 18, fontWeight: 600})
+  ];
+  const svg = Plot.plot({
+    width: 560, height: 300, aspectRatio: 1, margin: 8, style: {fontSize: "14px"},
+    x: {domain: [-1.2, 11.2], axis: null}, y: {domain: [-3.4, 3.4], axis: null},
+    marks: [
+      Plot.rect([{x1: 0, x2: B.largo, y1: -B.alto / 2, y2: B.alto / 2}],
+        {x1: "x1", x2: "x2", y1: "y1", y2: "y2", fill: "#8a94a3", fillOpacity: 0.18, stroke: "currentColor", strokeWidth: 1.5}),
+      Plot.line(B.corte, {x: d => d[0], y: d => d[1], stroke: colores.violeta, strokeWidth: 2.5, strokeDasharray: "7 5"}),
+      Plot.arrow([{x1: -1.0, y1: 0, x2: 0, y2: 0}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: "currentColor", strokeWidth: 3, headLength: 12, bend: 0}),
+      Plot.arrow([{x1: B.largo + 1.0, y1: 0, x2: B.largo, y2: 0}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: "currentColor", strokeWidth: 3, headLength: 12, bend: 0}),
+      ...flecha(B.t, colores.acero, "t", 0.55, 0.45),
+      ...flecha([B.sigmaN * B.n[0], B.sigmaN * B.n[1]], colores.verde, "σn", 0.1, 0.6),
+      ...flecha(B.tauVec, colores.cobre, "τ", 0.55, -0.5),
+      Plot.dot([P], {x: d => d[0], y: d => d[1], r: 3.5, fill: "currentColor"})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Barra a tracción con un plano de corte cuya normal forma ${B_th} grados con el eje; se dibujan el vector tensión y sus componentes normal y tangencial.`);
+  return svg;
+}
+B_graf = {
+  const svg = Plot.plot({
+    width: 460, height: 310, marginLeft: 52, marginBottom: 44, style: {fontSize: "14px"},
+    x: {label: "θ (grados)", labelAnchor: "center", domain: [0, 90], ticks: [0, 15, 30, 45, 60, 75, 90]},
+    y: {label: "MPa", grid: true, domain: [0, B_s0 * 1.05]},
+    marks: [
+      Plot.line(B_curvas, {x: "theta", y: "sn", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(B_curvas, {x: "theta", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.ruleX([B_th], {stroke: colores.violeta, strokeDasharray: "5 4"}),
+      Plot.dot([{x: B_th, y: B.sigmaN}], {x: "x", y: "y", fill: colores.verde, r: 6}),
+      Plot.dot([{x: B_th, y: B.tau}], {x: "x", y: "y", fill: colores.cobre, r: 6})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Curvas de la tensión normal y la tangencial en función del ángulo del plano; los puntos marcan el ángulo elegido.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">t: vector tensión</span><span style="color:${colores.verde}">σn = σ₀ cos²θ</span><span style="color:${colores.cobre}">τ = σ₀ sen θ cos θ</span></div>
+<div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-start; overflow-x:auto">${B_vista}${B_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>Plano a ${B_th}°:</strong> |t| = ${fmt(B.modulo)} MPa · σn = ${fmt(B.sigmaN)} MPa · τ = ${fmt(B.tau)} MPa. Se cumple σn² + τ² = |t|²: ${fmt(B.sigmaN ** 2 + B.tau ** 2, 0)} = ${fmt(B.modulo ** 2, 0)}.</p>`
+```
+:::
+
+Con las curvas de la barra a la vista (@fig-barra-curvas) se ve **cuánto** cambian $\sigma_n$ y $\tau$ con el plano:
+
+![Tensión normal y tangencial en una barra con $\sigma_0=100$ MPa, según el ángulo $\theta$ de la normal del plano con el eje. Datos calculados con Julia. Los puntos marcan $30^\circ$ y $45^\circ$.](/recursos/fig/barra-curvas.svg){#fig-barra-curvas .figura-tikz fig-alt="Dos curvas: la tensión normal baja de 100 a 0 megapascales entre 0 y 90 grados, y la tangencial sube hasta 50 a 45 grados y vuelve a bajar a 0. Dos puntos marcados a 30 y 45 grados."}
+
 ## Para tener presente {#sec-esencial}
 
 ::: {.idea-clave}
@@ -121,18 +211,18 @@ Antes de seguir: en la barra anterior, ¿qué plano esperas que tenga la mayor t
    para conocerlos todos? Eso lo responde el [tensor de tensiones](02-tensor.qmd).
 :::
 
-::: {.advertencia titulo="Error frecuente"}
+::: {.errores}
 Confundir **tensión** (fuerza/área, depende del plano) con **esfuerzo resultante** (la fuerza o momento
 total de toda una sección, p. ej. el axil o el momento flector). Las tensiones son magnitudes en un
 punto; los esfuerzos se obtienen integrándolas en la sección, y se verán en la Parte II.
 :::
 
-::: {.historia titulo="De dónde viene la idea"}
-La formulación moderna de la tensión en un punto suele asociarse a Cauchy: en 1822 presentó a la
-Academia de Ciencias de París una memoria en la que aparece el vector tensión sobre un plano y el
-argumento del tetraedro que veremos en el [apartado 3](03-plano.qmd); se publicó en 1823
-[@cauchy1823; @azadi2017], y volvió sobre el tema en 1827 [@cauchy1827]. Para una visión general de la
-historia de la materia, véase @timoshenko1983 (no he comprobado qué dice exactamente de este punto).
+::: {.historia titulo="Cauchy y el nacimiento de la tensión"}
+En septiembre de 1822 Augustin Cauchy presentó a la Academia de Ciencias de París una memoria en la que
+aparece el **vector tensión** sobre un plano, con sus componentes normal y tangencial [@cauchy1823; @azadi2017].
+Volvió sobre el asunto en 1827 en sus *Exercices de Mathématiques* [@cauchy1827]. Antes de él, la teoría de
+la elasticidad hablaba de fuerzas, no de fuerzas **por unidad de área sobre un plano**.
+Una visión general de la historia de la materia está en @timoshenko1983 (no he comprobado qué dice de este punto).
 :::
 
 ::: {.profundiza titulo="Principio de tensión de Cauchy"}

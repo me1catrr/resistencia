@@ -5,10 +5,10 @@ tema-id: eNN
 
 <!--
 Plantilla de página de simulación (no se renderiza: empieza por «_»).
-Copia este archivo a simulaciones/<nombre>.qmd, escribe las diez secciones y crea
-recursos/js/sim/<id>.js con `export function montar(contenedor) { … }`.
-La entrada de la simulación aparece en el menú lateral al ejecutar
-python3 scripts/generar_estructura.py.
+Las simulaciones se hacen con Observable JS (celdas ```{ojs}```): deslizadores `Inputs.range` y gráficos
+`Plot`. Regla de oro: la FÍSICA no se escribe en la celda; se importa de recursos/js/tensiones.js (contrastado
+con Julia) o de un módulo propio en recursos/js/sim/ con funciones puras y pruebas (`node --test`).
+Ejemplo completo: temas/e01-tensiones-espacio/14-simulador.qmd.
 -->
 
 ## 1. Objetivo docente
@@ -31,11 +31,24 @@ Qué se puede cambiar, con unidades y rangos.
 
 ## 5. Visualización
 
-::: {#sim-ID}
+::: {.sim-caja}
+<p class="sim-titulo">Título de la simulación</p>
 
-{{< simulacion ID >}}
+```{ojs}
+//| echo: false
+import {colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof X = Inputs.range([0, 100], {value: 50, step: 1, label: "x (unidades)"})
+```
 
-Título de la simulación.
+```{ojs}
+//| echo: false
+Plot.plot({width: 520, height: 300, marks: [Plot.line([[0, 0], [X, X]], {stroke: colores.acero, strokeWidth: 3})]})
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite">Resultado: ${fmt(X)}</p>`
+```
 :::
 
 ## 6. Resultados numéricos

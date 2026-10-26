@@ -40,6 +40,7 @@ bibliography: recursos/bibliografia.bib
 # ejercicios y simulaciones después (para ver lo que generan los shortcodes).
 filters:
   - scripts/lua/version_tema.lua
+  - scripts/lua/referencias.lua
   - scripts/lua/bloques.lua
   - quarto
   - scripts/lua/ejercicios.lua
@@ -49,7 +50,6 @@ shortcodes:
   - scripts/lua/num.lua
   - scripts/lua/codigo.lua
   - scripts/lua/pregunta.lua
-  - scripts/lua/simulacion.lua
 
 website:
   title: "RESISTENCIA"
@@ -76,8 +76,8 @@ format:
     code-overflow: wrap
     lightbox: auto
     citations-hover: true
+    citation-location: margin
     link-citations: true
-    reference-section-title: "Referencias"
     grid:
       sidebar-width: 280px
       body-width: 860px

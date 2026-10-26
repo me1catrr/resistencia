@@ -28,6 +28,11 @@ construcción con el nombre de Lamé [@lame1852] (no he podido verificar en qué
 
 ![Sección del elipsoide de Lamé por el plano $\sigma_1\sigma_2$: al recorrer las normales unitarias $\vec n$ (circunferencia), las puntas de $\vec t$ recorren una elipse de semiejes $\sigma_1$ y $\sigma_2$.](/recursos/fig/lame-elipse.svg){#fig-lame .figura-tikz fig-alt="Una circunferencia unitaria dentro de una elipse horizontal. Desde el centro salen una normal a la circunferencia y un vector tensión hasta la elipse, con sus proyecciones punteadas sobre los ejes."}
 
+El elipsoide completo de $\boldsymbol\sigma_A$ (@fig-lame3d) tiene los semiejes de los tres ejes principales.
+Las líneas son los paralelos y meridianos de la esfera de normales transformados por $\boldsymbol\sigma$:
+
+![Elipsoide de Lamé de $\boldsymbol\sigma_A$ en ejes principales: semiejes $60$, $20$ y $40$ MPa. Malla calculada con Julia.](/recursos/fig/lame-3d.svg){#fig-lame3d .figura-tikz fig-alt="Un elipsoide en perspectiva, hecho de líneas de colores, con tres ejes de coordenadas etiquetados t1, t2 y t3 que lo atraviesan."}
+
 ## Qué se lee en él {#sec-lectura}
 
 - **Los semiejes son las tensiones principales.** El vector $\vec t$ más largo es el del plano con la
@@ -44,10 +49,71 @@ y el módulo de $\sigma_3=$ {{< num e01 ej3.sigma3 dec=0 unidad=MPa >}} (compres
 recoge los módulos y no distingue tracción de compresión).
 :::
 
+::: {.historia titulo="Lamé y Clapeyron"}
+La superficie lleva el nombre de Gabriel Lamé. Un catálogo de libros antiguos atribuye su primera presentación a la
+memoria de **Lamé y Clapeyron** sobre el equilibrio interior de los sólidos homogéneos, publicada según ese
+catálogo en el *Journal* de Crelle en 1831 [@lameclapeyron1831; @lynge_elasticidad]. La **datación no está
+resuelta**: otras fuentes dan 1833 para el texto y 1828 para su presentación en la Academia de París.
+:::
+
 ::: {.advertencia titulo="Límite de esta representación"}
 El elipsoide da $\vec t$ pero **no separa** directamente $\sigma_n$ y $\tau$ ni dice qué pares
 $(\sigma_n,\tau)$ son posibles. Eso lo da el [diagrama de Mohr](09-mohr.qmd). Además, mezcla tracción y
 compresión en los semiejes (módulos).
+:::
+
+::: {.errores}
+- Pensar que el elipsoide da por separado $\sigma_n$ y $\tau$: solo muestra **dónde acaba $\vec t$**.
+- Olvidar que los semiejes son **módulos**: una tensión principal negativa y una positiva dan semiejes positivos.
+- Suponer que $\vec t$ es siempre perpendicular al plano: solo lo es en los tres planos principales.
+:::
+
+**Pruébalo tú:** mueve la orientación del plano y mira cómo la punta de $\vec t$ recorre la elipse.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · El elipsoide de Lamé en el plano de σ₁ y σ₂</p>
+
+```{ojs}
+//| echo: false
+import {planoXY, lugarT, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof L_s1 = Inputs.range([-100, 100], {value: 60, step: 1, label: "σ₁ (MPa)"})
+viewof L_s2 = Inputs.range([-100, 100], {value: 20, step: 1, label: "σ₂ (MPa)"})
+viewof L_phi = Inputs.range([0, 360], {value: 40, step: 1, label: "φ de la normal (°)"})
+```
+
+```{ojs}
+//| echo: false
+L = planoXY(L_s1, L_s2, 0, L_phi)
+L_lugar = lugarT(L_s1, L_s2, 0)
+L_graf = {
+  const R = 1.2 * Math.max(Math.abs(L_s1), Math.abs(L_s2), 10);
+  const circ = Array.from({length: 121}, (_, i) => ({x: 0.28 * R * Math.cos(2 * Math.PI * i / 120), y: 0.28 * R * Math.sin(2 * Math.PI * i / 120)}));
+  const fl = (v, color, grosor = 3.5) => Plot.arrow([{x1: 0, y1: 0, x2: v[0], y2: v[1]}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: grosor, headLength: 13, bend: 0});
+  const svg = Plot.plot({
+    width: 520, height: 440, aspectRatio: 1, margin: 36, style: {fontSize: "13px"},
+    x: {domain: [-R, R], label: "t1 (MPa)", labelAnchor: "center"}, y: {domain: [-R, R], label: "t2 (MPa)"},
+    marks: [
+      Plot.ruleX([0], {stroke: "#8a94a3"}), Plot.ruleY([0], {stroke: "#8a94a3"}),
+      Plot.line(circ, {x: "x", y: "y", stroke: colores.gris, strokeWidth: 1.5}),
+      Plot.line(L_lugar, {x: "x", y: "y", stroke: colores.acero, strokeWidth: 3}),
+      fl([L.n[0] * 0.28 * R, L.n[1] * 0.28 * R], colores.verde, 3),
+      fl(L.t, colores.acero, 3.5),
+      Plot.dot([{x: L.t[0], y: L.t[1]}], {x: "x", y: "y", r: 5, fill: colores.acero}),
+      Plot.text([{x: L_s1, y: 0, t: "σ₁"}, {x: 0, y: L_s2, t: "σ₂"}], {x: "x", y: "y", text: "t", fill: colores.violeta, fontSize: 16, fontWeight: 600, dy: -10, dx: 14}),
+      Plot.dot([{x: L_s1, y: 0}, {x: 0, y: L_s2}], {x: "x", y: "y", r: 5, fill: colores.violeta})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Elipse de Lamé: lugar de las puntas del vector tensión para todas las normales del plano de las dos tensiones principales.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">elipse: puntas de t</span><span style="color:${colores.verde}">normal n (circunferencia unitaria, ampliada)</span><span style="color:${colores.violeta}">semiejes = σ₁ y σ₂</span></div><div style="overflow-x:auto">${L_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>φ = ${L_phi}°:</strong> t = (σ₁ n₁; σ₂ n₂) = (${fmt(L.t[0])}; ${fmt(L.t[1])}) MPa · σn = ${fmt(L.sigmaN)} MPa · τ = ${fmt(L.tau)} MPa.${L.tau < 0.05 ? " <strong>t ∥ n: plano principal.</strong>" : ""}${Math.abs(L_s1 - L_s2) < 0.5 ? " <strong>σ₁ = σ₂: la elipse es una circunferencia y todo plano es principal.</strong>" : ""}</p>`
+```
 :::
 
 {{< pregunta e01-q17 >}}

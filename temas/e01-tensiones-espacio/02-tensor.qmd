@@ -74,6 +74,52 @@ modelo clásico de la elasticidad que usamos en el curso. Bajo esa hipótesis el
 simétrico: **6 componentes independientes**, no 9.
 :::
 
+**Pruébalo tú:** elige un caso o cambia las componentes y mira cómo cambian las flechas sobre las caras.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Las nueve componentes sobre el elemento</p>
+
+```{ojs}
+//| echo: false
+import {CASOS, tensorDesdeComponentes, cuboPlot, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof C_caso = Inputs.select(CASOS, {label: "Caso", format: d => d.nombre, value: CASOS[CASOS.length - 1]})
+```
+
+```{ojs}
+//| echo: false
+viewof C_sxx = Inputs.range([-120, 120], {value: C_caso.c[0], step: 1, label: "σxx"})
+viewof C_syy = Inputs.range([-120, 120], {value: C_caso.c[1], step: 1, label: "σyy"})
+viewof C_szz = Inputs.range([-120, 120], {value: C_caso.c[2], step: 1, label: "σzz"})
+viewof C_sxy = Inputs.range([-120, 120], {value: C_caso.c[3], step: 1, label: "σxy"})
+viewof C_syz = Inputs.range([-120, 120], {value: C_caso.c[4], step: 1, label: "σyz"})
+viewof C_szx = Inputs.range([-120, 120], {value: C_caso.c[5], step: 1, label: "σzx"})
+```
+
+```{ojs}
+//| echo: false
+C_sigma = tensorDesdeComponentes([C_sxx, C_syy, C_szz, C_sxy, C_syz, C_szx])
+C = cuboPlot(C_sigma)
+C_vista = {
+  const svg = Plot.plot({
+    width: 520, height: 400, aspectRatio: 1, margin: 14, style: {fontSize: "14px"},
+    x: {domain: [-1.25, 1.75], axis: null}, y: {domain: [-0.95, 1.45], axis: null},
+    marks: [
+      ...C.ocultas.map(seg => Plot.line(seg, {x: d => d[0], y: d => d[1], stroke: "#8a94a3", strokeDasharray: "5 4"})),
+      ...C.caras.map((c, i) => Plot.line([...c.puntos, c.puntos[0]], {x: d => d[0], y: d => d[1], stroke: "currentColor", strokeWidth: 1.6, fill: ["#8a94a3", "#8a94a3", "#ffffff"][i], fillOpacity: [0.14, 0.28, 0.0][i]})),
+      Plot.arrow(C.flechas.filter(f => f.visible), {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: f => f.normal ? colores.acero : colores.cobre, strokeWidth: 3.5, headLength: 12, bend: 0}),
+      Plot.text(C.flechas.filter(f => f.visible), {x: "tx", y: "ty", text: "nombre", fill: f => f.normal ? colores.acero : colores.cobre, fontSize: 15, fontWeight: 600})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Elemento cúbico visto en proyección fija con las componentes de tensión sobre las tres caras visibles.");
+  return svg;
+}
+C_tabla = html`<table class="t3d-matriz"><tbody>${C_sigma.map(f => html`<tr>${f.map(v => html`<td>${fmt(v, 0)}</td>`)}</tr>`)}</tbody></table>`
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">tensión normal (primer índice = segundo)</span><span style="color:${colores.cobre}">tensión tangencial (índices distintos)</span></div>
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; overflow-x:auto">${C_vista}<div><p class="t3d-sub">σ (MPa)</p>${C_tabla}<p class="t3d-sub">Cada fila es el vector tensión sobre el plano de esa normal.</p></div></div>`
+```
+:::
+
 ## Cómo se lee un estado de tensiones {#sec-lectura}
 
 Conocido $\boldsymbol\sigma$, cada fila es un vector tensión sobre un plano coordenado y cada elemento
@@ -103,6 +149,26 @@ componente $\sigma_{xy}$ en la cara oculta opuesta? ¿Y por qué debe haber una 
 :::
 
 {{< pregunta e01-q19 >}}
+
+::: {.errores}
+- Leer la matriz por **columnas** cuando se pide el vector tensión de un plano: cada **fila** corresponde a un plano.
+- Contar **9** componentes independientes: por el equilibrio de momentos hay solo **6**.
+- Decir «tracción» para una tensión normal negativa: con el convenio del libro, $\sigma_{ii}<0$ es compresión.
+- Olvidar que el **primer índice** es la normal del plano y el segundo, la dirección de la componente.
+:::
+
+::::: {.codigo titulo="comprobar la simetría"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="simetria" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="simetria" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 El estado de tensiones en un punto queda descrito por **6 números** (el tensor simétrico $\boldsymbol\sigma$)

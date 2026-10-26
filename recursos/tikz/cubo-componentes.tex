@@ -1,9 +1,9 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
 % x hacia el observador (abajo-izquierda), y a la derecha, z arriba (terna dextrógira)
 \begin{tikzpicture}[etq/.style={etiq,fill=white,inner sep=1.2pt},x={(-0.7cm,-0.5cm)},y={(1cm,0cm)},z={(0cm,1cm)}]
-\def\L{3.6}
+\def\L{4.4}
 % aristas ocultas
 \draw[gris,dashed] (0,0,0) -- (0,\L,0);
 \draw[gris,dashed] (0,0,0) -- (0,0,\L);
@@ -13,25 +13,25 @@
 \filldraw[fill=superficie!60!gris,draw=tinta,thick] (\L,\L,0) -- (0,\L,0) -- (0,\L,\L) -- (\L,\L,\L) -- cycle;
 \filldraw[fill=white,draw=tinta,thick] (\L,0,\L) -- (\L,\L,\L) -- (0,\L,\L) -- (0,0,\L) -- cycle;
 % ejes (fuera del cubo)
-\coordinate (Oe) at (-3.6cm,-0.2cm);
+\coordinate (Oe) at (-4.6cm,-0.4cm);
 \draw[eje] (Oe) -- ++(-0.6cm,-0.45cm) node[below left,etiq]{$x$};
 \draw[eje] (Oe) -- ++(1cm,0cm) node[right,etiq]{$y$};
 \draw[eje] (Oe) -- ++(0cm,1cm) node[above,etiq]{$z$};
 % centros de las caras
-\coordinate (carax) at (\L,1.8,1.8);
-\coordinate (caray) at (1.8,\L,1.8);
-\coordinate (caraz) at (1.8,1.8,\L);
+\coordinate (carax) at (\L,2.2,2.2);
+\coordinate (caray) at (2.2,\L,2.2);
+\coordinate (caraz) at (2.2,2.2,\L);
 % cara x (normal +x)
-\draw[vtension] (carax) -- ++(-0.95cm,-0.68cm) node[left,etq]{$\sigma_{xx}$};
+\draw[vtension] (carax) -- ++(-1.15cm,-0.85cm) node[left,etq]{$\sigma_{xx}$};
 \draw[fuerza]   (carax) -- ++(1.1cm,0cm)      node[right,etq]{$\sigma_{xy}$};
-\draw[fuerza]   (carax) -- ++(0cm,1.1cm)      node[left,etq]{$\sigma_{xz}$};
+\draw[fuerza]   (carax) -- ++(0cm,1.5cm)      node[left,etq]{$\sigma_{xz}$};
 % cara y (normal +y)
-\draw[vtension] (caray) -- ++(1.1cm,0cm)       node[right,etq]{$\sigma_{yy}$};
+\draw[vtension] (caray) -- ++(1.4cm,0cm)       node[right,etq]{$\sigma_{yy}$};
 \draw[fuerza]   (caray) -- ++(-0.62cm,-0.45cm)  node[below,etq]{$\sigma_{yx}$};
-\draw[fuerza]   (caray) -- ++(0cm,1.1cm)       node[above,etq]{$\sigma_{yz}$};
+\draw[fuerza]   (caray) -- ++(0cm,1.5cm)       node[above,etq]{$\sigma_{yz}$};
 % cara z (normal +z)
-\draw[vtension] (caraz) -- ++(0cm,1.1cm)       node[above,etq]{$\sigma_{zz}$};
+\draw[vtension] (caraz) -- ++(0cm,1.3cm)       node[above,etq]{$\sigma_{zz}$};
 \draw[fuerza]   (caraz) -- ++(-0.62cm,-0.45cm)  node[right,etq]{$\sigma_{zx}$};
-\draw[fuerza]   (caraz) -- ++(1.1cm,0cm)       node[right,etq]{$\sigma_{zy}$};
+\draw[fuerza]   (caraz) -- ++(1.5cm,0cm)       node[right,etq]{$\sigma_{zy}$};
 \end{tikzpicture}
 \end{document}

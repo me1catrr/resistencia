@@ -71,7 +71,7 @@ function resumen(σ)
     σo, τo = octaedricas(σ)
     return obj("sigma" => σ, "principales" => p.valores, "vectores" => p.vectores,
                "invariantes" => [I1, I2, I3], "sigma_m" => σm, "desviador" => S,
-               "J2" => J2, "J3" => J3, "desviador_principales" => p.valores .- σm,
+               "clase" => String(clasificar_estado(σ)), "J2" => J2, "J3" => J3, "desviador_principales" => p.valores .- σm,
                "sigma_oct" => σo, "tau_oct" => τo,
                "tau_max" => tau_max(p.valores))
 end

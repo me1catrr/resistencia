@@ -1,4 +1,4 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \input{datos-e01}
 \pgfkeys{/pgf/number format/.cd,fixed,precision=1,set decimal separator={,},zerofill=false}
@@ -30,7 +30,7 @@
 % tau maxima
 \draw[dashed,tinta] (0,\rA) -- (\cA,\rA);
 \pgfmathsetmacro{\taumax}{\rA/\k}
-\node[etq,above left] at (0,\rA) {$\tau_{\max}=\pgfmathprintnumber{\taumax}$};
+\node[etq,left] at (0,\rA) {$\tau_{\max}=\pgfmathprintnumber{\taumax}$};
 % punto de un plano concreto
 \draw[dotted,tinta] (\px,0) -- (\px,\py) -- (0,\py);
 \fill[violeta] (\px,\py) circle (2.4pt);

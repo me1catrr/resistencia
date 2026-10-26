@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% Unión soldada solapada: la carga pasa de una chapa a otra por los cordones de soldadura.
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.5pt}]
+\filldraw[cuerpo] (0,0) rectangle (4.6,0.55);
+\filldraw[cuerpo,fill=acero!12] (3.2,0.55) rectangle (7.8,1.1);
+% cordones de soldadura (triángulos en los extremos del solape)
+\filldraw[fill=cobre!35,draw=cobre,thick] (4.6,0.55) -- (4.6,0.0) -- (5.15,0.55) -- cycle;
+\filldraw[fill=cobre!35,draw=cobre,thick] (3.2,0.55) -- (2.65,0.55) -- (3.2,1.1) -- cycle;
+% cargas de tracción: ambas tiran hacia fuera
+\draw[fuerza] (-0.05,0.275) -- (-1.5,0.275) node[midway,above,etq]{$F$};
+\draw[fuerza] (7.85,0.825) -- (9.3,0.825) node[midway,above,etq]{$F$};
+% rótulos
+\node[etq,text=cobre,align=center] at (5.6,-0.95) {cordón de soldadura};
+\draw[->,cobre,thick] (5.45,-0.65) -- (4.95,0.05);
+\node[etq,text=cobre,align=center] at (1.7,1.95) {cordón de soldadura};
+\draw[->,cobre,thick] (1.9,1.65) -- (2.85,0.95);
+% flujo de la carga
+\draw[vtension,dashed] (0.6,0.275) -- (4.0,0.275) -- (4.0,0.825) -- (7.2,0.825);
+\node[etq,text=acero] at (4.0,-0.55) {recorrido de la carga};
+\end{tikzpicture}
+\end{document}

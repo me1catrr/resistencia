@@ -18,6 +18,14 @@ class PruebaEjemplo(unittest.TestCase):
                          "σm = 13.3333   J2 = 2533.3333"):
             self.assertIn(esperado, salida)
 
+    def test_script_de_casos_particulares(self):
+        r = subprocess.run([sys.executable, str(RAIZ / "python" / "ejemplos" / "e01_casos.py")],
+                           capture_output=True, text=True, timeout=60)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        for esperado in ("→ uniaxial", "→ biaxial", "→ cortante_puro", "→ cilindrico", "→ esferico",
+                         "→ triaxial", "τmáx = 50.0", "Cortante puro con los ejes girados → cortante_puro"):
+            self.assertIn(esperado, r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

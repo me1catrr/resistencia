@@ -9,6 +9,10 @@ $r-superficie: #1b212b;
 $r-texto: #e7eaef;
 $r-tenue: #aab3c0;
 $r-borde: #3a4454;
+$r-rojo: #ff9b92;
+$r-rojo-fondo: #2b1a19;
+$r-ambar: #e8b84d;
+$r-ambar-fondo: #2a2314;
 $r-sobre-acento: #0b1018;
 
 $primary: $r-acero;
@@ -32,6 +36,10 @@ $font-family-monospace: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --r-texto: #{$r-texto};
   --r-tenue: #{$r-tenue};
   --r-borde: #{$r-borde};
+  --r-rojo: #{$r-rojo};
+  --r-rojo-fondo: #{$r-rojo-fondo};
+  --r-ambar: #{$r-ambar};
+  --r-ambar-fondo: #{$r-ambar-fondo};
   --r-sobre-acento: #{$r-sobre-acento};
 }
 // Las figuras TikZ pasan a SVG con el texto en trazos: no cambian de color.

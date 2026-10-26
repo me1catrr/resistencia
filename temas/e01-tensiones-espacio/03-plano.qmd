@@ -39,6 +39,12 @@ $$
 \vec t=\sum_i n_i\,\vec t(\vec e_i),\qquad\text{es decir}\qquad t_j=\sum_i n_i\,\sigma_{ij}.
 $$
 
+::: {.historia titulo="El tetraedro de Cauchy"}
+El argumento del tetraedro que acabas de seguir se debe a Cauchy, que lo expuso junto con la idea del vector
+tensión en su memoria de 1822 (publicada en 1823) [@cauchy1823; @azadi2017]. Es la prueba de que el vector
+tensión sobre cualquier plano queda determinado por el que actúa sobre tres planos coordenados.
+:::
+
 ## Fórmula de Cauchy {#sec-cauchy}
 
 Como $\boldsymbol\sigma$ es simétrico ($\sigma_{ij}=\sigma_{ji}$), la suma anterior es el producto de la
@@ -87,14 +93,101 @@ $\sigma_n=$ {{< num e01 ej5.sigma_n dec=2 unidad=MPa >}} y $\tau=$ {{< num e01 e
 El desarrollo completo está en los [ejemplos](13-ejemplos.qmd).
 :::
 
+**Pruébalo tú:** cambia el tensor y la orientación del plano. Para los planos que contienen al eje $z$ la normal queda
+en el plano $xy$ y todo se ve en dos dimensiones; el óvalo discontinuo es el lugar de las puntas de $\vec t$.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación 2 · Vector tensión sobre los planos que contienen al eje z</p>
+
+```{ojs}
+//| echo: false
+import {planoXY, lugarT, curvasPlanoXY, anguloPrincipal, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof P_sxx = Inputs.range([-100, 100], {value: 24, step: 1, label: "σxx (MPa)"})
+viewof P_syy = Inputs.range([-100, 100], {value: -4, step: 1, label: "σyy (MPa)"})
+viewof P_sxy = Inputs.range([-100, 100], {value: 48, step: 1, label: "σxy (MPa)"})
+viewof P_irp = Inputs.toggle({label: "Ir al plano de σ₁ (plano principal)", value: false})
+viewof P_phi0 = Inputs.range([0, 180], {value: 30, step: 1, label: "φ: ángulo de la normal con x (°)"})
+```
+
+```{ojs}
+//| echo: false
+P_phi = P_irp ? anguloPrincipal(P_sxx, P_syy, P_sxy) : P_phi0
+P = planoXY(P_sxx, P_syy, P_sxy, P_phi)
+P_lugar = lugarT(P_sxx, P_syy, P_sxy)
+P_curvas = curvasPlanoXY(P_sxx, P_syy, P_sxy)
+P_R = 1.18 * Math.max(...P_lugar.map(q => Math.hypot(q.x, q.y)), 10)
+P_vista = {
+  const L = 0.22 * P_R;                                   // longitud dibujada de la normal
+  const fl = (v, color, rotulo, dx, dy, grosor = 3.5) => [
+    Plot.arrow([{x1: 0, y1: 0, x2: v[0], y2: v[1]}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: color, strokeWidth: grosor, headLength: 13, bend: 0}),
+    Plot.text([{x: v[0] + dx * P_R, y: v[1] + dy * P_R, t: rotulo}], {x: "x", y: "y", text: "t", fill: color, fontSize: 17, fontWeight: 600})
+  ];
+  const svg = Plot.plot({
+    width: 470, height: 420, aspectRatio: 1, margin: 36, style: {fontSize: "13px"},
+    x: {domain: [-P_R, P_R], label: "tx (MPa)", labelAnchor: "center"}, y: {domain: [-P_R, P_R], label: "ty (MPa)"},
+    marks: [
+      Plot.ruleX([0], {stroke: "#8a94a3"}), Plot.ruleY([0], {stroke: "#8a94a3"}),
+      Plot.line(P_lugar, {x: "x", y: "y", stroke: colores.gris, strokeWidth: 2, strokeDasharray: "6 4"}),
+      ...fl([P.n[0] * L, P.n[1] * L], colores.verde, "n", 0.05, 0.05, 3),
+      ...fl(P.t, colores.acero, "t", 0.04, 0.05, 4),
+      ...fl([P.sigmaN * P.n[0], P.sigmaN * P.n[1]], colores.verde, "σn", -0.05, -0.06, 2.5),
+      ...fl(P.tauVec, colores.cobre, "τ", 0.05, -0.05, 2.5),
+      Plot.dot([{x: P.t[0], y: P.t[1]}], {x: "x", y: "y", r: 5, fill: colores.acero})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Lugar geométrico de las puntas del vector tensión para todas las normales del plano xy, con el vector del plano elegido y sus componentes normal y tangencial.");
+  return svg;
+}
+P_graf = {
+  const svg = Plot.plot({
+    width: 460, height: 420, marginLeft: 52, marginBottom: 44, style: {fontSize: "14px"},
+    x: {label: "φ (grados)", labelAnchor: "center", domain: [0, 180], ticks: [0, 45, 90, 135, 180]},
+    y: {label: "MPa", grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "#8a94a3"}),
+      Plot.line(P_curvas, {x: "phi", y: "sn", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(P_curvas, {x: "phi", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.ruleX([P_phi], {stroke: colores.violeta, strokeDasharray: "5 4"}),
+      Plot.dot([{x: P_phi, y: P.sigmaN}], {x: "x", y: "y", fill: colores.verde, r: 6}),
+      Plot.dot([{x: P_phi, y: P.tau}], {x: "x", y: "y", fill: colores.cobre, r: 6})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Tensión normal y tangencial sobre el plano en función del ángulo de su normal; los puntos marcan el ángulo elegido.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">t = σ n</span><span style="color:${colores.verde}">σn (normal)</span><span style="color:${colores.cobre}">τ (tangencial)</span><span style="color:${colores.gris}">lugar de t para todas las normales</span></div>
+<div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-start; overflow-x:auto">${P_vista}${P_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>φ = ${fmt(P_phi, 1)}°:</strong> t = (${fmt(P.t[0])}; ${fmt(P.t[1])}) MPa · σn = ${fmt(P.sigmaN)} MPa · τ = ${fmt(P.tau)} MPa.${P.tau < 0.05 ? " <strong>τ = 0: es un plano principal</strong> (t es paralelo a n)." : ""}</p>`
+```
+:::
+
 {{< pregunta e01-q07 >}}
+
+::::: {.codigo titulo="vector tensión y componentes de un plano"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="traccion" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="traccion" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 **Fórmula de Cauchy:** $\vec t=\boldsymbol\sigma\vec n$. El tensor $\boldsymbol\sigma$ es, literalmente,
 la «máquina» que convierte la orientación de un plano en la tensión que actúa sobre él.
 :::
 
-::: {.advertencia titulo="Errores frecuentes"}
+::: {.errores}
 - Usar una normal **no unitaria**: $\vec t$ sale escalado.
 - Tomar $\sigma_n=\lvert\vec t\rvert$: solo es cierto si $\tau=0$.
 - Olvidar que $\sigma_n$ **tiene signo** (tracción o compresión) y $\tau$ no.

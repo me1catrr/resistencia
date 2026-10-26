@@ -36,6 +36,14 @@ $\tau_{\max}=$ {{< num e01 esfdes.tau_max dec=0 unidad=MPa >}}, y el punto $(\si
 región admisible de Mohr (la prueba numérica de la implementación de referencia lo confirma).
 :::
 
+::: {.historia titulo="Del criterio de Hencky–von Mises a Nadai"}
+Según una fuente secundaria, Heinrich Hencky llegó de forma independiente en 1924 a un criterio de plastificación
+equivalente al de von Mises, con una lectura en términos de energía de distorsión [@hencky1924; @wiki_vonmises].
+En 1937 Arpad Nadai propuso interpretarlo así: la plastificación empieza cuando la **tensión tangencial
+octaédrica** alcanza el valor que tiene en tracción simple [@nadai1937; @wiki_vonmises]. Por eso aquel criterio se
+llama también «de la máxima tensión tangencial octaédrica». Lo estudiaremos en E06.
+:::
+
 ## Para qué sirven {#sec-para-que}
 
 Son el puente natural con los **criterios de agotamiento** (E06): la tensión tangencial octaédrica, o
@@ -43,9 +51,57 @@ equivalentemente $J_2$, mide la «intensidad» de la parte desviadora y es la ma
 varios criterios para materiales dúctiles. Por ahora basta quedarse con que son combinaciones invariantes
 del estado.
 
+**Pruébalo tú:** mueve las tensiones principales y observa la relación entre $\tau_{\text{oct}}$ y $\tau_{\max}$.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · τ octaédrica frente a τ máxima</p>
+
+```{ojs}
+//| echo: false
+import {descomposicion, circulosMohrDatos, COTA_RAZON_OCT, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof O_s1 = Inputs.range([-100, 100], {value: 60, step: 1, label: "σ₁ (MPa)"})
+viewof O_d12 = Inputs.range([0, 150], {value: 40, step: 1, label: "σ₁ − σ₂"})
+viewof O_d23 = Inputs.range([0, 150], {value: 60, step: 1, label: "σ₂ − σ₃"})
+```
+
+```{ojs}
+//| echo: false
+O_s2 = O_s1 - O_d12
+O_s3 = O_s2 - O_d23
+O = descomposicion(O_s1, O_s2, O_s3)
+O_m = circulosMohrDatos(O_s1, O_s2, O_s3)
+O_graf = {
+  const ymax = Math.max(O_m.k.r13 * 1.2, 8), pad = 0.12 * Math.max(O_s1 - O_s3, 20);
+  const svg = Plot.plot({
+    width: 560, height: 340, marginBottom: 44, marginLeft: 50, aspectRatio: 1, style: {fontSize: "14px"},
+    x: {label: "σ (MPa)", labelAnchor: "center", domain: [O_s3 - pad, O_s1 + pad], grid: true}, y: {label: "τ (MPa)", domain: [-0.1 * ymax, ymax], grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "currentColor"}),
+      Plot.line(O_m.c13, {x: "sn", y: "tau", stroke: colores.acero, strokeWidth: 3}),
+      Plot.line(O_m.c12, {x: "sn", y: "tau", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(O_m.c23, {x: "sn", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.dot([{x: O.sigmaOct, y: O.tauOct}], {x: "x", y: "y", r: 8, fill: colores.violeta, stroke: "white", strokeWidth: 2}),
+      Plot.dot([{x: O_m.k.c13, y: O.tauMax}], {x: "x", y: "y", r: 6, fill: "currentColor"}),
+      Plot.text([{x: O.sigmaOct, y: O.tauOct, t: "τoct"}], {x: "x", y: "y", text: "t", dx: 26, fill: colores.violeta, fontSize: 15, fontWeight: 600}),
+      Plot.text([{x: O_m.k.c13, y: O.tauMax, t: "τmáx"}], {x: "x", y: "y", text: "t", dx: 30, fill: "currentColor", fontSize: 15, fontWeight: 600})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Círculos de Mohr con el punto octaédrico y la tensión tangencial máxima.");
+  return svg;
+}
+html`<div style="overflow-x:auto">${O_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite">σoct = ${fmt(O.sigmaOct)} MPa · <strong>τoct = ${fmt(O.tauOct)} MPa</strong> · τmáx = ${fmt(O.tauMax)} MPa · <strong>τoct/τmáx = ${fmt(O.razon, 3)}</strong>. La razón siempre está entre ${fmt(COTA_RAZON_OCT.min, 3)} (σ₂ en el centro de σ₁ y σ₃) y ${fmt(COTA_RAZON_OCT.max, 3)} (σ₂ = σ₁ o σ₂ = σ₃). Con las tres iguales, τoct = τmáx = 0.</p>`
+```
+:::
+
 {{< pregunta e01-q25 >}}
 
-::: {.advertencia titulo="Errores frecuentes"}
+::: {.errores}
 - Confundir $\tau_{\text{oct}}$ con $\tau_{\max}$: son planos distintos. Para unas mismas $\sigma_1$ y $\sigma_3$,
   $\tau_{\text{oct}}$ queda siempre entre $\tfrac{\sqrt6}{3}\,\tau_{\max}\approx0{,}82\,\tau_{\max}$
   (cuando $\sigma_2$ es la media de las otras dos) y $\tfrac{2\sqrt2}{3}\,\tau_{\max}\approx0{,}94\,\tau_{\max}$

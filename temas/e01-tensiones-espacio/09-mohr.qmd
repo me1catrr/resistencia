@@ -57,6 +57,11 @@ dos pequeños ($\sigma_1$ a $\sigma_2$ y $\sigma_2$ a $\sigma_3$). Cualquier par
 
 ![Los tres círculos de Mohr de $\boldsymbol\sigma_A$ y la región admisible (en azul claro). El punto violeta es el plano de normal $(1,2,2)/3$.](/recursos/fig/mohr-3d.svg){#fig-mohr .figura-tikz fig-alt="Tres semicírculos con diámetro en el eje horizontal sigma: uno grande de menos 40 a 60 megapascales y dos pequeños, de 20 a 60 y de menos 40 a 20. La región entre ellos está sombreada y contiene un punto marcado."}
 
+¿De verdad cualquier plano cae en esa región? Se han calculado 2500 planos al azar con Julia y se han dibujado
+sus $(\sigma_n,\tau)$ (@fig-nube): llenan exactamente la región entre los tres círculos y no salen de ella.
+
+![Pares $(\sigma_n,\tau)$ de 2500 planos elegidos al azar en $\boldsymbol\sigma_A$ (puntos), con los tres círculos de Mohr. Datos calculados con Julia.](/recursos/fig/mohr-nube.svg){#fig-nube .figura-tikz fig-alt="Una nube de puntos que llena la región entre un círculo grande y dos pequeños, todos con diámetro en el eje horizontal, sin salirse de ella."}
+
 ## Valores extremos {#sec-extremos}
 
 - La mayor y la menor tensión normal son $\sigma_1$ y $\sigma_3$ (los extremos del círculo grande).
@@ -84,9 +89,76 @@ $r_{23}^2=$ {{< num e01 ej5.radios2.3 dec=0 >}}, en MPa²) y las distancias al c
 Está en la región admisible: era de esperar, porque procede de un plano real.
 :::
 
+**Pruébalo tú:** mueve la normal del plano (en ejes principales) y mira su punto entre los tres círculos. La nube de puntos son 1500 planos al azar.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Mueve el plano y mira su punto en los tres círculos de Mohr</p>
+
+```{ojs}
+//| echo: false
+import {circulosMohrDatos, planoPrincipal, nubeMohr, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof M_s1 = Inputs.range([-100, 100], {value: 60, step: 1, label: "σ₁ (MPa)"})
+viewof M_d12 = Inputs.range([0, 120], {value: 40, step: 1, label: "σ₁ − σ₂"})
+viewof M_d23 = Inputs.range([0, 120], {value: 60, step: 1, label: "σ₂ − σ₃"})
+viewof M_az = Inputs.range([0, 360], {value: 40, step: 1, label: "acimut φ (°)"})
+viewof M_po = Inputs.range([0, 180], {value: 55, step: 1, label: "polar ϑ (°)"})
+viewof M_nube = Inputs.toggle({label: "nube de planos", value: true})
+```
+
+```{ojs}
+//| echo: false
+M_s2 = M_s1 - M_d12
+M_s3 = M_s2 - M_d23
+M = circulosMohrDatos(M_s1, M_s2, M_s3)
+M_pl = planoPrincipal(M_s1, M_s2, M_s3, M_az, M_po)
+M_pts = nubeMohr(M_s1, M_s2, M_s3, 1500)
+M_dist = (c) => (M_pl.sigmaN - c.c) ** 2 + M_pl.tau ** 2
+M_graf = {
+  const k = M.k, ymax = Math.max(k.r13 * 1.18, 8);
+  const xmin = M_s3 - 0.12 * (M_s1 - M_s3 + 20), xmax = M_s1 + 0.12 * (M_s1 - M_s3 + 20);
+  const etiqueta = (x, t) => Plot.text([{x, y: 0, t}], {x: "x", y: "y", text: "t", dy: 18, fill: "currentColor", fontSize: 14, fontWeight: 600});
+  const svg = Plot.plot({
+    width: 560, height: 360, marginBottom: 44, marginLeft: 50, aspectRatio: 1,
+    style: {fontSize: "14px"},
+    x: {label: "σn (MPa)", labelAnchor: "center", domain: [xmin, xmax], grid: true},
+    y: {label: "τ (MPa)", domain: [-0.1 * ymax, ymax], grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "currentColor"}), Plot.ruleX([0], {stroke: "#8a94a3"}),
+      ...(M_nube ? [Plot.dot(M_pts, {x: "sn", y: "tau", r: 1.6, fill: colores.acero, fillOpacity: 0.35})] : []),
+      Plot.line(M.c13, {x: "sn", y: "tau", stroke: colores.acero, strokeWidth: 3}),
+      Plot.line(M.c12, {x: "sn", y: "tau", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(M.c23, {x: "sn", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.dot(M.lambda.map(v => ({x: v, y: 0})), {x: "x", y: "y", r: 4, fill: "currentColor"}),
+      etiqueta(M.lambda[0], "σ₁"), etiqueta(M.lambda[1], "σ₂"), etiqueta(M.lambda[2], "σ₃"),
+      Plot.link([{x1: M_pl.sigmaN, y1: 0, x2: M_pl.sigmaN, y2: M_pl.tau}, {x1: xmin, y1: M_pl.tau, x2: M_pl.sigmaN, y2: M_pl.tau}], {x1: "x1", y1: "y1", x2: "x2", y2: "y2", stroke: colores.violeta, strokeDasharray: "4 4"}),
+      Plot.dot([{x: M_pl.sigmaN, y: M_pl.tau}], {x: "x", y: "y", r: 8, fill: colores.violeta, stroke: "white", strokeWidth: 2})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Diagrama de Mohr con los tres círculos y el punto correspondiente al plano elegido.");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">círculo grande (σ₁ − σ₃)</span><span style="color:${colores.verde}">σ₁ − σ₂</span><span style="color:${colores.cobre}">σ₂ − σ₃</span><span style="color:${colores.violeta}">plano elegido (σn, τ)</span></div><div style="overflow-x:auto">${M_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>Plano de normal</strong> n = (${fmt(M_pl.n[0], 2)}; ${fmt(M_pl.n[1], 2)}; ${fmt(M_pl.n[2], 2)}) en ejes principales: σn = ${fmt(M_pl.sigmaN)} MPa · τ = ${fmt(M_pl.tau)} MPa. Tensiones principales ${fmt(M_s1)}; ${fmt(M_s2)}; ${fmt(M_s3)} MPa y τmáx = ${fmt(M.k.r13)} MPa.
+Comprobación: ${M_dist({c: M.k.c13}) <= M.k.r13 ** 2 + 1e-6 ? "dentro" : "FUERA"} del círculo grande · ${M_dist({c: M.k.c12}) >= M.k.r12 ** 2 - 1e-6 ? "fuera" : "DENTRO"} del círculo σ₁–σ₂ · ${M_dist({c: M.k.c23}) >= M.k.r23 ** 2 - 1e-6 ? "fuera" : "DENTRO"} del círculo σ₂–σ₃.
+${Math.abs(M_pl.tau) < 0.05 ? "<strong>τ = 0: el plano es principal.</strong>" : ""}</p>`
+```
+:::
+
 {{< pregunta e01-q18 >}}
 
 {{< pregunta e01-q21 >}}
+
+::: {.errores}
+- Dibujar **un solo** círculo (el de $\sigma_1$ y $\sigma_3$): hay tres, y la región válida queda **entre** ellos.
+- Leer un punto de la región como si fuera **un único plano**: varios planos pueden dar el mismo $(\sigma_n,\tau)$.
+- Poner $\tau$ con signo: aquí es un **módulo**, siempre $\ge0$.
+- Creer que cualquier punto dentro del círculo grande es posible: los puntos **dentro de los pequeños** no lo son.
+:::
 
 ## Cómo usarlo {#sec-uso}
 
@@ -102,12 +174,26 @@ usa la fórmula de Cauchy; el diagrama sirve para acotar y comprobar. El caso pa
 contienen una dirección principal (círculo de Mohr plano, en E02) sí permite relacionar ángulos.
 :::
 
-::: {.historia titulo="Mohr y sus antecedentes"}
-Esta representación gráfica lleva el nombre de Otto Mohr, que publicó en 1882 una memoria sobre la
-representación del estado de tensiones y su aplicación a la resistencia de materiales [@mohr1882]. Según
-fuentes secundarias, se apoyó en trabajos anteriores de Culmann y extendió la construcción a tres
-dimensiones; no he consultado el original.
+::: {.historia titulo="De Culmann a Mohr"}
+Según fuentes secundarias, **Karl Culmann**, que enseñaba estática gráfica en la ETH de Zúrich desde 1860, fue el
+primero en idear una representación gráfica de las tensiones al estudiar las que aparecen en la flexión de vigas
+[@wiki_mohr]. **Otto Mohr** la amplió a tres dimensiones y la publicó en 1882 en *Der Civilingenieur*, y la usó para
+proponer una teoría de resistencia basada en las tensiones tangenciales [@mohr1882]. No he consultado ninguno de
+los dos originales.
 :::
+
+::::: {.codigo titulo="círculos de Mohr y región admisible"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="mohr" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="mohr" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 Los $(\sigma_n,\tau)$ de todos los planos de un punto llenan la región de los **tres círculos de Mohr**.

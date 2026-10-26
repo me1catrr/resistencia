@@ -157,7 +157,7 @@ def completar_versiones(t: dict, raiz: Path, escribir: bool) -> list[str]:
 
 CABECERA_VERSIONES = """# Versión y estado de cada tema. Lo edita una persona (o se añade en esqueleto).
 #   estado:            esqueleto | borrador | revisado | publicado
-#   revision_tecnica:  fecha AAAA-MM-DD; SOLO si el profesor ha revisado de verdad el tema.
+#   revision_tecnica:  fecha AAAA-MM-DD; SOLO si el profesorado ha revisado de verdad el tema.
 #                      Si falta, la web muestra «revisión técnica pendiente». No inventar fechas.
 #   referencias:       claves de recursos/bibliografia.bib, separadas por comas, entre corchetes.
 # La fecha de última modificación NO se escribe aquí: sale de git.
@@ -287,7 +287,7 @@ oficiales; los apartados internos de cada tema son propuesta docente.
 |---|---|---|
 {tabla}
 
-Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesor),
+Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesoradoado),
 *revisado* y *publicado*.
 """
 

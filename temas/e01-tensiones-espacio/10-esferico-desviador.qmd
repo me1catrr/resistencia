@@ -53,15 +53,72 @@ $J_2=$ {{< num e01 esfdes.J2 dec=1 >}} MPa²; con la fórmula de los invariantes
 $(40^2-3\cdot(-2000))/3$ da el mismo valor.
 :::
 
+**Pruébalo tú:** cambia las tres tensiones principales y comprueba que el desviador siempre suma cero.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Esférico + desviador</p>
+
+```{ojs}
+//| echo: false
+import {descomposicion, barrasDescomposicion, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof D_s1 = Inputs.range([-100, 100], {value: 60, step: 1, label: "σ₁ (MPa)"})
+viewof D_s2 = Inputs.range([-100, 100], {value: 20, step: 1, label: "σ₂ (MPa)"})
+viewof D_s3 = Inputs.range([-100, 100], {value: -40, step: 1, label: "σ₃ (MPa)"})
+```
+
+```{ojs}
+//| echo: false
+D = descomposicion(D_s1, D_s2, D_s3)
+D_barras = barrasDescomposicion(D_s1, D_s2, D_s3).map(d => ({...d, nombre: "σ" + ["₁", "₂", "₃"][d.i - 1]}))
+D_graf = {
+  const R = Math.max(10, ...D.lambda.map(Math.abs)) * 1.25;
+  const svg = Plot.plot({
+    width: 600, height: 340, marginBottom: 44, marginLeft: 52, style: {fontSize: "14px"},
+    marginLeft: 60, marginTop: 34, facet: {marginRight: 14},
+    fx: {label: null, axis: "top", tickFormat: d => d.slice(4), tickSize: 0}, x: {label: null, padding: 0.25}, y: {label: "MPa", grid: true, domain: [-R, R]},
+    color: {domain: ["1 · estado σ", "2 · esférico σm", "3 · desviador S"], range: [colores.acero, colores.verde, colores.cobre]},
+    marks: [
+      Plot.ruleY([0]),
+      Plot.barY(D_barras, {fx: "parte", x: "nombre", y: "valor", fill: "parte"}),
+      Plot.text(D_barras.filter(d => d.valor >= 0), {fx: "parte", x: "nombre", y: "valor", text: d => fmt(d.valor, 1), dy: -9, fontSize: 13}),
+      Plot.text(D_barras.filter(d => d.valor < 0), {fx: "parte", x: "nombre", y: "valor", text: d => fmt(d.valor, 1), dy: 11, fontSize: 13})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Barras de las tres tensiones principales, de su parte esférica (igual en las tres) y de su parte desviadora (suma nula).");
+  return svg;
+}
+html`<div class="sim-leyenda"><span style="color:${colores.acero}">σ = estado dado</span><span style="color:${colores.verde}">σm·I: esférico (cambia el volumen)</span><span style="color:${colores.cobre}">S: desviador (cambia la forma)</span></div><div style="overflow-x:auto">${D_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>σm = ${fmt(D.sigmaM)} MPa</strong> (media) · desviador: ${D.s.map(v => fmt(v)).join("; ")} MPa, <strong>suma = ${fmt(D.s.reduce((a, b) => a + b, 0), 1)}</strong> · J₂ = ${fmt(D.J2)} MPa² · τoct = ${fmt(D.tauOct)} MPa.${D.J2 < 1e-9 ? " <strong>Estado esférico: el desviador es nulo.</strong>" : ""}${Math.abs(D.sigmaM) < 1e-9 ? " <strong>σm = 0: el estado es puramente desviador.</strong>" : ""}</p>`
+```
+:::
+
 {{< pregunta e01-q22 >}}
 
 {{< pregunta e01-q23 >}}
 
-::: {.advertencia titulo="Errores frecuentes"}
+::: {.errores}
 - Restar $\sigma_m$ solo de las componentes **normales**: el desviador tiene las **mismas tangenciales** que $\boldsymbol\sigma$.
 - Creer que el desviador «no tiene» tensiones: tiene tangenciales y normales; solo su traza es nula.
 - Confundir la tensión media $\sigma_m$ con la tensión normal sobre un plano.
 :::
+
+::::: {.codigo titulo="esférico, desviador, $J_2$ y octaédricas"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="esferico_desviador" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="esferico_desviador" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 $\boldsymbol\sigma=\sigma_m I+\mathbf S$: la parte esférica cambia el **volumen** y la desviadora la **forma**.

@@ -6,7 +6,7 @@ tema-id: e01
 Cinco problemas con números sencillos y **verificados** con la implementación de referencia. Del 2 al 5
 comparten el mismo tensor $\boldsymbol\sigma_A$, para poder seguir un hilo. Cada uno sigue el mismo
 esquema: enunciado, datos, hipótesis, resolución, resultado con unidades, interpretación, verificación y
-errores frecuentes. Los números que aparecen proceden del cálculo de Julia (véase [Código](16-codigo.qmd)).
+una caja roja con los errores frecuentes del alumnado. Los números que aparecen proceden del cálculo de Julia (véase [Código](16-codigo.qmd)).
 
 ::: {.aviso}
 Intenta cada ejemplo **antes** de abrir la resolución, que está plegada.
@@ -46,8 +46,11 @@ los planos de los ejes porque son planos principales.
 tensión tangencial máxima pasa a ser $\tau_{\max}=$ {{< num e01 ej1.tau_max_con_radial dec=0 unidad=MPa >}}: solo un
 {{< num e01 ej1.cociente_p_sigma_theta dec=3 >}} de diferencia relativa en $p/\sigma_\theta$, y la hipótesis es razonable.
 
-**Errores frecuentes.** Intercambiar $\sigma_\theta$ y $\sigma_x$; usar $p\,r/t$ para la tensión axial; olvidar
-que la fórmula solo es válida en pared delgada.
+::: {.errores}
+- Intercambiar $\sigma_\theta$ y $\sigma_x$.
+- Usar $p\,r/t$ para la tensión axial.
+- Olvidar que la fórmula solo es válida en pared delgada.
+:::
 
 ## Ejemplo 2 · Lectura física de un tensor {#sec-ej2}
 
@@ -74,8 +77,10 @@ ejemplo 3).
 **Verificación.** La suma de cuadrados de la fila $x$ es $\lvert\vec t\rvert^2=\sigma_n^2+\tau^2$ con
 $\sigma_n=24$ y $\tau=48$: $24^2+48^2=2880$ ✔.
 
-**Errores frecuentes.** Leer columnas en lugar de filas (con simetría no importa, pero conviene el hábito);
-olvidar que el signo $-4$ indica **compresión** sobre el plano $y$.
+::: {.errores}
+- Leer columnas en lugar de filas (con simetría no importa, pero conviene el hábito).
+- Olvidar que el signo $-4$ indica **compresión** sobre el plano $y$.
+:::
 
 ## Ejemplo 3 · Tensiones principales {#sec-ej3}
 
@@ -102,9 +107,11 @@ comprime en la perpendicular dentro del plano $xy$; en $z$ se estira moderadamen
 **Verificación.** $I_1=$ {{< num e01 ej3.I1 dec=0 >}}, $I_2=$ {{< num e01 ej3.I2 dec=0 >}}, $I_3=$ {{< num e01 ej3.I3 dec=0 >}} coinciden con los de las
 componentes ($24-4+20$; $-2400-80+480$; $20\cdot(-2400)$).
 
-**Errores frecuentes.** Olvidar ordenar $\sigma_1\ge\sigma_2\ge\sigma_3$ (aquí $\sigma_2=20>\sigma_3=-40$);
-dar una dirección sin normalizar; dar $\vec v_3$ con orientación que rompa la terna dextrógira (sirve su opuesta
-como dirección, pero hay que decirlo).
+::: {.errores}
+- Olvidar ordenar $\sigma_1\ge\sigma_2\ge\sigma_3$ (aquí $\sigma_2=20>\sigma_3=-40$).
+- Dar una dirección sin normalizar.
+- Dar $\vec v_3$ con orientación que rompa la terna dextrógira (sirve su opuesta como dirección, pero hay que decirlo).
+:::
 
 ## Ejemplo 4 · Cambio de base {#sec-ej4}
 
@@ -131,8 +138,11 @@ $\mathrm{diag}$ ({{< num e01 ej4.sigma_diagonal.1.1 dec=0 >}}, {{< num e01 ej4.s
 **Interpretación.** Las componentes cambian con los ejes y el estado no. El giro que anula las tangenciales es
 el que alinea los ejes con las direcciones principales.
 
-**Errores frecuentes.** $Q\boldsymbol\sigma$ en lugar de $Q\boldsymbol\sigma Q^{\mathsf T}$; usar $Q^{\mathsf T}$ por $Q$
-(giro en sentido contrario); no comprobar los invariantes.
+::: {.errores}
+- $Q\boldsymbol\sigma$ en lugar de $Q\boldsymbol\sigma Q^{\mathsf T}$.
+- Usar $Q^{\mathsf T}$ por $Q$ (giro en sentido contrario).
+- No comprobar los invariantes.
+:::
 
 ## Ejemplo 5 · Plano oblicuo {#sec-ej5}
 
@@ -157,5 +167,8 @@ y la normal es de tracción.
 $(\sigma_n,\tau)$ dentro de la región de Mohr ✔ (apartado 9). Además, con las componentes en ejes principales,
 $\sigma_n=\sum\sigma_in_i^2$ con los cosenos de $\vec n$ en esa base da el mismo valor.
 
-**Errores frecuentes.** No normalizar $\vec n$; calcular $\tau=\lvert\vec t\rvert-\sigma_n$ (mal: es
-$\sqrt{\lvert\vec t\rvert^2-\sigma_n^2}$).
+::: {.errores}
+- No normalizar $\vec n$.
+- Calcular $\tau=\lvert\vec t\rvert-\sigma_n$ (mal: es $\sqrt{\lvert\vec t\rvert^2-\sigma_n^2}$).
+:::
+

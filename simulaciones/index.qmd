@@ -2,14 +2,28 @@
 title: "Simulaciones"
 ---
 
-Simulaciones interactivas que funcionan en tu navegador, sin servidor. Cada una explica su objetivo,
-su fundamento, sus hipótesis, sus variables, sus limitaciones y cómo se ha validado.
-
-| Simulación | Tema | Estado |
-|---|---|---|
-| [Tensor de tensiones 3D](../temas/e01-tensiones-espacio/14-simulador.qmd) | E01 | Prototipo v0.1 (sin probar en navegador real) |
+Simulaciones interactivas que funcionan en tu navegador, con deslizadores y gráficos. Cada una vive en el
+apartado del tema donde se necesita; aquí tienes el catálogo. Todas calculan con la misma implementación de
+referencia (contrastada con Julia) y declaran sus hipótesis y limitaciones.
 
 ::: {.aviso}
-Una simulación es un modelo: solo vale dentro de las hipótesis que declara. Cada página las
-enumera.
+Las simulaciones usan Observable JS, que carga sus bibliotecas de un CDN: necesitan conexión a internet la primera
+vez que se abre la página. Una simulación es un modelo: solo vale dentro de las hipótesis que declara.
 :::
+
+## E01 · Estado de tensiones en el espacio
+
+| Simulación | Dónde está |
+|---|---|
+| **Simulador completo del tensor 3D** (elemento, principales, plano, Mohr) | [E01.14](../temas/e01-tensiones-espacio/14-simulador.qmd) |
+| Barra a tracción cortada por un plano inclinado | [E01.1](../temas/e01-tensiones-espacio/01-tension-punto.qmd) |
+| Las nueve componentes sobre el elemento | [E01.2](../temas/e01-tensiones-espacio/02-tensor.qmd) |
+| Vector tensión sobre planos que contienen al eje $z$ | [E01.3](../temas/e01-tensiones-espacio/03-plano.qmd) |
+| Depósito cilíndrico de pared delgada | [E01.4](../temas/e01-tensiones-espacio/04-equilibrio-contorno.qmd) |
+| Giro de ejes y componentes del elemento | [E01.5](../temas/e01-tensiones-espacio/05-cambio-ejes.qmd) y [E01.6](../temas/e01-tensiones-espacio/06-principales.qmd) |
+| Los invariantes no cambian | [E01.7](../temas/e01-tensiones-espacio/07-invariantes.qmd) |
+| El elipsoide de Lamé en el plano de $\sigma_1$ y $\sigma_2$ | [E01.8](../temas/e01-tensiones-espacio/08-lame.qmd) |
+| Los tres círculos de Mohr y la nube de planos | [E01.9](../temas/e01-tensiones-espacio/09-mohr.qmd) |
+| Esférico + desviador | [E01.10](../temas/e01-tensiones-espacio/10-esferico-desviador.qmd) |
+| Reconocer estados particulares | [E01.11](../temas/e01-tensiones-espacio/11-estados-particulares.qmd) |
+| $\tau$ octaédrica frente a $\tau$ máxima | [E01.12](../temas/e01-tensiones-espacio/12-octaedricas.qmd) |

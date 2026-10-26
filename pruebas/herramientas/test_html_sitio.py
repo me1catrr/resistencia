@@ -28,6 +28,8 @@ class PruebaLatexVisible(unittest.TestCase):
             main = main[:main.index("</main>")]
             t = re.sub(r'<span class="math[^"]*">.*?</span>', "", main, flags=re.S)
             t = re.sub(r"<script.*?</script>", "", t, flags=re.S)
+            # El código de las celdas de Observable JS (echo: false) queda en un bloque oculto: no es texto visible.
+            t = re.sub(r'<div class="sourceCode cell-code hidden".*?</pre>', "", t, flags=re.S)
             t = html.unescape(re.sub(r"<[^>]+>", " ", t))
             fallos += [f"{nombre}: {m.strip()}" for m in re.findall(r".{20}\$[^$\s][^$]{0,40}\$.{0,10}", t)]
         self.assertEqual(fallos, [])

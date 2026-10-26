@@ -216,3 +216,20 @@ export function tensionDesdePrincipales(lambda, V) {
   const D = [[lambda[0], 0, 0], [0, lambda[1], 0], [0, 0, lambda[2]]];
   return producto(producto(V, D), transpuesta(V));
 }
+
+// ---------- reconocimiento de estados particulares ----------
+/**
+ * Reconoce el estado particular: "esferico", "uniaxial", "cortante_puro", "biaxial",
+ * "cilindrico" o "triaxial" (mismas reglas que clasificar_estado en Julia y Python).
+ */
+export function clasificarEstado(sigma, rtol = 1e-9) {
+  const lam = principales(sigma).valores;
+  const escala = Math.max(Math.max(...lam.map(Math.abs)), 1);
+  const nulo = (x) => Math.abs(x) <= rtol * escala;
+  const igual = (a, b) => Math.abs(a - b) <= rtol * escala;
+  if (igual(lam[0], lam[1]) && igual(lam[1], lam[2])) return "esferico";
+  const ceros = lam.filter(nulo).length;
+  if (ceros === 2) return "uniaxial";
+  if (ceros === 1) return nulo(lam[1]) && igual(lam[0], -lam[2]) ? "cortante_puro" : "biaxial";
+  return igual(lam[0], lam[1]) || igual(lam[1], lam[2]) ? "cilindrico" : "triaxial";
+}

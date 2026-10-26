@@ -10,6 +10,10 @@ $r-superficie: #f2f5f9;
 $r-texto: #1c2430;
 $r-tenue: #4a5565;
 $r-borde: #c3ccd8;
+$r-rojo: #b3261e;
+$r-rojo-fondo: #fdf1f0;
+$r-ambar: #8a5a00;
+$r-ambar-fondo: #fdf6e3;
 $r-sobre-acento: #ffffff;
 
 $primary: $r-acero;
@@ -33,5 +37,9 @@ $font-family-monospace: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --r-texto: #{$r-texto};
   --r-tenue: #{$r-tenue};
   --r-borde: #{$r-borde};
+  --r-rojo: #{$r-rojo};
+  --r-rojo-fondo: #{$r-rojo-fondo};
+  --r-ambar: #{$r-ambar};
+  --r-ambar-fondo: #{$r-ambar-fondo};
   --r-sobre-acento: #{$r-sobre-acento};
 }

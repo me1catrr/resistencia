@@ -1,0 +1,13 @@
+---
+title: "OJS mínimo"
+---
+
+```{ojs}
+//| echo: false
+viewof x = Inputs.range([0, 10], {value: 3, step: 1, label: "x"})
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({width: 400, height: 200, marks: [Plot.line([[0, 0], [x, x * 2]], {stroke: "#3a7bb8", strokeWidth: 3}), Plot.dot([[x, x * 2]], {r: 6})]})
+```

@@ -92,6 +92,17 @@ class PruebaCasosConocidos(Base):
         with self.assertRaises(ValueError):
             T.circulos_mohr([20, 60, -40])
 
+    def test_clasificar_estado(self):
+        casos = [(np.diag([100.0, 0, 0]), "uniaxial"), (np.diag([0.0, 0, -30]), "uniaxial"),
+                 (np.diag([80.0, 40, 0]), "biaxial"), (np.diag([50.0, 0, -20]), "biaxial"),
+                 (np.array([[0, 30.0, 0], [30.0, 0, 0], [0, 0, 0]]), "cortante_puro"),
+                 (np.diag([50.0, 10, 10]), "cilindrico"), (np.diag([50.0, 50, 10]), "cilindrico"),
+                 (-50 * np.eye(3), "esferico"), (np.zeros((3, 3)), "esferico"), (SA, "triaxial")]
+        for sigma, esperado in casos:
+            self.assertEqual(T.clasificar_estado(sigma), esperado)
+        Q = T.matriz_rotacion_ejes([1, 2, 3], 0.9)
+        self.assertEqual(T.clasificar_estado(T.rotar(np.array([[0, 30.0, 0], [30.0, 0, 0], [0, 0, 0]]), Q)), "cortante_puro")
+
     def test_errores(self):
         no_sim = np.array([[1.0, 2, 0], [0, 1, 0], [0, 0, 1]])
         self.assertFalse(T.es_simetrica(no_sim))
@@ -112,6 +123,7 @@ class PruebaContrasteConJulia(Base):
         self.cerca([sm, J2, J3], [r["sigma_m"], r["J2"], r["J3"]], 1e-9, etiqueta + " esf/des")
         self.cerca(T.octaedricas(sigma), [r["sigma_oct"], r["tau_oct"]], 1e-9, etiqueta + " oct")
         self.cerca(T.tau_max(p["valores"]), r["tau_max"], 1e-9, etiqueta + " tau_max")
+        self.assertEqual(T.clasificar_estado(sigma), r["clase"], etiqueta + " clase")
         if min(p["valores"][0] - p["valores"][1], p["valores"][1] - p["valores"][2]) > 1e-6:
             self.cerca(p["vectores"], r["vectores"], 1e-8, etiqueta + " vectores")
 

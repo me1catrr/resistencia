@@ -51,7 +51,7 @@ cubo infinitesimal (sin pares distribuidos). Valorar que mencione la hipótesis.
 
 ## S2 · Resultado imposible: una tensión normal fuera de rango {#sec-s2}
 
-**Enunciado.** Un compañero afirma que, en un punto con tensiones principales $60$, $20$ y $-40$ MPa, ha
+**Enunciado.** Alguien de la clase afirma que, en un punto con tensiones principales $60$, $20$ y $-40$ MPa, ha
 calculado un plano con $\sigma_n=80$ MPa.
 
 **Representación.** Los círculos de Mohr del [apartado 9](09-mohr.qmd).
@@ -67,12 +67,12 @@ calculado un plano con $\sigma_n=80$ MPa.
 
 ::: {.resolucion titulo="Guía para el profesorado"}
 Ninguno de los tres es posible: $80>\sigma_1$; $-45<\sigma_3$; $\tau=60>\tau_{\max}=50$ (y $\tau=55>50$). Pedir que
-el estudiante enuncie la desigualdad $\sigma_3\le\sigma_n\le\sigma_1$ y la región completa.
+se enuncie la desigualdad $\sigma_3\le\sigma_n\le\sigma_1$ y la región completa.
 :::
 
 ## S3 · Resultado imposible: el invariante que no se conserva {#sec-s3}
 
-**Enunciado.** Tras girar los ejes alrededor de $z$, un estudiante obtiene
+**Enunciado.** Tras girar los ejes alrededor de $z$, una persona obtiene
 $\boldsymbol\sigma'=\begin{pmatrix}55&-27&0\\-27&-25&0\\0&0&20\end{pmatrix}$ MPa a partir del tensor del S1 (cuya traza es $40$).
 
 **Preguntas.** (1) ¿Qué magnitud permite detectar un error sin rehacer todo? (2) ¿Qué traza tiene $\boldsymbol\sigma'$?
@@ -133,12 +133,12 @@ $50$ y $50$ MPa. Cuidado con la definición del ángulo (el de la normal con el 
 
 ## S6 · Girar los ejes o girar el elemento {#sec-s6}
 
-**Enunciado.** Para pasar un tensor a unos ejes girados, un estudiante escribe $\boldsymbol\sigma'=Q\boldsymbol\sigma$
-y otro, $\boldsymbol\sigma'=Q^{\mathsf T}\boldsymbol\sigma Q$.
+**Enunciado.** Para pasar un tensor a unos ejes girados, una persona escribe $\boldsymbol\sigma'=Q\boldsymbol\sigma$
+y otra, $\boldsymbol\sigma'=Q^{\mathsf T}\boldsymbol\sigma Q$.
 
 **Representación.** La figura de [ejes y elemento](05-cambio-ejes.qmd).
 
-**Preguntas.** (1) ¿Quién tiene razón y por qué? (2) ¿Qué representan las filas de $Q$? (3) ¿Cambian las tensiones
+**Preguntas.** (1) ¿Cuál de las dos es correcta y por qué? (2) ¿Qué representan las filas de $Q$? (3) ¿Cambian las tensiones
 principales al girar los ejes?
 
 **Repreguntas.** ¿Qué ocurre con $Q^{\mathsf T}\boldsymbol\sigma Q$ si se interpreta $Q$ como el giro del elemento?
@@ -215,7 +215,7 @@ problema de Lamé (más adelante).
 
 ## S10 · Octaédrico y Mohr {#sec-s10}
 
-**Enunciado.** Para $\boldsymbol\sigma_A$, el estudiante calcula $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$ y afirma que
+**Enunciado.** Para $\boldsymbol\sigma_A$, una persona calcula $\sigma_{\text{oct}}$ y $\tau_{\text{oct}}$ y afirma que
 «los ocho planos octaédricos tienen valores distintos».
 
 **Preguntas.** (1) ¿Es cierta esa afirmación? (2) ¿Cómo se relacionan $\tau_{\text{oct}}$ y $J_2$? (3) ¿El punto

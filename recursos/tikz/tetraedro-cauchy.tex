@@ -1,4 +1,4 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
 \begin{tikzpicture}[x={(-0.7cm,-0.5cm)},y={(1cm,0cm)},z={(0cm,1cm)},
@@ -10,7 +10,7 @@
 \coordinate (C) at (0,0,\c);
 % cara inclinada ABC (visible)
 \filldraw[fill=acero!14,draw=tinta,thick] (A) -- (B) -- (C) -- cycle;
-\node[etq,text=acero] at (barycentric cs:A=0.62,B=0.28,C=0.10) {$\mathrm{d}A$};
+\node[etq,text=acero] at (barycentric cs:A=0.55,B=0.40,C=0.05) {$\mathrm{d}A$};
 % aristas ocultas (se transparentan a través de la cara ABC)
 \draw[tinta!55,dashed,thick] (O) -- (A);
 \draw[tinta!55,dashed,thick] (O) -- (B);

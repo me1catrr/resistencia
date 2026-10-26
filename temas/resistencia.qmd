@@ -17,5 +17,5 @@ oficiales; los apartados internos de cada tema son propuesta docente.
 | R12 | [Pandeo](r12-pandeo/index.qmd) | esqueleto |
 | R13 | [Acciones combinadas](r13-acciones-combinadas/index.qmd) | esqueleto |
 
-Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesor),
+Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesoradoado),
 *revisado* y *publicado*.

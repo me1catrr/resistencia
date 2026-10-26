@@ -16,5 +16,5 @@ oficiales; los apartados internos de cada tema son propuesta docente.
 | E05 | [Teoremas energéticos](e05-energeticos/index.qmd) | esqueleto |
 | E06 | [Criterios de agotamiento](e06-agotamiento/index.qmd) | esqueleto |
 
-Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesor),
+Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesoradoado),
 *revisado* y *publicado*.

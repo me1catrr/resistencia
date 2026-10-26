@@ -16,7 +16,8 @@ local ROTULO = {
   ["advertencia"] = "Atención",
   ["idea-clave"] = "Idea clave",
   ["hipotesis"] = "Hipótesis y validez",
-  ["historia"] = "Historia",
+  ["historia"] = "Datos históricos",
+  ["errores"] = "Ojo: errores frecuentes en el alumnado",
   ["para-clase"] = "Para clase",
   ["pausa"] = "Pausa activa",
 }
@@ -61,6 +62,18 @@ local function Div(el)
     return salida
   end
 
+  if el.classes:includes("codigo") then
+    local titulo = el.attributes["titulo"]
+    local resumen = esc("Código")
+    if titulo ~= nil and titulo ~= "" then resumen = resumen .. ": " .. html_inlines(inlines_titulo(titulo)) end
+    local abierto = (el.attributes["abierto"] == "si") and " open" or ""
+    local salida = pandoc.List({ pandoc.RawBlock("html",
+      '<details class="codigo bloque"' .. abierto .. '><summary>' .. resumen .. '</summary>') })
+    salida:extend(el.content)
+    salida:insert(pandoc.RawBlock("html", "</details>"))
+    return salida
+  end
+
   if el.classes:includes("resolucion") then
     local titulo = el.attributes["titulo"]
     local resumen = "Resolución"
@@ -83,7 +96,12 @@ local function Div(el)
         contenido:extend(inlines_titulo(titulo))
       end
       local cabecera = pandoc.Div({ pandoc.Plain(contenido) }, pandoc.Attr("", { "bloque-titulo" }))
-      local cuerpo = pandoc.Div(el.content, pandoc.Attr("", { "bloque-cuerpo" }))
+      local contenido_cuerpo = pandoc.List(el.content)
+      if clase == "errores" then
+        contenido_cuerpo:insert(1, pandoc.Para({ pandoc.Emph({ pandoc.Str(
+          "Antes de seguir, revisa si has caído en alguno de estos errores habituales:") }) }))
+      end
+      local cuerpo = pandoc.Div(contenido_cuerpo, pandoc.Attr("", { "bloque-cuerpo" }))
       el.attributes["titulo"] = nil
       el.content = { cabecera, cuerpo }
       el.classes:insert("bloque")
@@ -96,12 +114,32 @@ end
 
 -- Las figuras TikZ llevan fórmulas en el pie; el lightbox copia el pie como texto plano y
 -- MathJax no actúa en su ventana, así que se dejan fuera (en modo clase ya se ven grandes).
+-- Ancho natural de un SVG (en pt) leído de su cabecera, o nil.
+local function ancho_svg(ruta)
+  local f = io.open(ruta, "rb")
+  if f == nil then return nil end
+  local cab = f:read(600) or ""
+  f:close()
+  local w = cab:match('width="([%d%.]+)pt"')
+  return w and tonumber(w) or nil
+end
+
+-- 1 pt de la figura = 1,45 px en pantalla: con letra de 12 pt en el TikZ, el texto de la figura
+-- queda algo mayor que el del cuerpo (≈ 17 px). Nunca más ancho que la columna.
+local PX_POR_PT = 1.45
+
 local function Image(el)
-  if es_html() and el.classes:includes("figura-tikz") and not el.classes:includes("nolightbox") then
-    el.classes:insert("nolightbox")
-    return el
+  if not (es_html() and el.classes:includes("figura-tikz")) then return nil end
+  if not el.classes:includes("nolightbox") then el.classes:insert("nolightbox") end
+  local base = (quarto and quarto.project and quarto.project.directory) or "."
+  local src = el.src
+  if src:sub(1, 1) == "/" then
+    local w = ancho_svg(base .. src)
+    if w then
+      el.attributes["style"] = string.format("width:%dpx;max-width:100%%;height:auto", math.floor(w * PX_POR_PT))
+    end
   end
-  return nil
+  return el
 end
 
 return { { Image = Image, Div = Div } }

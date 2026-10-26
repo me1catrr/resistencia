@@ -50,6 +50,17 @@ class PruebaSellos(unittest.TestCase):
         self.assertEqual(s_sin, c.sello(sin / "recursos" / "tikz" / "f1.tex", sin))
         self.assertNotEqual(s_con, c.sello(con / "recursos" / "tikz" / "f1.tex", con))
 
+    def test_las_tablas_de_datos_forman_parte_del_sello(self):
+        b = proyecto()
+        (b / "recursos" / "tikz" / "datos").mkdir()
+        (b / "recursos" / "tikz" / "datos" / "curva.dat").write_text("x y\n0 0\n", encoding="utf-8")
+        tex = b / "recursos" / "tikz" / "f1.tex"
+        tex.write_text("\\addplot table {datos/curva.dat};\n", encoding="utf-8")
+        s1 = c.sello(tex, b)
+        self.assertEqual([p.name for p in c.datos_de(tex, b)], ["curva.dat"])
+        (b / "recursos" / "tikz" / "datos" / "curva.dat").write_text("x y\n0 1\n", encoding="utf-8")
+        self.assertNotEqual(s1, c.sello(tex, b))
+
     def test_sello_huerfano(self):
         b = proyecto()
         c.guardar_sellos(b, {"fantasma": "x"})

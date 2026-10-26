@@ -1,0 +1,19 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% Componentes de σ' al girar los ejes un ángulo θ alrededor de z; datos de Julia (rotacion.dat).
+\begin{tikzpicture}
+\begin{axis}[width=13cm,height=8cm,xlabel={$\theta$ (grados): giro de los ejes alrededor de $z$},
+  ylabel={MPa},xmin=0,xmax=180,ymin=-65,ymax=75,xtick={0,45,90,135,180},grid=major,grid style={gris!50},
+  legend columns=4,legend style={at={(0.5,1.04)},anchor=south,/tikz/every even column/.append style={column sep=0.4cm}}]
+\addplot[acero,no marks] table[x=theta,y=sxx] {datos/rotacion.dat};
+\addlegendentry{$\sigma'_{xx}$}
+\addplot[verde,no marks] table[x=theta,y=syy] {datos/rotacion.dat};
+\addlegendentry{$\sigma'_{yy}$}
+\addplot[cobre,no marks] table[x=theta,y=sxy] {datos/rotacion.dat};
+\addlegendentry{$\sigma'_{xy}$}
+\addplot[violeta,dashed,no marks] table[x=theta,y=I1] {datos/rotacion.dat};
+\addlegendentry{$I_1$ (invariante)}
+\end{axis}
+\end{tikzpicture}
+\end{document}

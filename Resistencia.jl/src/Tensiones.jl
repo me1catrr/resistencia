@@ -20,7 +20,7 @@ using LinearAlgebra
 export es_simetrica, normalizar, traccion, componentes_plano, matriz_rotacion_ejes,
        es_ortogonal, rotar, principales, principales_cubica, invariantes,
        esferico_desviador, octaedricas, circulos_mohr, tau_max, admisible,
-       tension_desde_principales, componentes_desde_principales
+       tension_desde_principales, componentes_desde_principales, clasificar_estado
 
 # region simetria
 """
@@ -226,6 +226,30 @@ function admisible(σn::Real, τ::Real, λ::AbstractVector; tol = 1e-9)
     return d13 <= c.r13^2 + tol && d12 >= c.r12^2 - tol && d23 >= c.r23^2 - tol
 end
 # endregion mohr
+
+# region clasificar
+"""
+    clasificar_estado(σ; rtol = 1e-9) -> Symbol
+
+Reconoce el estado particular a partir de las tensiones principales:
+`:esferico` (las tres iguales), `:uniaxial` (dos nulas), `:cortante_puro` (σ₂ = 0 y σ₁ = −σ₃),
+`:biaxial` (una nula), `:cilindrico` (dos iguales y no nulas) o `:triaxial` (el resto).
+La tolerancia es relativa a la mayor tensión principal en valor absoluto (o a 1 si es menor).
+"""
+function clasificar_estado(σ::AbstractMatrix; rtol = 1e-9)
+    λ = principales(σ).valores
+    escala = max(maximum(abs, λ), 1.0)
+    nulo(x) = abs(x) <= rtol * escala
+    igual(a, b) = abs(a - b) <= rtol * escala
+    igual(λ[1], λ[2]) && igual(λ[2], λ[3]) && return :esferico
+    ceros = count(nulo, λ)
+    ceros == 2 && return :uniaxial
+    if ceros == 1
+        return (nulo(λ[2]) && igual(λ[1], -λ[3])) ? :cortante_puro : :biaxial
+    end
+    return (igual(λ[1], λ[2]) || igual(λ[2], λ[3])) ? :cilindrico : :triaxial
+end
+# endregion clasificar
 
 # region desde_principales
 """

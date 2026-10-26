@@ -1,0 +1,27 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% σn y τ de σA sobre los planos que contienen al eje z (normal en el plano xy a un ángulo φ del eje x).
+\pgfplotstableread{datos/plano_xy_extremos.dat}\ext
+\pgfplotstablegetelem{0}{phi}\of\ext \edef\fa{\pgfplotsretval}
+\pgfplotstablegetelem{0}{sn}\of\ext \edef\sa{\pgfplotsretval}
+\pgfplotstablegetelem{1}{phi}\of\ext \edef\fc{\pgfplotsretval}
+\pgfplotstablegetelem{1}{sn}\of\ext \edef\sc{\pgfplotsretval}
+\pgfplotstablegetelem{2}{phi}\of\ext \edef\ft{\pgfplotsretval}
+\pgfplotstablegetelem{2}{tau}\of\ext \edef\tt{\pgfplotsretval}
+\begin{tikzpicture}
+\begin{axis}[width=13cm,height=8cm,xlabel={$\varphi$ (grados): ángulo de la normal con el eje $x$},
+  ylabel={tensión (MPa)},xmin=0,xmax=180,ymin=-55,ymax=75,xtick={0,45,90,135,180},
+  grid=major,grid style={gris!50},legend pos=south east,legend cell align=left,
+  extra x ticks={\fa,\fc},extra x tick labels={},extra x tick style={grid=major,grid style={dotted,tinta!60}}]
+\addplot[acero,no marks] table[x=phi,y=sn] {datos/plano_xy.dat};
+\addlegendentry{$\sigma_n$}
+\addplot[cobre,no marks] table[x=phi,y=tau] {datos/plano_xy.dat};
+\addlegendentry{$\tau$}
+\node[fill=white,inner sep=1pt,anchor=south west,text=violeta,font=\normalsize] at (axis cs:\fa,\sa) {$\sigma_1$ en $\varphi=\pgfmathprintnumber[precision=1]{\fa}^\circ$};
+\node[fill=white,inner sep=1pt,anchor=north east,text=violeta,font=\normalsize] at (axis cs:\fc,\sc) {$\sigma_3$ en $\varphi=\pgfmathprintnumber[precision=1]{\fc}^\circ$};
+\node[fill=white,inner sep=1pt,anchor=north,text=violeta,font=\normalsize] at (axis cs:\ft,\tt) {$\tau_{\max}$};
+\addplot[only marks,mark=*,mark size=3pt,violeta,every axis plot/.append style={}] coordinates {(\fa,\sa) (\fc,\sc) (\ft,\tt)};
+\end{axis}
+\end{tikzpicture}
+\end{document}

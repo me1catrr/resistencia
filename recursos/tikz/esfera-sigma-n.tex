@@ -1,0 +1,20 @@
+\documentclass[tikz,border=5pt,12pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+% σn sobre todas las orientaciones del plano (esfera de normales, proyección acimut–ángulo polar).
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=7.6cm,xlabel={acimut $\varphi$ de la normal (grados)},
+  ylabel={ángulo polar $\vartheta$ (grados)},xmin=0,xmax=355,ymin=0,ymax=180,y dir=reverse,
+  xtick={0,90,180,270,355},ytick={0,45,90,135,180},
+  colormap={dv}{color(0cm)=(cobre) color(1cm)=(white) color(2cm)=(acero)},
+  point meta min=-60,point meta max=60,colorbar,colorbar style={ylabel={$\sigma_n$ (MPa)},width=0.35cm,
+  ytick={-60,-30,0,30,60}},axis on top]
+\addplot[matrix plot*,mesh/rows=37,point meta=explicit,every axis plot/.append style={}]
+  table[x=phi,y=theta,meta=sn] {datos/esfera.dat};
+\addplot[only marks,mark=*,mark size=3pt,black,fill=white,every axis plot/.append style={},
+  nodes near coords={$\sigma_{\pgfmathprintnumber[precision=0]{\pgfplotspointmeta}}$},point meta=explicit,
+  nodes near coords style={font=\normalsize,anchor=south west,fill=white,inner sep=1pt}]
+  table[x=phi,y=theta,meta=i] {datos/esfera_principales.dat};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -161,6 +161,23 @@ const σA = [24.0 48.0 0.0; 48.0 -4.0 0.0; 0.0 0.0 20.0]
         @test r.τ < 1e-12
     end
 
+    @testset "clasificación de estados particulares" begin
+        @test clasificar_estado(Matrix(Diagonal([100.0, 0.0, 0.0]))) == :uniaxial
+        @test clasificar_estado(Matrix(Diagonal([0.0, 0.0, -30.0]))) == :uniaxial
+        @test clasificar_estado(Matrix(Diagonal([80.0, 40.0, 0.0]))) == :biaxial
+        @test clasificar_estado(Matrix(Diagonal([50.0, 0.0, -20.0]))) == :biaxial
+        @test clasificar_estado([0.0 30.0 0.0; 30.0 0.0 0.0; 0.0 0.0 0.0]) == :cortante_puro
+        @test clasificar_estado(Matrix(Diagonal([50.0, 10.0, 10.0]))) == :cilindrico
+        @test clasificar_estado(Matrix(Diagonal([50.0, 50.0, 10.0]))) == :cilindrico
+        @test clasificar_estado(Matrix(-50.0 * I(3))) == :esferico
+        @test clasificar_estado(zeros(3, 3)) == :esferico
+        @test clasificar_estado(σA) == :triaxial
+        # el estado no depende de los ejes
+        Q = matriz_rotacion_ejes([1, 2, 3], 0.9)
+        @test clasificar_estado(rotar([0.0 30 0; 30 0 0; 0 0 0], Q)) == :cortante_puro
+        @test clasificar_estado(rotar(Matrix(Diagonal([100.0, 0, 0])), Q)) == :uniaxial
+    end
+
     @testset "tensores aleatorios: eigen frente a la solución de la cúbica" begin
         rng = MersenneTwister(1)
         for _ in 1:200

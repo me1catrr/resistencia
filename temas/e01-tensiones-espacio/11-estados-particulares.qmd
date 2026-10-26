@@ -18,6 +18,59 @@ principales).
 | **Cilíndrico** | $\sigma_2=\sigma_3$ | uno de los círculos se reduce a un punto | Tensión con simetría de revolución |
 | **Esférico (hidrostático)** | $\mathrm{diag}(p,p,p)$ | los tres círculos son **un punto** | Sólido sumergido bajo presión |
 
+Así se ven sus círculos de Mohr (@fig-estados); los puntos son las tensiones principales:
+
+![Círculos de Mohr de los estados particulares (tensiones principales calculadas con Julia). Con valores principales repetidos, un círculo se reduce a un punto.](/recursos/fig/estados-mohr.svg){#fig-estados .figura-tikz fig-alt="Cinco diagramas de Mohr: uniaxial con un semicírculo, biaxial y cortante puro con tres, cilíndrico con uno pequeño e hidrostático con un solo punto."}
+
+**Pruébalo tú:** elige un estado y mira sus círculos de Mohr y cómo se reconoce.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Reconoce el estado a partir de sus círculos de Mohr</p>
+
+```{ojs}
+//| echo: false
+import {ESTADOS, estado, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof E_nombre = Inputs.select(Object.keys(ESTADOS), {label: "Estado", value: "Uniaxial"})
+viewof E_k = Inputs.range([20, 150], {value: 100, step: 5, label: "escala (MPa)"})
+```
+
+```{ojs}
+//| echo: false
+E = estado(E_nombre, E_k)
+E_texto = ({
+  "Uniaxial": "Solo una tensión principal no nula (barra a tracción o compresión simple). Los círculos σ₁–σ₂ y σ₁–σ₃ coinciden.",
+  "Biaxial": "Una tensión principal nula: chapas y paredes delgadas.",
+  "Cortante puro": "σ₁ = −σ₃ y σ₂ = 0: la tensión media es nula; es el estado de la torsión.",
+  "Cilíndrico": "Dos tensiones principales iguales: un círculo se reduce a un punto y hay infinitas direcciones principales.",
+  "Esférico (hidrostático)": "Las tres iguales: los tres círculos son un punto y no hay tangenciales en ningún plano.",
+  "Triaxial (genérico)": "Tres tensiones principales distintas y no nulas: los tres círculos tienen radio no nulo."
+})[E_nombre]
+E_graf = {
+  const R = Math.max(E.k.r13, 5) * 1.25, c = (E.lambda[0] + E.lambda[2]) / 2;
+  const svg = Plot.plot({
+    width: 560, height: 300, marginBottom: 44, marginLeft: 50, aspectRatio: 1, style: {fontSize: "14px"},
+    x: {label: "σ (MPa)", labelAnchor: "center", domain: [c - R * 1.7, c + R * 1.7], grid: true}, y: {label: "τ (MPa)", domain: [-0.12 * R, R], grid: true},
+    marks: [
+      Plot.ruleY([0], {stroke: "currentColor"}), Plot.ruleX([0], {stroke: "#8a94a3"}),
+      Plot.line(E.c13, {x: "sn", y: "tau", stroke: colores.acero, strokeWidth: 3}),
+      Plot.line(E.c12, {x: "sn", y: "tau", stroke: colores.verde, strokeWidth: 2.5}),
+      Plot.line(E.c23, {x: "sn", y: "tau", stroke: colores.cobre, strokeWidth: 2.5}),
+      Plot.dot(E.lambda.map(v => ({x: v, y: 0})), {x: "x", y: "y", r: 5, fill: "currentColor"})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Círculos de Mohr del estado ${E_nombre}.`);
+  return svg;
+}
+html`<div style="overflow-x:auto">${E_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite"><strong>${E_nombre}</strong> (reconocido como <em>${E.clase.replace("_", " ")}</em>): σ₁ = ${fmt(E.lambda[0])}; σ₂ = ${fmt(E.lambda[1])}; σ₃ = ${fmt(E.lambda[2])} MPa · τmáx = ${fmt(E.tauMax)} MPa. ${E_texto}</p>`
+```
+:::
+
 ## Uniaxial, biaxial y cortante puro {#sec-basicos}
 
 - **Uniaxial**: solo una tensión principal no nula. Es el de una barra a tracción y el de los ensayos.
@@ -62,7 +115,49 @@ Se calculan con la implementación de referencia y son los casos predefinidos de
 (En el caso de cortante puro el tensor se da en ejes **no** principales: $\sigma_{xy}=\tau$ y el resto nulo;
 las principales son $\pm\tau$ y $0$.)
 
+## Cómo obtenerlos con código {#sec-codigo}
+
+Dos cosas se pueden automatizar: **reconocer** de qué estado se trata a partir de las tensiones principales y
+**calcular** sus magnitudes. El reconocimiento no depende de los ejes: un cortante puro girado sigue siendo cortante puro.
+
+::::: {.codigo titulo="reconocer el estado particular" abierto="si"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="clasificar" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="clasificar" lang="python" >}}
+::::
+:::::
+
+Y con esa función se calcula la tabla anterior para cada caso (script completo en el repositorio:
+[`e01_casos.jl`](https://github.com/me1catrr/resistencia/blob/main/Resistencia.jl/ejemplos/e01_casos.jl) y
+[`e01_casos.py`](https://github.com/me1catrr/resistencia/blob/main/python/ejemplos/e01_casos.py)):
+
+::::: {.codigo titulo="calcular los casos y comprobar los resultados de la tabla" abierto="si"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/ejemplos/e01_casos.jl" region="casos" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/ejemplos/e01_casos.py" region="casos" lang="python" >}}
+::::
+:::::
+
 {{< pregunta e01-q24 >}}
+
+::: {.errores}
+- Tomar $\tau_{\max}=\sigma$ en tracción simple: es $\sigma/2$.
+- Pensar que el **cortante puro** tiene tensión media no nula: su $\sigma_m=0$.
+- Creer que en un estado **hidrostático** hay tangenciales máximas: no hay ninguna en ningún plano.
+- Dar por única la base principal de un estado **cilíndrico**.
+:::
 
 ::: {.idea-clave}
 Reconocer el estado ahorra cálculo: uniaxial y biaxial dan $\tau_{\max}$ de inmediato; el **cortante

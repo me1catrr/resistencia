@@ -106,6 +106,7 @@ function contrastarResumen(r, etiqueta) {
   cerca(e.sigmaM, r.sigma_m, 1e-9, `${etiqueta} sigma_m`);
   cerca(e.J2, r.J2, 1e-9, `${etiqueta} J2`);
   cerca(e.J3, r.J3, 1e-9, `${etiqueta} J3`);
+  assert.equal(T.clasificarEstado(sigma), r.clase, `${etiqueta} clase`);
   const o = T.octaedricas(sigma);
   cerca(o.sigmaOct, r.sigma_oct, 1e-9, `${etiqueta} sigma_oct`);
   cerca(o.tauOct, r.tau_oct, 1e-9, `${etiqueta} tau_oct`);
@@ -183,4 +184,15 @@ test("referencia Julia: barra uniaxial, desviador principal y distancias de Mohr
   assert.equal(T.admisible(o.sigmaOct, o.tauOct, lam), ref.mohr.oct_en_region);
   cerca(ref.ej1.tau_max_con_radial, T.tauMax([ref.ej1.sigma_theta, ref.ej1.sigma_x, -ref.ej1.p]), 1e-12);
   cerca(ref.ej_peso.sigma_max, ref.ej_peso.rho_g * ref.ej_peso.L, 1e-12);
+});
+
+test("clasificarEstado: estados particulares, y no depende de los ejes", () => {
+  const d = (a, b, c) => [[a, 0, 0], [0, b, 0], [0, 0, c]];
+  const casos = [[d(100, 0, 0), "uniaxial"], [d(0, 0, -30), "uniaxial"], [d(80, 40, 0), "biaxial"],
+    [d(50, 0, -20), "biaxial"], [[[0, 30, 0], [30, 0, 0], [0, 0, 0]], "cortante_puro"],
+    [d(50, 10, 10), "cilindrico"], [d(50, 50, 10), "cilindrico"], [d(-50, -50, -50), "esferico"],
+    [d(0, 0, 0), "esferico"], [sA, "triaxial"]];
+  for (const [s, esperado] of casos) assert.equal(T.clasificarEstado(s), esperado);
+  const Q = T.matrizRotacionEjes([1, 2, 3], 0.9);
+  assert.equal(T.clasificarEstado(T.rotar([[0, 30, 0], [30, 0, 0], [0, 0, 0]], Q)), "cortante_puro");
 });

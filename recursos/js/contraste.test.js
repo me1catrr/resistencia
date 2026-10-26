@@ -33,7 +33,7 @@ for (const archivo of ["claro.scss", "oscuro.scss"]) {
   const t = tokens(archivo);
   test(`${archivo}: define todos los tokens`, () => {
     for (const k of ["r-acero", "r-cobre", "r-verde", "r-violeta", "r-fondo", "r-superficie",
-                     "r-texto", "r-tenue", "r-borde", "r-sobre-acento"]) {
+                     "r-texto", "r-tenue", "r-borde", "r-sobre-acento", "r-rojo", "r-rojo-fondo", "r-ambar", "r-ambar-fondo"]) {
       assert.ok(t[k], `falta $${k}`);
     }
   });
@@ -43,6 +43,16 @@ for (const archivo of ["claro.scss", "oscuro.scss"]) {
         const c = contraste(t[fg], t[fondo]);
         assert.ok(c >= 4.5, `${archivo}: ${fg} sobre ${fondo} = ${c.toFixed(2)}`);
       }
+    }
+  });
+  test(`${archivo}: cajas de errores (rojo) e historia (ámbar): rótulo y texto legibles (≥ 4,5)`, () => {
+    for (const [acento, fondo] of [["r-rojo", "r-rojo-fondo"], ["r-ambar", "r-ambar-fondo"]]) {
+      for (const fg of [acento, "r-texto", "r-tenue"]) {
+        const c = contraste(t[fg], t[fondo]);
+        assert.ok(c >= 4.5, `${archivo}: ${fg} sobre ${fondo} = ${c.toFixed(2)}`);
+      }
+      // el acento también se lee sobre el fondo normal de la página
+      assert.ok(contraste(t[acento], t["r-fondo"]) >= 4.5, `${archivo}: ${acento} sobre r-fondo`);
     }
   });
   test(`${archivo}: texto sobre botones de acento (≥ 4,5)`, () => {

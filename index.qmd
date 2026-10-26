@@ -12,7 +12,7 @@ Un libro universitario **interactivo** para seguir las clases desde tu ordenador
 después: explicaciones rigurosas, simulaciones que se pueden mover, cuestiones con retroalimentación
 y código en Julia y Python que puedes ejecutar tú.
 
-No son diapositivas: el profesor explica, se detiene, propone una cuestión, tú respondes y se usa una
+No son diapositivas: quien imparte explica, se detiene, propone una cuestión, tú respondes y se usa una
 simulación para discutir. Y si quieres ir más allá, hay un itinerario de profundización opcional.
 
 [Empieza por E01: estado de tensiones](temas/e01-tensiones-espacio/index.qmd){.btn .btn-primary}
@@ -68,7 +68,7 @@ Modelos interactivos que funcionan en el navegador y los mismos cálculos en Jul
 
 ::: {.aviso-esqueleto}
 **Estado del proyecto: primera versión en construcción.** Solo el tema E01 se desarrolla en esta
-iteración, y como **borrador pendiente de revisión por el profesor**. Los demás temas muestran su
+iteración, y como **borrador pendiente de revisión del profesoradoado**. Los demás temas muestran su
 título oficial y están marcados «pendiente de desarrollo».
 Este libro es un recurso docente abierto y **no sustituye a la
 [guía docente oficial](guia/index.qmd)**.

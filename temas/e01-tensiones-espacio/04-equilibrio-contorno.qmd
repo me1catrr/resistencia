@@ -93,9 +93,57 @@ $\sigma_{rr}$ es solo el {{< num e01 ej1.cociente_p_sigma_theta dec=3 >}} de esa
 **se desprecie la tensión radial**. Esa es la hipótesis de partida del depósito, y es válida solo si $t\ll r$.
 :::
 
+![Depósito cilíndrico de pared delgada con presión interior $p$ y el elemento de pared con sus tensiones $\sigma_\theta$ y $\sigma_x$.](/recursos/fig/deposito.svg){#fig-deposito .figura-tikz fig-alt="Un cilindro horizontal con flechas internas que representan la presión y un pequeño elemento de la pared con flechas circunferenciales y axiales."}
+
+**Pruébalo tú:** cambia la presión, el radio y el espesor del depósito y observa qué ocurre con las tensiones y cuándo deja de valer la hipótesis de pared delgada.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Depósito cilíndrico de pared delgada</p>
+
+```{ojs}
+//| echo: false
+import {deposito, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof T_p = Inputs.range([0.5, 10], {value: 2, step: 0.5, label: "p (MPa)"})
+viewof T_r = Inputs.range([20, 1000], {value: 200, step: 10, label: "r (mm)"})
+viewof T_t = Inputs.range([1, 100], {value: 5, step: 1, label: "t (mm)"})
+```
+
+```{ojs}
+//| echo: false
+T = deposito(T_p, T_r, T_t)
+T_datos = [
+  {nombre: "σθ circunferencial", valor: T.sTheta, color: colores.acero},
+  {nombre: "σx axial", valor: T.sX, color: colores.verde},
+  {nombre: "σr cara interior (−p)", valor: -T_p, color: colores.cobre}
+]
+T_graf = {
+  const svg = Plot.plot({
+    width: 600, height: 230, marginLeft: 170, marginRight: 40, marginBottom: 40, style: {fontSize: "14px"},
+    x: {label: "MPa", grid: true}, y: {label: null, domain: T_datos.map(d => d.nombre)},
+    marks: [
+      Plot.ruleX([0]),
+      Plot.barX(T_datos, {x: "valor", y: "nombre", fill: "color"}),
+      Plot.text(T_datos.filter(d => d.valor >= 0), {x: "valor", y: "nombre", text: d => fmt(d.valor, 1), dx: 24, fontSize: 14}),
+      Plot.text(T_datos.filter(d => d.valor < 0), {x: "valor", y: "nombre", text: d => fmt(d.valor, 1), dx: -24, fontSize: 14})
+    ]
+  });
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "Barras con la tensión circunferencial, la axial y la radial de la cara interior de la pared.");
+  return svg;
+}
+html`<div style="overflow-x:auto">${T_graf}</div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite">σθ = p·r/t = ${fmt(T.sTheta)} MPa · σx = p·r/(2t) = ${fmt(T.sX)} MPa. Esbeltez r/t = ${fmt(T.esbeltez, 1)}. τmáx despreciando σr = ${fmt(T.tauMaxSinRadial)} MPa; incluyendo σr = −p, ${fmt(T.tauMaxConRadial)} MPa (diferencia ${fmt(100 * T.errorRelativo, 1)} %).
+${T.delgada ? "La hipótesis de pared delgada (r/t ≥ 10) es razonable." : "<strong>Cuidado: r/t &lt; 10. La pared ya no es delgada y estas fórmulas dejan de valer.</strong>"}</p>`
+```
+:::
+
 {{< pregunta e01-q20 >}}
 
-::: {.advertencia titulo="Error frecuente"}
+::: {.errores}
 Confundir el signo de una presión: $p>0$ es una presión de compresión y da $\sigma_n=-p$. El convenio de
 signos del libro es de **tracción positiva**.
 :::

@@ -5,3 +5,4 @@ project:
   output-dir: _site-pruebas
   render:
     - pruebas/web/componentes.qmd
+    - pruebas/web/ojs-minimo.qmd

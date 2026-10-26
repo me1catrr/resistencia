@@ -1,0 +1,6 @@
+i s1 s2 s3 taumax nombre
+0 100.0 0 0 50.0 uniaxial
+1.0 80.0 40.0 0 40.0 biaxial
+2.0 30.0 0 -30.0 30.0 cortante
+3.0 50.0 10.0 10.0 20.0 cilindrico
+4.0 -50.0 -50.0 -50.0 0 hidrostatico

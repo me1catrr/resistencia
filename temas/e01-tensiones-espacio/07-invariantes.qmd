@@ -69,15 +69,62 @@ $I_3'=$ {{< num e01 ej4.invariantes_prima.3 dec=1 >}}: los mismos.
 - **Construir magnitudes físicas.** Cualquier cantidad que dependa solo del estado y no de los ejes
   —tensión media, $J_2$, tensión octaédrica…— es función de los invariantes (apartados 10 y 12).
 
+**Pruébalo tú:** gira los ejes con tres giros cualesquiera y comprueba que cambian todas las componentes, pero no los invariantes ni las tensiones principales.
+
+::: {.sim-caja}
+<p class="sim-titulo">Simulación · Cambia las componentes, no los invariantes</p>
+
+```{ojs}
+//| echo: false
+import {CASOS, giro3D, colores, fmt} from "../../recursos/js/sim/ojs-e01.js"
+viewof I_caso = Inputs.select(CASOS, {label: "Estado", format: d => d.nombre, value: CASOS[CASOS.length - 1]})
+viewof I_a = Inputs.range([-180, 180], {value: 25, step: 1, label: "α (x, °)"})
+viewof I_b = Inputs.range([-180, 180], {value: -40, step: 1, label: "β (y, °)"})
+viewof I_g = Inputs.range([-180, 180], {value: 60, step: 1, label: "γ (z, °)"})
+```
+
+```{ojs}
+//| echo: false
+I = giro3D(I_caso.c, I_a, I_b, I_g)
+I_tabla = (m, dec = 1) => html`<table class="t3d-matriz"><tbody>${m.map(f => html`<tr>${f.map(v => html`<td>${fmt(v, dec)}</td>`)}</tr>`)}</tbody></table>`
+I_ok = I.invariantes.every((v, i) => Math.abs(v - I.invariantesRot[i]) <= 1e-9 * Math.max(1, Math.abs(v)))
+html`<div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start">
+<div><p class="t3d-sub">σ (ejes originales)</p>${I_tabla(I.sigma)}</div>
+<div><p class="t3d-sub">σ′ (ejes girados): <strong>las componentes cambian</strong></p>${I_tabla(I.sigmaRot)}</div>
+<div><p class="t3d-sub">Lo que <strong>no</strong> cambia</p><table class="t3d-tabla"><thead><tr><th></th><th>originales</th><th>girados</th></tr></thead><tbody>
+${["I₁", "I₂", "I₃"].map((n, i) => html`<tr><th scope="row">${n}</th><td>${fmt(I.invariantes[i], 1)}</td><td>${fmt(I.invariantesRot[i], 1)}</td></tr>`)}
+${[0, 1, 2].map(i => html`<tr><th scope="row">σ${["₁", "₂", "₃"][i]}</th><td>${fmt(I.principales[i], 1)}</td><td>${fmt(I.principalesRot[i], 1)}</td></tr>`)}
+</tbody></table></div></div>`
+```
+
+```{ojs}
+//| echo: false
+html`<p class="sim-lectura" aria-live="polite">${I_ok ? "✔ I₁, I₂ e I₃ coinciden en los dos ejes, igual que las tensiones principales." : "✘ Los invariantes NO coinciden: algo falla."} Traza de σ′ = ${fmt(I.sigmaRot[0][0] + I.sigmaRot[1][1] + I.sigmaRot[2][2], 1)} MPa = I₁.</p>`
+```
+:::
+
 {{< pregunta e01-q15 >}}
 
 {{< pregunta e01-q16 >}}
 
-::: {.advertencia titulo="Errores frecuentes"}
+::: {.errores}
 - Pensar que **cada componente** es invariante: solo lo son las combinaciones $I_1,I_2,I_3$.
 - Calcular $I_2$ olvidando los términos tangenciales (al cuadrado y restando).
 - Confundir $I_2$ con $\operatorname{tr}(\boldsymbol\sigma^2)$: son distintos, aunque están relacionados.
 :::
+
+::::: {.codigo titulo="invariantes"}
+
+:::: {.panel-tabset}
+### Julia
+
+{{< codigo archivo="Resistencia.jl/src/Tensiones.jl" region="invariantes" lang="julia" >}}
+
+### Python
+
+{{< codigo archivo="python/resistencia/tensiones.py" region="invariantes" lang="python" >}}
+::::
+:::::
 
 ::: {.idea-clave}
 Los invariantes $I_1,I_2,I_3$ resumen el estado **sin depender de los ejes**: son simétricos en las

@@ -1,4 +1,4 @@
-\documentclass[tikz,border=4pt]{standalone}
+\documentclass[tikz,border=5pt,12pt]{standalone}
 \usepackage{resistencia}
 \begin{document}
 \begin{tikzpicture}[x={(-0.7cm,-0.5cm)},y={(1cm,0cm)},z={(0cm,1cm)},
@@ -22,17 +22,17 @@
 }
 \begin{scope}
   \cubo{3}{1.5}{0}
-  \node[etq,align=center] at (0.3cm,-2.3cm) {$\boldsymbol{\sigma}$\\ estado dado};
+  \node[etq,align=center] at (0.3cm,-2.5cm) {$\boldsymbol{\sigma}$\\ estado dado};
 \end{scope}
 \node[etq] at (4.0cm,0.4cm) {\Large $=$};
 \begin{scope}[xshift=6.2cm]
   \cubo{1.5}{1.5}{1.5}
-  \node[etq,align=center] at (0.3cm,-2.3cm) {$\sigma_m\,\mathbf{I}$\\ esférico: cambia el volumen};
+  \node[etq,align=center,text width=4.6cm] at (0.3cm,-2.5cm) {$\sigma_m\,\mathbf{I}$\\ esférico:\\ cambia el volumen};
 \end{scope}
 \node[etq] at (10.2cm,0.4cm) {\Large $+$};
 \begin{scope}[xshift=12.2cm]
   \cubo{1.5}{0}{-1.5}
-  \node[etq,align=center] at (0.3cm,-2.3cm) {$\mathbf{S}$\\ desviador: cambia la forma};
+  \node[etq,align=center,text width=4.6cm] at (0.3cm,-2.5cm) {$\mathbf{S}$\\ desviador:\\ cambia la forma};
 \end{scope}
 \end{tikzpicture}
 \end{document}
