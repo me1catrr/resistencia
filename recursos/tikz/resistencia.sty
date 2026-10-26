@@ -1,0 +1,32 @@
+% Estilo común de las figuras TikZ de RESISTENCIA.
+% Colores = tokens del tema claro (recursos/css/claro.scss).
+\ProvidesPackage{resistencia}[2026/10/26 Estilo de figuras de RESISTENCIA]
+\RequirePackage{tikz}
+\RequirePackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,calc,angles,quotes,positioning,decorations.markings,patterns}
+
+\definecolor{acero}{HTML}{24527A}
+\definecolor{cobre}{HTML}{A8481F}
+\definecolor{verde}{HTML}{1F7557}
+\definecolor{violeta}{HTML}{5B3FA0}
+\definecolor{tinta}{HTML}{1C2430}
+\definecolor{gris}{HTML}{C3CCD8}
+\definecolor{superficie}{HTML}{F2F5F9}
+
+\tikzset{
+  >=Stealth,
+  every node/.style={text=tinta},
+  fuerza/.style={-{Stealth[length=2.6mm]}, very thick, cobre},
+  vtension/.style={-{Stealth[length=2.4mm]}, thick, acero},
+  vnormal/.style={-{Stealth[length=2.4mm]}, thick, verde},
+  eje/.style={-{Stealth[length=2.4mm]}, thick, tinta},
+  contorno/.style={thick, tinta},
+  cuerpo/.style={thick, tinta, fill=superficie},
+  corte/.style={dashed, thick, violeta},
+  plano/.style={fill=acero!12, draw=acero, thick},
+  cota/.style={thin, tinta},
+  etiq/.style={font=\small},
+}
+
+% Flecha de tensión normal sobre una cara (tracción hacia fuera)
+\newcommand{\rotulo}[3]{\node[etiq, #1] at (#2) {#3};}

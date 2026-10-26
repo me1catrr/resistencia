@@ -1,0 +1,11 @@
+{
+  "cubo-componentes": "0f8e82be7f984e4e6d226574e1e73c426fd2813f82e7f20ca44f4b494b70a9d0",
+  "dos-planos": "388835f9d60996bae3381f7cecabe2ded37da3483da521242227474d36be8948",
+  "ejes-vs-elemento": "1146ebdb54974f998b71cf6e2395419df11bca8df395f5ac0ef620c0085d78bb",
+  "equilibrio-momentos": "31f55bded2c666997ce3d8e68365f9c262809519d5db3baad221ba4d64938cd9",
+  "esferico-desviador": "e8ea80986ec495cd3a9129b0edc0584c3ca4b2d6771936bb39836e2280de9caf",
+  "mohr-3d": "68ea67da26aee862ef5e359d4933666aa7a57bad976cdae0b3b95aecebe2cdfe",
+  "solido-cortado": "a5238afd5ab4f11600207be7f029670d07c3b25d755db0baeeec551258d169bb",
+  "tetraedro-cauchy": "a0aa766ea57297fa36e07de67a4e1b502a91aec94ace99731f9e16f5123d2e45",
+  "traccion-plano": "c4882bfb6b3910bab35d795c787139fce38f19a58f88eca43c681e9451793027"
+}

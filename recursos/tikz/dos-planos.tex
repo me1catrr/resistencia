@@ -1,0 +1,21 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\coordinate (P) at (0,0);
+% plano 1: horizontal (visto de canto), normal vertical
+\draw[acero,thick] (-3,0) -- (3,0);
+\node[etiq,acero,right] at (3,0) {plano 1};
+\draw[vnormal] (P) -- (0,1.6) node[above,etiq,verde]{$\vec n_1$};
+\draw[vtension,very thick] (P) -- (2.3,1.2) node[right,etiq]{$\vec t_1$};
+% plano 2: inclinado 60°
+\begin{scope}[rotate=60]
+  \draw[cobre,thick] (-3,0) -- (3,0);
+  \node[etiq,cobre,right] at (3,0) {plano 2};
+  \draw[vnormal] (P) -- (0,1.6) node[above,etiq,verde]{$\vec n_2$};
+  \draw[vtension,very thick] (P) -- (-0.4,0.6) node[left,etiq]{$\vec t_2$};
+\end{scope}
+\fill (P) circle (2pt) node[below right=2pt,etiq]{$P$};
+\node[etiq,align=center] at (0,-2.3) {Mismo punto, planos distintos:\\ $\vec t_1\neq\vec t_2$};
+\end{tikzpicture}
+\end{document}

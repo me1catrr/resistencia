@@ -1,0 +1,38 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+\begin{tikzpicture}[x={(-0.7cm,-0.5cm)},y={(1cm,0cm)},z={(0cm,1cm)},
+  etq/.style={etiq,fill=white,inner sep=1.2pt}]
+\def\L{2}
+% \cubo{valor en x}{valor en y}{valor en z}: flechas normales de longitud 0.55·valor
+\newcommand{\cubo}[3]{%
+  \draw[gris,dashed] (0,0,0) -- (0,\L,0);
+  \draw[gris,dashed] (0,0,0) -- (0,0,\L);
+  \draw[gris,dashed] (0,0,0) -- (\L,0,0);
+  \filldraw[fill=superficie,draw=tinta,thick] (\L,0,0) -- (\L,\L,0) -- (\L,\L,\L) -- (\L,0,\L) -- cycle;
+  \filldraw[fill=superficie!60!gris,draw=tinta,thick] (\L,\L,0) -- (0,\L,0) -- (0,\L,\L) -- (\L,\L,\L) -- cycle;
+  \filldraw[fill=white,draw=tinta,thick] (\L,0,\L) -- (\L,\L,\L) -- (0,\L,\L) -- (0,0,\L) -- cycle;
+  \pgfmathsetmacro{\lx}{0.5*(#1)}\pgfmathsetmacro{\ly}{0.5*(#2)}\pgfmathsetmacro{\lz}{0.5*(#3)}
+  \ifdim #1pt>0pt \draw[vtension] (\L,1,1) -- ++(\lx,0,0);\fi
+  \ifdim #1pt<0pt \draw[vtension] ($(\L,1,1)+(-\lx,0,0)$) -- (\L,1,1);\fi
+  \ifdim #2pt>0pt \draw[vtension] (1,\L,1) -- ++(0,\ly,0);\fi
+  \ifdim #2pt<0pt \draw[vtension] ($(1,\L,1)+(0,-\ly,0)$) -- (1,\L,1);\fi
+  \ifdim #3pt>0pt \draw[vtension] (1,1,\L) -- ++(0,0,\lz);\fi
+  \ifdim #3pt<0pt \draw[vtension] ($(1,1,\L)+(0,0,-\lz)$) -- (1,1,\L);\fi
+}
+\begin{scope}
+  \cubo{3}{1.5}{0}
+  \node[etq,align=center] at (0.3cm,-2.3cm) {$\boldsymbol{\sigma}$\\ estado dado};
+\end{scope}
+\node[etq] at (4.0cm,0.4cm) {\Large $=$};
+\begin{scope}[xshift=6.2cm]
+  \cubo{1.5}{1.5}{1.5}
+  \node[etq,align=center] at (0.3cm,-2.3cm) {$\sigma_m\,\mathbf{I}$\\ esférico: cambia el volumen};
+\end{scope}
+\node[etq] at (10.2cm,0.4cm) {\Large $+$};
+\begin{scope}[xshift=12.2cm]
+  \cubo{1.5}{0}{-1.5}
+  \node[etq,align=center] at (0.3cm,-2.3cm) {$\mathbf{S}$\\ desviador: cambia la forma};
+\end{scope}
+\end{tikzpicture}
+\end{document}

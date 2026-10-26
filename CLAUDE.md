@@ -42,7 +42,7 @@ Licencias: **MIT** (código) y **CC BY-SA 4.0** (contenidos). Todo lo incorporad
 ## 2. Referencias y trazabilidad
 
 - Bibliografía central: `recursos/bibliografia.bib` (BibTeX).
-- Cada entrada lleva el campo `verificado`: `{sí: <cómo y cuándo>}` o `{no: <motivo>}`. Una entrada `no` **no puede respaldar afirmaciones** del texto.
+- Cada entrada lleva el campo `verificado`: `{sí: <cómo y cuándo>}` (existencia y datos principales contrastados con una fuente), `{parcial: <qué falta>}` (existe, pero algún dato no está contrastado: se omite lo no contrastado) o `{no: <motivo>}`. Una entrada `no` **no puede respaldar afirmaciones** del texto y se rotula en su `note` como no localizada.
 - **Prohibido inventar** DOI, páginas, ediciones, años o URL. Si no se puede verificar, se omite el campo.
 - Recursos web: URL estable y fecha de consulta.
 - Distingue fuentes primarias, bibliografía de consulta y material complementario.

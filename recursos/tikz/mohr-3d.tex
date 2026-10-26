@@ -1,0 +1,39 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{resistencia}
+\input{datos-e01}
+\pgfkeys{/pgf/number format/.cd,fixed,precision=1,set decimal separator={,},zerofill=false}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,etq/.style={etiq,fill=white,inner sep=1.2pt}]
+\pgfmathsetmacro{\k}{0.075}% cm por MPa
+\pgfmathsetmacro{\xuno}{\Suno*\k}\pgfmathsetmacro{\xdos}{\Sdos*\k}\pgfmathsetmacro{\xtres}{\Stres*\k}
+\pgfmathsetmacro{\cA}{(\xuno+\xtres)/2}\pgfmathsetmacro{\rA}{(\xuno-\xtres)/2}
+\pgfmathsetmacro{\cB}{(\xuno+\xdos)/2}\pgfmathsetmacro{\rB}{(\xuno-\xdos)/2}
+\pgfmathsetmacro{\cC}{(\xdos+\xtres)/2}\pgfmathsetmacro{\rC}{(\xdos-\xtres)/2}
+\pgfmathsetmacro{\px}{\SigmaPlano*\k}\pgfmathsetmacro{\py}{\TauPlano*\k}
+% región admisible: dentro del círculo grande y fuera de los dos pequeños (τ ≥ 0)
+\begin{scope}
+  \clip (\xtres-0.2,0) rectangle (\xuno+0.2,\rA+0.2);
+  \fill[even odd rule,fill=acero!18] (\cA,0) circle (\rA) (\cB,0) circle (\rB) (\cC,0) circle (\rC);
+\end{scope}
+% ejes
+\draw[eje] (\xtres-0.9,0) -- (\xuno+1.1,0) node[right,etq]{$\sigma$ (MPa)};
+\draw[eje] (0,-0.2) -- (0,\rA+0.8) node[above,etq]{$\tau$ (MPa)};
+% semicírculos
+\draw[acero,very thick] (\xuno,0) arc[start angle=0,end angle=180,radius=\rA];
+\draw[verde,thick] (\xuno,0) arc[start angle=0,end angle=180,radius=\rB];
+\draw[cobre,thick] (\xdos,0) arc[start angle=0,end angle=180,radius=\rC];
+% tensiones principales
+\foreach \x/\n/\v in {\xtres/3/\Stres, \xdos/2/\Sdos, \xuno/1/\Suno}{
+  \draw (\x,0.07) -- (\x,-0.07);
+  \node[etq,below=2pt] at (\x,0) {$\sigma_\n=\pgfmathprintnumber{\v}$};
+}
+% tau maxima
+\draw[dashed,tinta] (0,\rA) -- (\cA,\rA);
+\pgfmathsetmacro{\taumax}{\rA/\k}
+\node[etq,above left] at (0,\rA) {$\tau_{\max}=\pgfmathprintnumber{\taumax}$};
+% punto de un plano concreto
+\draw[dotted,tinta] (\px,0) -- (\px,\py) -- (0,\py);
+\fill[violeta] (\px,\py) circle (2.4pt);
+\node[etq,text=violeta,above right=1pt] at (\px,\py) {$(\sigma_n,\tau)$};
+\end{tikzpicture}
+\end{document}

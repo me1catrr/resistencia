@@ -1,0 +1,23 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% plano de corte visto en perspectiva
+\filldraw[plano] (0,0) -- (6,0) -- (7.4,2.1) -- (1.4,2.1) -- cycle;
+\node[etiq,acero] at (0.9,0.38) {plano $\Pi$};
+% elemento de área alrededor de P
+\coordinate (P) at (3.7,1.05);
+\filldraw[fill=acero!35,draw=acero] ($(P)+(-0.45,-0.28)$) -- ($(P)+(0.45,-0.28)$) -- ($(P)+(0.7,0.28)$) -- ($(P)+(-0.2,0.28)$) -- cycle;
+\fill (P) circle (1.4pt) node[below=3pt,etiq] {$P$};
+\node[etiq,acero] at ($(P)+(1.15,-0.5)$) {$\Delta A$};
+% normal
+\draw[vnormal] (P) -- ($(P)+(0,2.2)$) node[above,etiq,verde]{$\vec n$};
+% vector tensión y componentes
+\draw[dashed,gray] ($(P)+(2.0,0)$) -- ($(P)+(2.0,1.6)$) -- ($(P)+(0,1.6)$);
+\draw[vtension,very thick] (P) -- ($(P)+(2.0,1.6)$) node[above right,etiq]{$\vec t=\displaystyle\lim_{\Delta A\to0}\frac{\Delta\vec F}{\Delta A}$};
+\draw[vnormal] (P) -- ($(P)+(0,1.6)$);
+\node[etiq,verde,left] at ($(P)+(0,0.85)$) {$\sigma_n$};
+\draw[fuerza] (P) -- ($(P)+(2.0,0)$);
+\node[etiq,cobre,below right] at ($(P)+(1.15,0)$) {$\tau$};
+\end{tikzpicture}
+\end{document}

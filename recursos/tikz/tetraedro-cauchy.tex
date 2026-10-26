@@ -1,0 +1,33 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{resistencia}
+\begin{document}
+\begin{tikzpicture}[x={(-0.7cm,-0.5cm)},y={(1cm,0cm)},z={(0cm,1cm)},
+  etq/.style={etiq,fill=white,inner sep=1.2pt}]
+\def\a{3.0}\def\b{3.6}\def\c{3.2}
+\coordinate (O) at (0,0,0);
+\coordinate (A) at (\a,0,0);
+\coordinate (B) at (0,\b,0);
+\coordinate (C) at (0,0,\c);
+% cara inclinada ABC (visible)
+\filldraw[fill=acero!14,draw=tinta,thick] (A) -- (B) -- (C) -- cycle;
+\node[etq,text=acero] at (barycentric cs:A=0.62,B=0.28,C=0.10) {$\mathrm{d}A$};
+% aristas ocultas (se transparentan a través de la cara ABC)
+\draw[tinta!55,dashed,thick] (O) -- (A);
+\draw[tinta!55,dashed,thick] (O) -- (B);
+\draw[tinta!55,dashed,thick] (O) -- (C);
+\fill[tinta!55] (O) circle (1.3pt);
+% vértices
+\node[etq,below left] at (A) {$A$};
+\node[etq,below right] at (B) {$B$};
+\node[etq,above] at (C) {$C$};
+\node[etq,below right=1pt] at (O) {$O$};
+% ejes
+\draw[eje] (A) -- ++(-0.7cm,-0.5cm) node[below left,etq]{$x$};
+\draw[eje] (B) -- ++(0.9cm,0cm) node[right,etq]{$y$};
+\draw[eje] (C) -- ++(0cm,0.9cm) node[above,etq]{$z$};
+% normal y vector tensión desde el baricentro de ABC
+\coordinate (G) at (barycentric cs:A=0.34,B=0.33,C=0.33);
+\draw[vnormal] (G) -- ($(G)+(0.67*1.5,0.56*1.5,0.62*1.5)$) node[right,etq,text=verde]{$\vec n$};
+\draw[vtension,very thick] (G) -- ($(G)+(0.2,1.7,-0.4)$) node[right,etq]{$\vec t$};
+\end{tikzpicture}
+\end{document}
