@@ -1,0 +1,13 @@
+---
+title: "Laboratorio"
+---
+
+Las cuatro prácticas del programa de la guía docente. Por ahora cada una tiene solo su ficha;
+se completarán con los datos y manuales de los equipos reales de la UCO, que no se inventan.
+
+| Práctica | Título |
+|---|---|
+| [L01](l01-flexion-hiperestatica/index.qmd) | Flexión hiperestática (viga continua) |
+| [L02](l02-torsion-no-circular/index.qmd) | Torsión de barras no circulares |
+| [L03](l03-deposito-pared-delgada/index.qmd) | Tensiones en depósitos de pared delgada |
+| [L04](l04-pandeo/index.qmd) | Pandeo |

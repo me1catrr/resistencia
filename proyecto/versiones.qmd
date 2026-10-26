@@ -1,0 +1,22 @@
+---
+title: "Versiones y estado de los temas"
+---
+
+Cada tema muestra un recuadro con su identificador, versión, estado, fecha de última modificación y
+referencias principales.
+
+## Estados
+
+| Estado | Significado |
+|---|---|
+| esqueleto | Solo existe el título oficial; sin contenido |
+| borrador | Desarrollado, **pendiente de revisión por el profesor** |
+| revisado | Revisado técnicamente por el profesor (con fecha) |
+| publicado | Revisado y dado por definitivo para el curso |
+
+## De dónde salen las fechas
+
+- **Última modificación:** del historial de Git del tema. Si todavía no hay commits, la web dice
+  «pendiente de primer commit».
+- **Revisión técnica:** solo aparece si una persona la ha registrado tras revisar de verdad el tema.
+  Si no figura, se muestra «revisión técnica pendiente». Nunca se inventa una fecha.

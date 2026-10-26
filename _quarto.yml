@@ -1,0 +1,104 @@
+project:
+  type: website
+  # Solo se renderizan los .qmd. Lo privado y lo de apoyo nunca entra en el sitio.
+  render:
+    - "**/*.qmd"
+    - "!referencias/**"
+    - "!privado/**"
+    - "!moodle/**"
+    - "!node_modules/**"
+    - "!.venv/**"
+  # Se copian tal cual (módulos JS cargados como archivo, no incrustados).
+  resources:
+    - recursos/js/**/*.js
+    - "!recursos/js/**/*.test.js"
+    - "!recursos/js/test/**"
+  post-render:
+    - scripts/no_publicar.py
+
+# La barra superior y las laterales las genera scripts/generar_estructura.py
+# desde temario.toml. _versiones.yml lo edita una persona.
+metadata-files:
+  - _navegacion.yml
+  - _versiones.yml
+
+lang: es
+bibliography: recursos/bibliografia.bib
+
+# Orden: versión y bloques antes de Quarto (necesitan citas sin procesar);
+# ejercicios y simulaciones después (para ver lo que generan los shortcodes).
+filters:
+  - scripts/lua/version_tema.lua
+  - scripts/lua/bloques.lua
+  - quarto
+  - scripts/lua/ejercicios.lua
+  - scripts/lua/recursos_globales.lua
+
+shortcodes:
+  - scripts/lua/num.lua
+  - scripts/lua/codigo.lua
+  - scripts/lua/pregunta.lua
+  - scripts/lua/simulacion.lua
+
+website:
+  title: "RESISTENCIA"
+  description: "Elasticidad y Resistencia de Materiales II · Universidad de Córdoba"
+  site-url: https://me1catrr.github.io/resistencia/
+  repo-url: https://github.com/me1catrr/resistencia
+  repo-actions: [issue]
+  search:
+    location: navbar
+    type: overlay
+  page-footer:
+    center: "RESISTENCIA · código MIT · contenidos CC BY-SA 4.0 · recurso docente abierto, no sustituye a la guía docente oficial"
+
+format:
+  html:
+    theme:
+      light: [cosmo, recursos/css/claro.scss]
+      dark: [cosmo, recursos/css/oscuro.scss]
+    css: recursos/css/resistencia.css
+    respect-user-color-scheme: true
+    toc: true
+    toc-title: "En esta página"
+    code-copy: true
+    code-overflow: wrap
+    lightbox: auto
+    citations-hover: true
+    link-citations: true
+    reference-section-title: "Referencias"
+    grid:
+      sidebar-width: 280px
+      body-width: 860px
+      margin-width: 260px
+      gutter-width: 1.5rem
+    html-math-method: mathjax
+
+# Etiquetas en español y un tipo propio para numerar las simulaciones.
+crossref:
+  fig-title: "Figura"
+  tbl-title: "Tabla"
+  eq-prefix: "ecuación"
+  fig-prefix: "figura"
+  tbl-prefix: "tabla"
+  sec-prefix: "apartado"
+  thm-title: "Teorema"
+  prp-title: "Proposición"
+  def-title: "Definición"
+  exm-title: "Ejemplo"
+  lem-title: "Lema"
+  cor-title: "Corolario"
+  thm-prefix: "teorema"
+  prp-prefix: "proposición"
+  def-prefix: "definición"
+  exm-prefix: "ejemplo"
+  lem-prefix: "lema"
+  cor-prefix: "corolario"
+  custom:
+    - kind: float
+      reference-prefix: "Simulación"
+      key: sim
+      latex-env: simulacion
+
+execute:
+  enabled: false

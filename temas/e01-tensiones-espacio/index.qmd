@@ -1,0 +1,11 @@
+---
+title: "E01 · Estado de tensiones en el espacio"
+tema-id: e01
+tipo-pagina: tema
+---
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Este tema (Elasticidad) forma parte del temario oficial de la
+guía docente, pero todavía no tiene contenido. Su estructura de apartados se fijará cuando se
+desarrolle; no se rellena con texto genérico.
+:::

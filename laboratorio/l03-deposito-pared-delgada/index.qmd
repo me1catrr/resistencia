@@ -1,0 +1,11 @@
+---
+title: "L03 · Tensiones en depósitos de pared delgada"
+tema-id: l03
+tipo-pagina: laboratorio
+---
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Práctica del programa de la guía docente. Aquí irán la ficha, los
+objetivos, las variables, la plantilla de datos y la propuesta de informe. Los datos de los
+equipos reales de la UCO se incorporarán cuando el profesorado los facilite: `[PENDIENTE: equipo UCO]`.
+:::

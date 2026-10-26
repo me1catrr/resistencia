@@ -1,0 +1,20 @@
+---
+title: "Elasticidad"
+---
+
+<!-- GENERADO por scripts/generar_estructura.py desde temario.toml. No editar a mano. -->
+
+Temas de la parte **Elasticidad** según la guía docente 2026/27. Los títulos son los
+oficiales; los apartados internos de cada tema son propuesta docente.
+
+| Tema | Título | Estado |
+|---|---|---|
+| E01 | [Estado de tensiones en el espacio](e01-tensiones-espacio/index.qmd) | esqueleto |
+| E02 | [Estado plano de tensiones](e02-tension-plana/index.qmd) | esqueleto |
+| E03 | [Análisis de la deformación](e03-deformacion/index.qmd) | esqueleto |
+| E04 | [Relación entre tensiones y deformaciones](e04-tension-deformacion/index.qmd) | esqueleto |
+| E05 | [Teoremas energéticos](e05-energeticos/index.qmd) | esqueleto |
+| E06 | [Criterios de agotamiento](e06-agotamiento/index.qmd) | esqueleto |
+
+Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesor),
+*revisado* y *publicado*.

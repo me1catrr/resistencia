@@ -1,0 +1,11 @@
+---
+title: "Bibliografía"
+nocite: |
+  @*
+---
+
+Todas las fuentes registradas en el proyecto. Cada ficha lleva un campo `verificado` en el archivo
+BibTeX que dice qué se ha comprobado; una fuente no verificada no puede respaldar afirmaciones del texto.
+
+::: {#refs}
+:::

@@ -1,0 +1,19 @@
+---
+title: "Programación con Julia y Python"
+---
+
+Los ejemplos mecánicos se pueden reproducir en **Julia** y en **Python**. No necesitas instalar nada
+para leer esta web: los resultados esenciales se ven en el navegador. Si quieres ejecutar el código:
+
+| Lenguaje | Requisitos |
+|---|---|
+| Julia | [Julia](https://julialang.org/downloads/) 1.12; solo biblioteca estándar (`LinearAlgebra`) |
+| Python | Python 3 con `numpy` (opcionalmente `matplotlib` para las gráficas) |
+
+El código es el de los archivos reales del repositorio, y las dos versiones se comprueban entre sí con
+casos de solución conocida. La web **no ejecuta código al construirse**: los números que ves proceden
+de un archivo de resultados verificado.
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** El código de E01 se publica con el tema.
+:::

@@ -1,0 +1,5 @@
+---
+title: "Recursos"
+---
+
+- [Bibliografía](bibliografia.qmd): fuentes citadas en el libro y bibliografía de la guía.

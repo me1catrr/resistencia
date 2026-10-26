@@ -1,0 +1,21 @@
+---
+title: "Resistencia de Materiales"
+---
+
+<!-- GENERADO por scripts/generar_estructura.py desde temario.toml. No editar a mano. -->
+
+Temas de la parte **Resistencia de Materiales** según la guía docente 2026/27. Los títulos son los
+oficiales; los apartados internos de cada tema son propuesta docente.
+
+| Tema | Título | Estado |
+|---|---|---|
+| R07 | [Tensiones normales](r07-tensiones-normales/index.qmd) | esqueleto |
+| R08 | [Tensiones tangenciales en la flexión](r08-tangenciales-flexion/index.qmd) | esqueleto |
+| R09 | [Deformaciones en flexión](r09-deformaciones-flexion/index.qmd) | esqueleto |
+| R10 | [Flexión hiperestática](r10-flexion-hiperestatica/index.qmd) | esqueleto |
+| R11 | [Torsión uniforme](r11-torsion-uniforme/index.qmd) | esqueleto |
+| R12 | [Pandeo](r12-pandeo/index.qmd) | esqueleto |
+| R13 | [Acciones combinadas](r13-acciones-combinadas/index.qmd) | esqueleto |
+
+Estados: *esqueleto* (solo título), *borrador* (desarrollado, sin revisión del profesor),
+*revisado* y *publicado*.

@@ -42,3 +42,6 @@ playwright-report/
 .claude/settings.local.json
 .claude/.cc-writes/
 .claude/scheduled_tasks.lock
+
+/.quarto/
+**/*.quarto_ipynb

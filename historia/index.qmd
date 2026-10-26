@@ -1,0 +1,8 @@
+---
+title: "Historia de la Elasticidad y la Resistencia de Materiales"
+---
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Solo se incluirán hechos contrastados con fuentes verificadas, citadas
+en la bibliografía. No se escribirá nada de memoria.
+:::

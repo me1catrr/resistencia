@@ -1,0 +1,98 @@
+---
+title: "Guía docente 2026/27: resumen"
+---
+
+::: {.aviso}
+Este resumen es una **ayuda de lectura**, no un documento oficial. La fuente es la guía docente
+de *Elasticidad y Resistencia de Materiales II* (280003), curso 2026/27, actualizada el 17/06/2026.
+Ante cualquier duda, manda la guía oficial de la Universidad de Córdoba.
+Enlace a la guía oficial: **[PENDIENTE: URL oficial de la guía docente en la web de la UCO, sin verificar]**.
+:::
+
+## Datos de la asignatura
+
+| | |
+|---|---|
+| Titulación | Grado en Ingeniería Mecánica (EPSC, Universidad de Córdoba) |
+| Curso y carácter | 2.º curso, segundo cuatrimestre, obligatoria |
+| Créditos | 6 ECTS (60 h presenciales, 90 h no presenciales) |
+| Coordinador | Rafael Castro Triguero (Departamento de Mecánica) |
+| Otro profesorado | Germán López Pineda · Manuel Rosales García |
+| Plataforma virtual | [Moodle UCO](https://moodle.uco.es/) |
+
+Es la continuación natural de *Elasticidad y Resistencia de Materiales I*. La guía recomienda
+buena base de Matemáticas II, dominio de **autovalores y autovectores** en el bloque de
+Elasticidad y nociones básicas de programación (por ejemplo, Python).
+
+## Programa
+
+**Parte I: Teoría de la Elasticidad.** (1) Estado de tensiones en el espacio · (2) Estado plano
+de tensiones · (3) Análisis de la deformación · (4) Relación entre tensiones y deformaciones ·
+(5) Teoremas energéticos · (6) Criterios de agotamiento.
+
+**Parte II: Resistencia de Materiales.** (7) Tensiones normales · (8) Tensiones tangenciales en
+la flexión · (9) Deformaciones en flexión · (10) Flexión hiperestática · (11) Torsión uniforme ·
+(12) Pandeo · (13) Acciones combinadas.
+
+La guía fija los temas **solo por su título**. Los apartados internos que verás en esta web son una
+*propuesta docente* y se rotulan así.
+
+## Prácticas de laboratorio
+
+1. Ensayo de la viga a flexión hiperestática: reacciones en una viga continua.
+2. Torsión en barras de sección no circular: relación momento torsor–ángulo de torsión,
+   relación longitud–ángulo y módulo de rigidez transversal $G$ de acero, latón y aluminio.
+3. Tensiones en un depósito de pared delgada: tensión en distintos puntos de la superficie
+   externa del cilindro y en distintas direcciones.
+4. Análisis del pandeo.
+
+Véase [Laboratorio](../laboratorio/index.qmd). De todos los temas se hacen ejercicios y se proponen
+problemas en grupos medianos.
+
+## Competencias
+
+| Código | Texto de la guía |
+|---|---|
+| COM02 | Aplicar conocimientos al trabajo de forma profesional; elaboración y defensa de argumentos y resolución de problemas en Ingeniería Mecánica |
+| C01 | Conocer a nivel de usuario el ámbito de las TIC |
+| C24 | Fundamentos de la elasticidad y resistencia de materiales al comportamiento de sólidos reales |
+| HD01 | Perfeccionar el nivel de usuario en el ámbito de las TIC |
+| HD18 | Capacidad de aplicar los fundamentos de la elasticidad y resistencia de materiales al comportamiento de sólidos reales |
+
+## Evaluación
+
+| Instrumento | Peso | Nota mínima |
+|---|---|---|
+| Examen | 80 % | 0 |
+| Medios orales | 10 % | 0 |
+| Producciones del estudiantado | 10 % | 0 |
+
+El examen es individual y recoge también los contenidos de laboratorio. Los medios orales valoran la
+participación, las respuestas a cuestiones breves y las reflexiones sobre la materia. Las
+producciones son ejercicios, trabajos o informes entregados durante el curso.
+
+**Inteligencia artificial.** Se permite como apoyo al aprendizaje si su uso es responsable, crítico y
+**transparente**; el estudiantado debe indicarlo cuando sea relevante y garantizar la autoría y la
+comprensión de lo que presenta.
+
+Las convocatorias extraordinarias y los ajustes para alumnado a tiempo parcial o con necesidades
+específicas de apoyo se rigen por lo que dice la guía oficial.
+
+## Distribución de horas presenciales
+
+| Actividad | Grupo completo | Grupo mediano | Total |
+|---|---|---|---|
+| Acción tutorial | 10 | 5 | 15 |
+| Evaluación | 10 | 5 | 15 |
+| Experimentación práctica | 10 | 10 | 20 |
+| Procesamiento de la información | 6 | 4 | 10 |
+| **Total** | **36** | **24** | **60** |
+
+## Bibliografía de la guía
+
+- **Básica:** Rodríguez-Avial Llardent (2023), *Elasticidad y Resistencia de Materiales I y II*, UNED
+  (disponible gratis para el alumnado en la plataforma Mezquita de la UCO).
+- **Otra:** Ortiz Berrocal (1998), *Elasticidad*, McGraw-Hill · Vázquez Fernández (1999),
+  *Resistencia de Materiales*, Noela · París Carballo (1998), *Teoría de la Elasticidad*, Universidad de Sevilla.
+
+Ficha completa en [Bibliografía](../recursos/bibliografia.qmd).

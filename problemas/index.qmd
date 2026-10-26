@@ -1,0 +1,15 @@
+---
+title: "Problemas"
+---
+
+Problemas resueltos y propuestos, organizados por tema y por niveles:
+
+1. **Fundamentos**: aplicar una definición o una fórmula directa.
+2. **Aplicación**: un procedimiento completo con datos sencillos.
+3. **Integración**: combinar varios apartados del tema.
+4. **Desafío** (opcional): para ir más allá.
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Los problemas de cada tema se escriben a la vez que el tema. Los de
+**E01** irán en su página de ejemplos y en los ejercicios intercalados del texto.
+:::

@@ -1,0 +1,43 @@
+/*-- scss:defaults --*/
+// Tokens de color del tema oscuro. Mismo formato que en claro.scss.
+$r-acero: #8fbbe6;
+$r-cobre: #f2a07a;
+$r-verde: #6bd3ab;
+$r-violeta: #bba9f2;
+$r-fondo: #12161d;
+$r-superficie: #1b212b;
+$r-texto: #e7eaef;
+$r-tenue: #aab3c0;
+$r-borde: #3a4454;
+$r-sobre-acento: #0b1018;
+
+$primary: $r-acero;
+$link-color: $r-acero;
+$body-bg: $r-fondo;
+$body-color: $r-texto;
+$navbar-bg: #1c2a3a;
+$navbar-fg: #e7eaef;
+$navbar-hover-color: #ffffff;
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+/*-- scss:rules --*/
+:root {
+  --r-acero: #{$r-acero};
+  --r-cobre: #{$r-cobre};
+  --r-verde: #{$r-verde};
+  --r-violeta: #{$r-violeta};
+  --r-fondo: #{$r-fondo};
+  --r-superficie: #{$r-superficie};
+  --r-texto: #{$r-texto};
+  --r-tenue: #{$r-tenue};
+  --r-borde: #{$r-borde};
+  --r-sobre-acento: #{$r-sobre-acento};
+}
+// Las figuras TikZ pasan a SVG con el texto en trazos: no cambian de color.
+// Se muestran sobre una tarjeta clara.
+img.figura-tikz, .figura-tikz img, .figura-tikz svg {
+  background: #ffffff;
+  padding: 0.5rem;
+  border-radius: 6px;
+}

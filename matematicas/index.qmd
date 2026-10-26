@@ -1,0 +1,11 @@
+---
+title: "Herramientas matemáticas"
+---
+
+Repaso de las herramientas que se usan en el curso. La guía docente destaca especialmente el
+**álgebra lineal**: autovalores y autovectores en el bloque de Elasticidad.
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Se escribirá bajo demanda de los temas, empezando por lo que necesita
+E01: matrices simétricas, ortogonalidad, cambio de base y problema de autovalores.
+:::

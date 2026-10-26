@@ -1,0 +1,179 @@
+/* RESISTENCIA · estilos comunes. Los colores vienen de claro.scss / oscuro.scss
+   como variables --r-*; nada de aquí fija un color de modo concreto. */
+
+/* ---------- Tipografía y rejilla ---------- */
+body { font-size: 1.02rem; line-height: 1.6; }
+.content img, .content svg { max-width: 100%; height: auto; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--r-cobre); outline-offset: 2px; }
+
+/* ---------- Avisos ---------- */
+.aviso, .aviso-esqueleto, .aviso-ejercicios {
+  border: 1px solid var(--r-borde);
+  border-left: 5px solid var(--r-acero);
+  background: var(--r-superficie);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  margin: 1rem 0;
+}
+.aviso-esqueleto { border-left-color: var(--r-cobre); border-left-style: dashed; }
+.aviso > :last-child, .aviso-esqueleto > :last-child, .aviso-ejercicios > :last-child { margin-bottom: 0; }
+
+/* ---------- Recuadro de versión de tema ---------- */
+.version-tema {
+  border: 1px solid var(--r-borde);
+  background: var(--r-superficie);
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: var(--r-tenue);
+}
+.version-tema p { margin: 0.15rem 0; }
+.version-tema .version-estado {
+  font-weight: 700; border: 1px solid currentColor; border-radius: 1em; padding: 0 0.6em;
+}
+.version-borrador { border-left: 5px solid var(--r-cobre); }
+.version-esqueleto { border-left: 5px dashed var(--r-tenue); }
+.version-revisado, .version-publicado { border-left: 5px solid var(--r-verde); }
+.version-compacta { padding: 0.25rem 0.75rem; font-size: 0.85rem; }
+
+/* ---------- Bloques didácticos (icono + rótulo de texto + borde) ---------- */
+.bloque {
+  border: 1px solid var(--r-borde);
+  border-left-width: 6px;
+  border-radius: 6px;
+  margin: 1.2rem 0;
+  background: var(--r-fondo);
+}
+.bloque-titulo {
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  background: var(--r-superficie);
+  border-bottom: 1px solid var(--r-borde);
+}
+.bloque-titulo p { margin: 0; }
+.bloque-titulo::before { margin-right: 0.5rem; font-weight: 400; }
+.bloque-cuerpo { padding: 0.5rem 0.9rem; }
+.bloque-cuerpo > :last-child { margin-bottom: 0; }
+.bloque-definicion { border-left-color: var(--r-acero); }
+.bloque-definicion > .bloque-titulo::before { content: "\25A3"; color: var(--r-acero); }
+.bloque-teorema { border-left-color: var(--r-acero); border-left-style: double; }
+.bloque-teorema > .bloque-titulo::before { content: "\220E"; color: var(--r-acero); }
+.bloque-ejemplo { border-left-color: var(--r-verde); }
+.bloque-ejemplo > .bloque-titulo::before { content: "\270E"; color: var(--r-verde); }
+.bloque-advertencia { border-left-color: var(--r-cobre); }
+.bloque-advertencia > .bloque-titulo::before { content: "\26A0\FE0E"; color: var(--r-cobre); }
+.bloque-idea-clave { border-left-color: var(--r-verde); background: var(--r-superficie); }
+.bloque-idea-clave > .bloque-titulo::before { content: "\2605"; color: var(--r-verde); }
+.bloque-hipotesis { border-left-color: var(--r-acero); border-left-style: dashed; }
+.bloque-hipotesis > .bloque-titulo::before { content: "\22A2"; color: var(--r-acero); }
+.bloque-historia { border-left-color: var(--r-tenue); }
+.bloque-historia > .bloque-titulo::before { content: "\231B\FE0E"; color: var(--r-tenue); }
+.bloque-para-clase { border-left-color: var(--r-cobre); }
+.bloque-para-clase > .bloque-titulo::before { content: "?"; color: var(--r-cobre); font-weight: 700; }
+.bloque-pausa { border-left-color: var(--r-verde); border-left-style: dashed; }
+.bloque-pausa > .bloque-titulo::before { content: "\23F8\FE0E"; color: var(--r-verde); }
+
+/* Itinerario B: profundización opcional (violeta, plegable) */
+details.profundiza {
+  border: 1px solid var(--r-violeta);
+  border-left-width: 6px;
+  border-radius: 6px;
+  margin: 1.2rem 0;
+  padding: 0 0.9rem 0.5rem;
+}
+details.profundiza > summary {
+  cursor: pointer; font-weight: 700; color: var(--r-violeta); padding: 0.5rem 0;
+}
+details.profundiza > summary::marker { color: var(--r-violeta); }
+
+/* ---------- Figuras TikZ (en claro se ven tal cual; en oscuro, sobre tarjeta clara) ---------- */
+.figura-tikz img, img.figura-tikz { max-width: 100%; }
+
+/* ---------- Ejercicios y cuestionarios ---------- */
+.ejercicio {
+  border: 1px solid var(--r-borde);
+  border-radius: 8px;
+  margin: 1.4rem 0;
+  background: var(--r-fondo);
+}
+.ej-cabecera { padding: 0.5rem 0.9rem 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ej-cabecera p { margin: 0; display: contents; }
+.ej-insignia {
+  font-size: 0.78rem; font-weight: 700; border: 1px solid var(--r-borde);
+  border-radius: 1em; padding: 0.05rem 0.65rem; color: var(--r-tenue);
+}
+.ej-clase { color: var(--r-cobre); border-color: var(--r-cobre); }
+.ej-nivel-4 { border-style: dashed; }
+.ej-enunciado, .ej-opciones, .ej-pasos, .ej-pistas, .ej-razonamiento, .ej-solucion, .ej-controles, .ej-resultado {
+  padding: 0.3rem 0.9rem;
+}
+.ej-opcion, .ej-paso {
+  border: 1px solid var(--r-borde); border-radius: 6px; margin: 0.4rem 0; padding: 0.3rem 0.7rem;
+}
+.ej-opcion > .ej-texto > :last-child, .ej-paso > .ej-texto > :last-child { margin-bottom: 0; }
+.ej-feedback { font-size: 0.93rem; color: var(--r-tenue); border-top: 1px dashed var(--r-borde); margin-top: 0.3rem; padding-top: 0.25rem; }
+.ejercicio label { display: flex; gap: 0.6rem; align-items: flex-start; cursor: pointer; width: 100%; }
+.ejercicio label input { margin-top: 0.4rem; }
+.ejercicio input[type="number"], .ejercicio input[type="text"], .ejercicio textarea {
+  font: inherit; color: var(--r-texto); background: var(--r-fondo);
+  border: 1px solid var(--r-borde); border-radius: 4px; padding: 0.3rem 0.5rem;
+}
+.ejercicio textarea { width: 100%; min-height: 5rem; }
+.ej-boton {
+  font: inherit; font-weight: 600; cursor: pointer; margin: 0.2rem 0.4rem 0.2rem 0;
+  color: var(--r-sobre-acento); background: var(--r-acero); border: 1px solid var(--r-acero);
+  border-radius: 6px; padding: 0.3rem 0.9rem;
+}
+.ej-boton.secundario { color: var(--r-acero); background: transparent; }
+.ej-boton[disabled] { opacity: 0.5; cursor: not-allowed; }
+.ej-resultado { font-weight: 600; }
+.ej-resultado.ok { color: var(--r-verde); }
+.ej-resultado.mal { color: var(--r-cobre); }
+.ej-opcion.ok, .ej-paso.ok { border-color: var(--r-verde); border-left: 6px solid var(--r-verde); }
+.ej-opcion.mal, .ej-paso.mal { border-color: var(--r-cobre); border-left: 6px dashed var(--r-cobre); }
+.ej-js .ej-feedback, .ej-js .ej-solucion, .ej-js .ej-pista, .ej-js .ej-razonamiento { display: none; }
+.ej-js .ej-feedback.visible, .ej-js .ej-solucion.visible, .ej-js .ej-pista.visible,
+.ej-js .ej-razonamiento.visible { display: block; }
+.ej-solucion.visible, .ej-pista.visible { border-top: 1px dashed var(--r-borde); }
+.ej-etiqueta { font-weight: 700; display: block; }
+
+/* ---------- Simulaciones ---------- */
+.sim-marco { border: 1px solid var(--r-borde); border-radius: 8px; padding: 0.8rem; margin: 1rem 0; background: var(--r-superficie); }
+.sim-error { color: var(--r-cobre); font-weight: 600; }
+
+/* ---------- Botón de modo clase ---------- */
+.boton-modo-clase {
+  font: inherit; font-size: 0.85rem; cursor: pointer; color: inherit;
+  background: transparent; border: 1px solid currentColor; border-radius: 1em; padding: 0.1rem 0.8rem;
+}
+.boton-modo-clase[aria-pressed="true"] { background: var(--r-cobre); color: var(--r-sobre-acento); border-color: var(--r-cobre); }
+
+/* ---------- Modo clase (proyección en aula) ---------- */
+body.modo-clase { font-size: 1.3rem; }
+body.modo-clase #quarto-sidebar,
+body.modo-clase #quarto-margin-sidebar,
+body.modo-clase .solo-libro,
+body.modo-clase details.profundiza,
+body.modo-clase .version-tema,
+body.modo-clase .bloque-historia,
+body.modo-clase footer.footer { display: none !important; }
+body.modo-clase mjx-container { font-size: 118% !important; }
+body.modo-clase main.content { max-width: 1200px; }
+body.modo-clase .bloque-para-clase, body.modo-clase .ejercicio[data-clase] {
+  border-width: 3px; box-shadow: 0 0 0 3px var(--r-cobre) inset;
+}
+body.modo-clase .ej-solucion { display: none; }
+body.modo-clase .ej-solucion.visible { display: block; }
+body.modo-clase h2 { scroll-margin-top: 4rem; }
+.temporizador-clase {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 2000; padding: 0.5rem 1rem;
+  font-size: 1.6rem; font-variant-numeric: tabular-nums;
+  background: var(--r-superficie); color: var(--r-texto); border: 2px solid var(--r-cobre); border-radius: 8px;
+}
+@media (max-width: 767px) {
+  .ejercicio, .bloque { margin-left: 0; margin-right: 0; }
+}
+@media print { .boton-modo-clase, .temporizador-clase { display: none; } }

@@ -1,0 +1,11 @@
+---
+title: "Sobre el proyecto"
+---
+
+RESISTENCIA es un libro interactivo y abierto de *Elasticidad y Resistencia de Materiales II*,
+pensado para usarse en clase y para estudiar después.
+
+- [Acerca de](acerca.qmd): qué es, qué no es y cómo se ha hecho.
+- [Licencias](licencias.qmd): qué puedes hacer con el código y con los contenidos.
+- [Versiones y estado](versiones.qmd): cómo se numera y qué significa «borrador».
+- [Pendientes](pendientes.qmd): lo que falta y lo que no se ha verificado.

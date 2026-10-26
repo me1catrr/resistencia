@@ -1,0 +1,15 @@
+---
+title: "Simulaciones"
+---
+
+Simulaciones interactivas que funcionan en tu navegador, sin servidor. Cada una explica su objetivo,
+su fundamento, sus hipótesis, sus variables, sus limitaciones y cómo se ha validado.
+
+| Simulación | Tema | Estado |
+|---|---|---|
+| Tensor de tensiones 3D | E01 | En desarrollo |
+
+::: {.aviso}
+Una simulación es un modelo: solo vale dentro de las hipótesis que declara. Cada página las
+enumera.
+:::

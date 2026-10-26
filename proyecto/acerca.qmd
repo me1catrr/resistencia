@@ -1,0 +1,31 @@
+---
+title: "Acerca de RESISTENCIA"
+---
+
+## Qué es
+
+Un recurso docente abierto para la asignatura *Elasticidad y Resistencia de Materiales II* (280003),
+Grado en Ingeniería Mecánica, Escuela Politécnica Superior de Córdoba, Universidad de Córdoba.
+Coordinador: Rafael Castro Triguero.
+
+## Qué no es
+
+- **No sustituye a la guía docente oficial.** Los contenidos obligatorios son los de la guía;
+  el resto se rotula como complemento, ampliación o propuesta.
+- **No es una plataforma de evaluación.** Los cuestionarios son formativos y funcionan en tu
+  navegador: no se envía, guarda ni califica nada en ningún servidor.
+- **No está todo revisado.** Parte del material se ha elaborado con ayuda de herramientas de IA y
+  figura como *borrador* hasta que el profesor lo revise (véase [Versiones](versiones.qmd)).
+
+## Cómo se ha hecho
+
+Quarto para el libro; JavaScript para las simulaciones; Julia como implementación de referencia
+del cálculo y Python como segunda implementación. Las tres se contrastan automáticamente, de modo
+que los números que ves en el texto proceden de un archivo de resultados verificado y no se
+teclean a mano.
+
+## Dos itinerarios
+
+- **Itinerario A**, el curso oficial: lo que se pide en la guía, a nivel de segundo curso.
+- **Itinerario B**, profundización opcional: se reconoce por su recuadro violeta plegable
+  «Profundización — opcional». No hace falta para seguir el curso.

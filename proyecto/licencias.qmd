@@ -1,0 +1,12 @@
+---
+title: "Licencias"
+---
+
+| Qué | Licencia |
+|---|---|
+| Código (Julia, Python, JavaScript, scripts, configuración) | [MIT](https://opensource.org/license/mit) |
+| Contenidos (texto, figuras originales, ejercicios, cuestionarios) | [Creative Commons Atribución-CompartirIgual 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es) |
+
+Si reutilizas el material, cita el proyecto (véase `CITATION.cff` en el repositorio) e indica los cambios.
+Las figuras o textos de terceros indican su procedencia y licencia en su pie y **no** quedan cubiertos
+por las licencias anteriores.

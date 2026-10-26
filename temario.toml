@@ -1,0 +1,176 @@
+# Fuente única de la estructura del libro. De aquí salen _navegacion.yml (barra
+# superior y laterales) y los esqueletos de los temas. Se procesa con
+#   python3 scripts/generar_estructura.py
+# Los títulos de los temas son los de la guía docente 2026/27; los apartados
+# internos de cada tema son propuesta docente, no oficiales.
+
+[[parte]]
+id = "elasticidad"
+titulo = "Elasticidad"
+menu = "Elasticidad"
+
+[[parte]]
+id = "resistencia"
+titulo = "Resistencia de Materiales"
+menu = "Resistencia"
+
+[[tema]]
+id = "e01"
+parte = "elasticidad"
+slug = "e01-tensiones-espacio"
+titulo = "Estado de tensiones en el espacio"
+
+[[tema]]
+id = "e02"
+parte = "elasticidad"
+slug = "e02-tension-plana"
+titulo = "Estado plano de tensiones"
+
+[[tema]]
+id = "e03"
+parte = "elasticidad"
+slug = "e03-deformacion"
+titulo = "Análisis de la deformación"
+
+[[tema]]
+id = "e04"
+parte = "elasticidad"
+slug = "e04-tension-deformacion"
+titulo = "Relación entre tensiones y deformaciones"
+
+[[tema]]
+id = "e05"
+parte = "elasticidad"
+slug = "e05-energeticos"
+titulo = "Teoremas energéticos"
+
+[[tema]]
+id = "e06"
+parte = "elasticidad"
+slug = "e06-agotamiento"
+titulo = "Criterios de agotamiento"
+
+[[tema]]
+id = "r07"
+parte = "resistencia"
+slug = "r07-tensiones-normales"
+titulo = "Tensiones normales"
+
+[[tema]]
+id = "r08"
+parte = "resistencia"
+slug = "r08-tangenciales-flexion"
+titulo = "Tensiones tangenciales en la flexión"
+
+[[tema]]
+id = "r09"
+parte = "resistencia"
+slug = "r09-deformaciones-flexion"
+titulo = "Deformaciones en flexión"
+
+[[tema]]
+id = "r10"
+parte = "resistencia"
+slug = "r10-flexion-hiperestatica"
+titulo = "Flexión hiperestática"
+
+[[tema]]
+id = "r11"
+parte = "resistencia"
+slug = "r11-torsion-uniforme"
+titulo = "Torsión uniforme"
+
+[[tema]]
+id = "r12"
+parte = "resistencia"
+slug = "r12-pandeo"
+titulo = "Pandeo"
+
+[[tema]]
+id = "r13"
+parte = "resistencia"
+slug = "r13-acciones-combinadas"
+titulo = "Acciones combinadas"
+
+# Prácticas de la guía docente: P1 a P4 (aquí L01 a L04).
+[[laboratorio]]
+id = "l01"
+slug = "l01-flexion-hiperestatica"
+titulo = "Flexión hiperestática (viga continua)"
+
+[[laboratorio]]
+id = "l02"
+slug = "l02-torsion-no-circular"
+titulo = "Torsión de barras no circulares"
+
+[[laboratorio]]
+id = "l03"
+slug = "l03-deposito-pared-delgada"
+titulo = "Tensiones en depósitos de pared delgada"
+
+[[laboratorio]]
+id = "l04"
+slug = "l04-pandeo"
+titulo = "Pandeo"
+
+# Áreas transversales. «menu» indica dónde van: «barra» (barra superior directa)
+# o «mas» (desplegable «Más»). «indice» es la página de entrada del área.
+[[area]]
+id = "problemas"
+titulo = "Problemas"
+indice = "problemas/index.qmd"
+menu = "barra"
+
+[[area]]
+id = "laboratorio"
+titulo = "Laboratorio"
+indice = "laboratorio/index.qmd"
+menu = "barra"
+
+[[area]]
+id = "simulaciones"
+titulo = "Simulaciones"
+indice = "simulaciones/index.qmd"
+menu = "barra"
+
+[[area]]
+id = "programacion"
+titulo = "Programación"
+indice = "programacion/index.qmd"
+menu = "barra"
+
+[[area]]
+id = "matematicas"
+titulo = "Matemáticas"
+indice = "matematicas/index.qmd"
+menu = "mas"
+
+[[area]]
+id = "autoevaluacion"
+titulo = "Autoevaluación"
+indice = "autoevaluacion/index.qmd"
+menu = "mas"
+
+[[area]]
+id = "historia"
+titulo = "Historia"
+indice = "historia/index.qmd"
+menu = "mas"
+
+[[area]]
+id = "recursos"
+titulo = "Recursos"
+indice = "recursos/index.qmd"
+menu = "mas"
+
+[[area]]
+id = "guia"
+titulo = "Guía docente"
+indice = "guia/index.qmd"
+menu = "mas"
+
+[[area]]
+id = "proyecto"
+titulo = "Sobre el proyecto"
+indice = "proyecto/index.qmd"
+menu = "mas"

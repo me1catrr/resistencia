@@ -1,0 +1,7 @@
+---
+title: "RESISTENCIA"
+---
+
+Portada provisional. Se diseña en la etapa E4.
+
+[Temas de Elasticidad](temas/elasticidad.qmd) · [Temas de Resistencia](temas/resistencia.qmd)

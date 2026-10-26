@@ -1,0 +1,13 @@
+---
+title: "Pendientes"
+---
+
+Lo que falta o no se ha verificado, tal como está en este momento.
+
+- Los temas **E02 a R13** son esqueletos: solo tienen el título oficial.
+- El enlace a la guía docente oficial de la UCO **no está verificado** (`[PENDIENTE]`).
+- Las referencias bibliográficas de la guía figuran con los datos que da la propia guía; edición,
+  páginas y DOI **no están contrastados** con catálogos.
+- Las cuatro prácticas de laboratorio no tienen datos de los equipos reales de la UCO
+  (`[PENDIENTE: equipo UCO]`).
+- Ningún contenido ha sido revisado todavía por el profesor.

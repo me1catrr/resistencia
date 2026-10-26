@@ -1,0 +1,37 @@
+/*-- scss:defaults --*/
+// Tokens de color del tema claro. Los lee también la prueba de contraste
+// (recursos/js/contraste.test.js): mantener el formato «$nombre: #rrggbb;».
+$r-acero: #24527a;
+$r-cobre: #a8481f;
+$r-verde: #1f7557;
+$r-violeta: #5b3fa0;
+$r-fondo: #ffffff;
+$r-superficie: #f2f5f9;
+$r-texto: #1c2430;
+$r-tenue: #4a5565;
+$r-borde: #c3ccd8;
+$r-sobre-acento: #ffffff;
+
+$primary: $r-acero;
+$link-color: $r-acero;
+$body-bg: $r-fondo;
+$body-color: $r-texto;
+$navbar-bg: $r-acero;
+$navbar-fg: #ffffff;
+$navbar-hover-color: #ffffff;
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+/*-- scss:rules --*/
+:root {
+  --r-acero: #{$r-acero};
+  --r-cobre: #{$r-cobre};
+  --r-verde: #{$r-verde};
+  --r-violeta: #{$r-violeta};
+  --r-fondo: #{$r-fondo};
+  --r-superficie: #{$r-superficie};
+  --r-texto: #{$r-texto};
+  --r-tenue: #{$r-tenue};
+  --r-borde: #{$r-borde};
+  --r-sobre-acento: #{$r-sobre-acento};
+}

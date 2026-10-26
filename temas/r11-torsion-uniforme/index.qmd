@@ -1,0 +1,11 @@
+---
+title: "R11 · Torsión uniforme"
+tema-id: r11
+tipo-pagina: tema
+---
+
+::: {.aviso-esqueleto}
+**Pendiente de desarrollo.** Este tema (Resistencia de Materiales) forma parte del temario oficial de la
+guía docente, pero todavía no tiene contenido. Su estructura de apartados se fijará cuando se
+desarrolle; no se rellena con texto genérico.
+:::
