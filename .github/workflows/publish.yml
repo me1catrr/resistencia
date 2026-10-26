@@ -52,6 +52,8 @@ jobs:
           version: 1.10.19
       - name: Renderizar (la guarda no_publicar.py se ejecuta como post-render)
         run: quarto render
+      - name: Comprobaciones estáticas del sitio (LaTeX visible, etc.)
+        run: python3 -m unittest pruebas.herramientas.test_html_sitio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

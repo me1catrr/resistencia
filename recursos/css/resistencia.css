@@ -168,6 +168,7 @@ body.modo-clase .version-tema,
 body.modo-clase .bloque-historia,
 body.modo-clase footer.footer { display: none !important; }
 body.modo-clase mjx-container { font-size: 118% !important; }
+body.modo-clase .figura-tikz { width: 100%; max-width: 100%; }
 body.modo-clase main.content { max-width: 1200px; }
 body.modo-clase .bloque-para-clase, body.modo-clase .ejercicio[data-clase] {
   border-width: 3px; box-shadow: 0 0 0 3px var(--r-cobre) inset;
