@@ -1,0 +1,44 @@
+# Material privado o reservado: nunca se versiona ni se renderiza
+referencias/
+privado/
+_salida/
+
+# Quarto
+_site/
+.quarto/
+**/*_files/
+/.luarc.json
+
+# Julia (el paquete es una biblioteca: sin Manifest)
+Resistencia.jl/Manifest.toml
+*.jl.cov
+*.jl.mem
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Node
+node_modules/
+
+# Playwright
+test-results/
+playwright-report/
+
+# macOS e iCloud
+.DS_Store
+* 2.*
+* 2
+.icloud
+
+# Editores
+.vscode/
+.idea/
+
+# Claude Code: configuración local de la sesión
+.claude/settings.local.json
+.claude/.cc-writes/
+.claude/scheduled_tasks.lock
